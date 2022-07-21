@@ -1,19 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   Navbar,
   Collapse,
-  Nav,
-  NavItem,
   NavbarBrand,
-  UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   Dropdown,
   Button,
 } from "reactstrap";
-import Logo from "./Logo";
 import { ReactComponent as LogoWhite } from "../assets/images/logos/materialprowhite.svg";
 import user1 from "../assets/images/users/user4.jpg";
 
@@ -32,9 +27,7 @@ const Header = () => {
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">
       <div className="d-flex align-items-center">
-        <div className="d-lg-block d-none me-5 pe-3">
-          <Logo />
-        </div>
+        <div className="d-lg-block d-none me-5 pe-3">PET FRIENDS</div>
         <NavbarBrand href="/">
           <LogoWhite className=" d-lg-none" />
         </NavbarBrand>
@@ -60,51 +53,29 @@ const Header = () => {
           )}
         </Button>
       </div>
-
-      <Collapse navbar isOpen={isOpen}>
-        <Nav className="me-auto" navbar>
-          <NavItem>
-            <Link to="/starter" className="nav-link">
-              Starter
-            </Link>
-          </NavItem>
-          <NavItem>
-            <Link to="/about" className="nav-link">
-              About
-            </Link>
-          </NavItem>
-          <UncontrolledDropdown inNavbar nav>
-            <DropdownToggle caret nav>
-              DD Menu
+      <div className="align-items-right">
+        <Collapse navbar isOpen={isOpen}>
+          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle color="transparent">
+              <img
+                src={user1}
+                alt="profile"
+                className="rounded-circle"
+                width="30"
+              ></img>
             </DropdownToggle>
-            <DropdownMenu end>
-              <DropdownItem>Option 1</DropdownItem>
-              <DropdownItem>Option 2</DropdownItem>
+            <DropdownMenu>
+              <DropdownItem header>Info</DropdownItem>
+              <DropdownItem>My Account</DropdownItem>
+              <DropdownItem>Edit Profile</DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>Reset</DropdownItem>
+              <DropdownItem>My Balance</DropdownItem>
+              <DropdownItem>Inbox</DropdownItem>
+              <DropdownItem>Logout</DropdownItem>
             </DropdownMenu>
-          </UncontrolledDropdown>
-        </Nav>
-        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle color="transparent">
-            <img
-              src={user1}
-              alt="profile"
-              className="rounded-circle"
-              width="30"
-            ></img>
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
-            <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
-            <DropdownItem>Logout</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </Collapse>
+          </Dropdown>
+        </Collapse>
+      </div>
     </Navbar>
   );
 };
