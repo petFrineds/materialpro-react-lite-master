@@ -1,7 +1,7 @@
-import PayhistoryTable from "../../components/dashboard/PayhistoryTable";
+import PayhistoryTable from "../../../components/dashboard/PayhistoryTable";
 import { Row, Col } from "reactstrap";
 
-const Tables = () => {
+const PayHistory = () => {
   return (
     <Row>
       {/* --------------------------------------------------------------------------------*/}
@@ -14,4 +14,4 @@ const Tables = () => {
   );
 };
 
-export default Tables;
+export default PayHistory;
