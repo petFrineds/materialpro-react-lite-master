@@ -50,6 +50,11 @@ const navigation = [
     icon: "bi bi-link",
   },
   {
+    title: "결제내역조회",
+    href: "/payhistory",
+    icon: "bi bi-link",
+  },
+  {
     title: "About",
     href: "/about",
     icon: "bi bi-people",
