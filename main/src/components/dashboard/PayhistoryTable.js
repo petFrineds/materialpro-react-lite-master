@@ -15,7 +15,7 @@ const PayhistoryTable = () => {
   
    async function getPayList() {
     await axios
-      .get(baseUrl + "/payments/" + userId)
+      .get(baseUrl + "/payments/user/" + userId)
       .then((response) => {
         console.log(response.data);
         setPays(response.data);
