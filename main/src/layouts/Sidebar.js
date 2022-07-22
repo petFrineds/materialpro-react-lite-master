@@ -5,59 +5,29 @@ import probg from "../assets/images/bg/download.jpg";
 
 const navigation = [
   {
-    title: "Dashboard",
+    title: "대쉬보드",
     href: "/starter",
     icon: "bi bi-speedometer2",
   },
   {
-    title: "Alert",
-    href: "/alerts",
-    icon: "bi bi-bell",
-  },
-  {
-    title: "Badges",
-    href: "/badges",
-    icon: "bi bi-patch-check",
-  },
-  {
-    title: "Buttons",
-    href: "/buttons",
-    icon: "bi bi-hdd-stack",
-  },
-  {
-    title: "Cards",
-    href: "/cards",
-    icon: "bi bi-card-text",
-  },
-  {
-    title: "Grid",
-    href: "/grid",
-    icon: "bi bi-columns",
-  },
-  {
-    title: "Table",
-    href: "/table",
+    title: "도그워커 조회",
+    href: "/dogWalker",
     icon: "bi bi-layout-split",
   },
   {
-    title: "Forms",
-    href: "/forms",
-    icon: "bi bi-textarea-resize",
+    title: "산책",
+    href: "/walking",
+    icon: "bi bi-bell",
   },
   {
-    title: "Breadcrumbs",
-    href: "/breadcrumbs",
-    icon: "bi bi-link",
+    title: "게시판",
+    href: "/boards",
+    icon: "bi bi-card-text",
   },
   {
     title: "결제내역조회",
     href: "/payhistory",
     icon: "bi bi-link",
-  },
-  {
-    title: "About",
-    href: "/about",
-    icon: "bi bi-people",
   },
 ];
 
@@ -103,15 +73,6 @@ const Sidebar = () => {
               </Link>
             </NavItem>
           ))}
-          <Button
-            color="danger"
-            tag="a"
-            target="_blank"
-            className="mt-3"
-            href="https://wrappixel.com/templates/materialpro-react-admin/?ref=33"
-          >
-            Upgrade To Pro
-          </Button>
         </Nav>
       </div>
     </div>
