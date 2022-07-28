@@ -5,14 +5,19 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import Loader from "./layouts/loader/Loader";
-
+import { createStore } from "redux";
+import rootReducer from "./store";
+import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+const store = createStore(rootReducer, composeWithDevTools());
 ReactDOM.render(
-  <Suspense fallback={<Loader />}>
-    <HashRouter>
-      <App />
-    </HashRouter>
-  </Suspense>,
-
+  <Provider store={store}>
+    <Suspense fallback={<Loader />}>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </Suspense>
+  </Provider>,
   document.getElementById("root")
 );
 
