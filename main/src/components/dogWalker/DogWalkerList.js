@@ -1,5 +1,5 @@
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
-import { Button } from "antd";
+//import { Button } from "antd";
 import {
   registData,
   deleteData,
@@ -63,7 +63,7 @@ const DogWalkerList = () => {
       <Card>
         <CardBody>
           <CardTitle tag="h5">도그 워커 조회</CardTitle>
-          <Button onClick={clicked}>클릭 </Button>
+          <div onClick={clicked}>클릭 </div>
 
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
