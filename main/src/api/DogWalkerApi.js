@@ -4,7 +4,7 @@ import { PetFrinedsPutService } from "../service/PetFrinedsPutService";
 import { PetFrinedsGetService } from "../service/PetFrinedsGetService";
 
 export const registData = async (params) => {
-  const response = await PetFriendsPostService("/dogWalker", params);
+  const response = await PetFriendsPostService("/dogWalkerSchedule", params);
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };
   } else {
@@ -12,7 +12,7 @@ export const registData = async (params) => {
   }
 };
 export const deleteData = async (params) => {
-  const response = await PetFrinedsDeleteService("/dogWalker", params);
+  const response = await PetFrinedsDeleteService("/dogWalkerSchedule", params);
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };
   } else {
@@ -20,7 +20,7 @@ export const deleteData = async (params) => {
   }
 };
 export const getData = async (params) => {
-  const response = await PetFrinedsGetService("/dogWalker", params);
+  const response = await PetFrinedsGetService("/dogWalkerSchedule/1");
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };
   } else {
@@ -28,7 +28,7 @@ export const getData = async (params) => {
   }
 };
 export const putData = async (params) => {
-  const response = await PetFrinedsPutService("/dogWalker", params);
+  const response = await PetFrinedsPutService("/dogWalkerSchedule", params);
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };
   } else {

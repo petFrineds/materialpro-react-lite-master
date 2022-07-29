@@ -5,7 +5,7 @@ export const PetFrinedsGetService = (url, data) => {
   let BaseUrl = `${process.env.REACT_APP_PET_FRIENDS_BASE_URL}`;
   const RequestUrl = `${BaseUrl}${url}`;
   const errIgnoreList = [200, 201];
-
+  console.log(RequestUrl);
   return new Promise((resolve, reject) => {
     axios
       .get(RequestUrl, data)

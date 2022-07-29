@@ -52,10 +52,10 @@ const DogWalkerList = () => {
   );
 
   const clicked = () => {
-    let result = registData({
+    let result = getData({
       id: "1",
     });
-
+    console.log(result);
     dispatch(setDogWalkerList(sampleData));
   };
   return (
