@@ -37,7 +37,7 @@ npm run start
    npm install -g n
    ```
 
-4. node 버전 업그레이드
+4. node 버전 업그레이드 (4개중 하나 입력하시면 되요, 저는 보통 안정버전 받아요!)
 
    ```
    n stable (안정버전) 
@@ -63,4 +63,4 @@ npm run start
 
    이 두 줄 입력 후 다시 실행하시면 됩니다!
 
-
+그리고 **node_modules 폴더 삭제 후 다시 npm install** 해주시면 될 거예요!!
