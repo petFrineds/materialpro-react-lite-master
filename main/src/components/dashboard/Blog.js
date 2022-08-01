@@ -6,9 +6,9 @@ import {
   CardText,
   CardTitle,
   Button,
-} from "reactstrap";
+} from 'reactstrap';
 
-const Blog = (props) => {
+const Blog = props => {
   return (
     <Card>
       <CardImg alt="Card image cap" src={props.image} />

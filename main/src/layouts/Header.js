@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Navbar,
   Collapse,
@@ -8,21 +8,21 @@ import {
   DropdownItem,
   Dropdown,
   Button,
-} from "reactstrap";
-import { ReactComponent as LogoWhite } from "../assets/images/logos/materialprowhite.svg";
-import user1 from "../assets/images/users/user4.jpg";
+} from 'reactstrap';
+import { ReactComponent as LogoWhite } from '../assets/images/logos/materialprowhite.svg';
+import user1 from '../assets/images/users/user4.jpg';
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const toggle = () => setDropdownOpen(prevState => !prevState);
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
   const showMobilemenu = () => {
-    document.getElementById("sidebarArea").classList.toggle("showSidebar");
+    document.getElementById('sidebarArea').classList.toggle('showSidebar');
   };
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">

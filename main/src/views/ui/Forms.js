@@ -10,7 +10,7 @@ import {
   Label,
   Input,
   FormText,
-} from "reactstrap";
+} from 'reactstrap';
 
 const Forms = () => {
   return (
@@ -84,21 +84,21 @@ const Forms = () => {
               <FormGroup tag="fieldset">
                 <legend>Radio Buttons</legend>
                 <FormGroup check>
-                  <Input name="radio1" type="radio" />{" "}
+                  <Input name="radio1" type="radio" />{' '}
                   <Label check>
                     Option one is this and that—be sure to include why it's
                     great
                   </Label>
                 </FormGroup>
                 <FormGroup check>
-                  <Input name="radio1" type="radio" />{" "}
+                  <Input name="radio1" type="radio" />{' '}
                   <Label check>
                     Option two can be something else and selecting it will
                     deselect option one
                   </Label>
                 </FormGroup>
                 <FormGroup check disabled>
-                  <Input disabled name="radio1" type="radio" />{" "}
+                  <Input disabled name="radio1" type="radio" />{' '}
                   <Label check>Option three is disabled</Label>
                 </FormGroup>
               </FormGroup>

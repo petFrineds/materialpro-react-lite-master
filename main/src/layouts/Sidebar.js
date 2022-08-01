@@ -1,39 +1,39 @@
-import { Button, Nav, NavItem } from "reactstrap";
-import { Link, useLocation } from "react-router-dom";
-import user1 from "../assets/images/users/user4.jpg";
-import probg from "../assets/images/bg/download.jpg";
+import { Button, Nav, NavItem } from 'reactstrap';
+import { Link, useLocation } from 'react-router-dom';
+import user1 from '../assets/images/users/user4.jpg';
+import probg from '../assets/images/bg/download.jpg';
 
 const navigation = [
   {
-    title: "대쉬보드",
-    href: "/starter",
-    icon: "bi bi-speedometer2",
+    title: '대쉬보드',
+    href: '/starter',
+    icon: 'bi bi-speedometer2',
   },
   {
-    title: "도그워커 조회",
-    href: "/dogWalker",
-    icon: "bi bi-layout-split",
+    title: '도그워커 조회',
+    href: '/dogWalker',
+    icon: 'bi bi-layout-split',
   },
   {
-    title: "산책",
-    href: "/walking",
-    icon: "bi bi-bell",
+    title: '산책',
+    href: '/walking',
+    icon: 'bi bi-bell',
   },
   {
-    title: "게시판",
-    href: "/boards",
-    icon: "bi bi-card-text",
+    title: '게시판',
+    href: '/boards',
+    icon: 'bi bi-card-text',
   },
   {
-    title: "결제내역조회",
-    href: "/payhistory",
-    icon: "bi bi-link",
+    title: '결제내역조회',
+    href: '/payhistory',
+    icon: 'bi bi-link',
   },
 ];
 
 const Sidebar = () => {
   const showMobilemenu = () => {
-    document.getElementById("sidebarArea").classList.toggle("showSidebar");
+    document.getElementById('sidebarArea').classList.toggle('showSidebar');
   };
   let location = useLocation();
 
@@ -64,8 +64,8 @@ const Sidebar = () => {
                 to={navi.href}
                 className={
                   location.pathname === navi.href
-                    ? "active nav-link py-3"
-                    : "nav-link text-secondary py-3"
+                    ? 'active nav-link py-3'
+                    : 'nav-link text-secondary py-3'
                 }
               >
                 <i className={navi.icon}></i>

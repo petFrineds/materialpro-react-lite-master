@@ -1,4 +1,4 @@
-import { Row, Col, Card, CardBody, CardTitle, Button } from "reactstrap";
+import { Row, Col, Card, CardBody, CardTitle, Button } from 'reactstrap';
 
 const Walking = () => {
   return (

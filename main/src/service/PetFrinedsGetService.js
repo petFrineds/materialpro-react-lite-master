@@ -1,30 +1,30 @@
-import axios from "axios";
-import { notification } from "antd";
+import axios from 'axios';
+import { notification } from 'antd';
 
-export const PetFrinedsGetService = (url, data) => {
+export const PetFrinedsGetService = url => {
   let BaseUrl = `${process.env.REACT_APP_PET_FRIENDS_BASE_URL}`;
   const RequestUrl = `${BaseUrl}${url}`;
   const errIgnoreList = [200, 201];
 
   return new Promise((resolve, reject) => {
     axios
-      .get(RequestUrl, data)
-      .then((response) => {
-        if (response?.data?.successYn === "N") {
+      .get(RequestUrl)
+      .then(response => {
+        if (!response?.data) {
           notification.open({
-            message: "시스템 내부 에러",
-            description: "PetFrinedsDeleteService 시스템 내부 ERROR >> 500",
+            message: '시스템 내부 에러',
+            description: 'PetFrinedsDeleteService 시스템 내부 ERROR >> 500',
           });
-          console.log("PetFrinedsGetService 시스템 내부 ERROR >> 500");
+          console.log('PetFrinedsGetService 시스템 내부 ERROR >> 500');
         }
         resolve(response);
       })
-      .catch((error) => {
+      .catch(error => {
         notification.open({
-          message: "시스템 내부 에러",
-          description: "PetFrinedsDeleteService 시스템 내부 ERROR >>" + error,
+          message: '시스템 내부 에러',
+          description: 'PetFrinedsDeleteService 시스템 내부 ERROR >>' + error,
         });
-        console.log("PetFrinedsGetService 시스템 내부 ERROR >>", error);
+        console.log('PetFrinedsGetService 시스템 내부 ERROR >>', error);
         reject(error);
       });
   });

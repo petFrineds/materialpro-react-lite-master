@@ -1,7 +1,7 @@
-import { fromJS } from "immutable";
+import { fromJS } from 'immutable';
 
 //Action 정의
-const SET_DOGWALKER_LIST = "DOGWALKER/SET_DOGWALKER_LIST";
+const SET_DOGWALKER_LIST = 'DOGWALKER/SET_DOGWALKER_LIST';
 
 //초기 상태 정의
 const initialState = fromJS({
@@ -9,7 +9,7 @@ const initialState = fromJS({
 });
 
 //Action 생성 함수 정의
-export const setDogWalkerList = (dogWalkerList) => ({
+export const setDogWalkerList = dogWalkerList => ({
   type: SET_DOGWALKER_LIST,
   data: dogWalkerList,
 });
@@ -19,7 +19,7 @@ const dogWalker = (state = initialState, action) => {
   switch (action.type) {
     case SET_DOGWALKER_LIST:
       console.log(action);
-      return state.set("dogWalkerList", action.data);
+      return state.set('dogWalkerList', action.data);
     default:
       return state;
   }
