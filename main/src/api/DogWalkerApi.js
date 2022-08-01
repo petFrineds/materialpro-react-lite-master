@@ -19,9 +19,10 @@ export const deleteData = async (params) => {
     return { status: response.status, resultMsg: response.data };
   }
 };
-export const getData = async (params) => {
-  const response = await PetFrinedsGetService("/dogWalkerSchedule/1");
+export const getAllData = async () => {
+  const response = await PetFrinedsGetService("/dogWalkerSchedule");
   if (response && response.status === 200) {
+    console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
   } else {
     return { status: response.status, resultMsg: response.data };

@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
+import "antd/dist/antd.css";
 import "./assets/scss/style.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -9,6 +10,7 @@ import { createStore } from "redux";
 import rootReducer from "./store";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+
 const store = createStore(rootReducer, composeWithDevTools());
 ReactDOM.render(
   <Provider store={store}>
