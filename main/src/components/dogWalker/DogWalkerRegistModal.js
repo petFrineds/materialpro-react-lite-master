@@ -2,10 +2,16 @@ import { Button, Modal, Form } from 'antd';
 import React, { useState } from 'react';
 import DogWalkerRegistForm from './DogWalkerRegistForm';
 import { registData } from '../../api/DogWalkerApi';
+import { useSelector, useDispatch } from 'react-redux';
+import { setDogWalkerList } from '../../store/DogWalker';
+
 const DogWalkerRegistModal = ({ setVisible, visible }) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-
+  const dispatch = useDispatch();
+  const dogWalkerList = useSelector(state =>
+    state.dogWalker.get('dogWalkerList')
+  );
   const handleCancel = () => {
     setVisible(false);
   };
@@ -25,10 +31,17 @@ const DogWalkerRegistModal = ({ setVisible, visible }) => {
         price: values.price,
         avgScore: 0.0,
       };
-      let result = registData(params);
-      console.log(result);
+      registData(params)
+        .then(result => {
+          setVisible(false);
+        })
+        .catch(result => {
+          console.log(result);
+        })
+        .finally(function () {
+          setLoading(false);
+        });
     });
-    setLoading(false);
   };
 
   return (
