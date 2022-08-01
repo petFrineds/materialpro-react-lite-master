@@ -1,6 +1,6 @@
-import { Card, CardBody, CardTitle, Table } from "reactstrap";
+import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 
-import user1 from "../../assets/images/users/user1.jpg";
+import user1 from '../../assets/images/users/user1.jpg';
 
 const DogWalkerList = ({ dogWalkerList }) => {
   return (
@@ -40,7 +40,7 @@ const DogWalkerList = ({ dogWalkerList }) => {
                   </td>
                   <td>{item.avgScore}</td>
                   <td>
-                    {item.reservedYn === "Y" ? (
+                    {item.reservedYn === 'Y' ? (
                       <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
                     ) : (
                       <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>

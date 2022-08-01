@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Alert,
   UncontrolledAlert,
   Card,
   CardBody,
   CardTitle,
-} from "reactstrap";
+} from 'reactstrap';
 
 const Alerts = () => {
   // For Dismiss Button with Alert

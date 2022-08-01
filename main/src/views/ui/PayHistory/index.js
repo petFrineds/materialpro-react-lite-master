@@ -1,5 +1,5 @@
-import PayhistoryTable from "../../../components/dogWalker/PayhistoryTable";
-import { Row, Col } from "reactstrap";
+import PayhistoryTable from '../../../components/dogWalker/PayhistoryTable';
+import { Row, Col } from 'reactstrap';
 
 const PayHistory = () => {
   return (

@@ -1,7 +1,7 @@
-import { Button, Modal, Form } from "antd";
-import React, { useState } from "react";
-import DogWalkerRegistForm from "./DogWalkerRegistForm";
-import { registData } from "../../api/DogWalkerApi";
+import { Button, Modal, Form } from 'antd';
+import React, { useState } from 'react';
+import DogWalkerRegistForm from './DogWalkerRegistForm';
+import { registData } from '../../api/DogWalkerApi';
 const DogWalkerRegistModal = ({ setVisible, visible }) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -11,13 +11,13 @@ const DogWalkerRegistModal = ({ setVisible, visible }) => {
   };
   const handleOk = () => {
     setLoading(true);
-    form.validateFields().then((values) => {
-      const starttime = values.walkingtime[0].format("YYYY-MM-DD HH:mm");
-      const endtime = values.walkingtime[1].format("YYYY-MM-DD HH:mm");
+    form.validateFields().then(values => {
+      const starttime = values.walkingtime[0].format('YYYY-MM-DD HH:mm');
+      const endtime = values.walkingtime[1].format('YYYY-MM-DD HH:mm');
       const params = {
-        userName: "jjeun",
+        userName: 'jjeun',
         userId: 1,
-        reservedYn: "N",
+        reservedYn: 'N',
         reservedStartTime: values.walkingtime[0],
         reservedEndTime: values.walkingtime[1],
         walkingPlace: values.place,

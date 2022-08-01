@@ -1,0 +1,58 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["plugin:react/recommended", "airbnb"],
+
+  "parserOptions": {
+    "parser": "@babel/eslint-parser",
+
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "requireConfigFile": false
+  },
+
+  "ignorePatterns": ["build", "dist", "public"],
+  "plugins": ["react", "prettier", "react-hooks"],
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "linebreak-style": 0,
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], //should add ".ts" if typescript project
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": ["function-declaration", "arrow-function"]
+      }
+    ],
+    "import/newline-after-import": "off",
+    "no-else-return": 1,
+    "arrow-parens": 0,
+    "comma-dangle": "off",
+    "arrow-body-style": "off",
+    "object-curly-newline": "off",
+    "react/destructuring-assignment": 0,
+    "react/prop-types": "off",
+    "no-unused-vars": "off",
+    "react/no-array-index-key": "off",
+    "react/self-closing-comp": "off",
+    "no-nested-ternary": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "no-useless-return": "off",
+    "prefer-const": "off",
+    "no-use-before-define": "off",
+    "prefer-template": "off",
+    "import/order": "off",
+    "spaced-comment": "off",
+    "react/jsx-closing-tag-location": "off",
+    "import/prefer-default-export": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "default-param-last": "off"
+  }
+}

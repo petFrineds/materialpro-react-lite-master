@@ -1,25 +1,25 @@
-import DogWalkerList from "../../../components/dogWalker/DogWalkerList";
-import DogWalkerRegistModal from "../../../components/dogWalker/DogWalkerRegistModal";
-import React, { useState, useEffect } from "react";
-import "../../../assets/css/dogWalker/dogWalker.css";
-import { Button, Col } from "antd";
-import { getAllData } from "../../../api/DogWalkerApi";
-import { useSelector, useDispatch } from "react-redux";
-import { setDogWalkerList } from "../../../store/DogWalker";
+import DogWalkerList from '../../../components/dogWalker/DogWalkerList';
+import DogWalkerRegistModal from '../../../components/dogWalker/DogWalkerRegistModal';
+import React, { useState, useEffect } from 'react';
+import '../../../assets/css/dogWalker/dogWalker.css';
+import { Button, Col } from 'antd';
+import { getAllData } from '../../../api/DogWalkerApi';
+import { useSelector, useDispatch } from 'react-redux';
+import { setDogWalkerList } from '../../../store/DogWalker';
 const DogWalker = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const dogWalkerList = useSelector((state) =>
-    state.dogWalker.get("dogWalkerList")
+  const dogWalkerList = useSelector(state =>
+    state.dogWalker.get('dogWalkerList')
   );
   useEffect(() => {
     getAllData()
-      .then((result) => {
+      .then(result => {
         console.log(result);
         dispatch(setDogWalkerList(result.data));
       })
-      .catch((error) => {
-        console.log("getAllData Error >> " + error);
+      .catch(error => {
+        console.log('getAllData Error >> ' + error);
         dispatch(setDogWalkerList([]));
       });
   }, []);
