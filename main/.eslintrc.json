@@ -31,7 +31,7 @@
       }
     ],
     "import/newline-after-import": "off",
-    "no-else-return": 1,
+    "no-else-return": "off",
     "arrow-parens": 0,
     "comma-dangle": "off",
     "arrow-body-style": "off",
@@ -53,6 +53,9 @@
     "import/prefer-default-export": "off",
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
-    "default-param-last": "off"
+    "default-param-last": "off",
+    "prefer-arrow-callback": "off",
+    "no-console": "off",
+    "func-names": "off"
   }
 }
