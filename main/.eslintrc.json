@@ -1,7 +1,11 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
+  },
+  "globals": {
+    "$": true
   },
   "extends": ["plugin:react/recommended", "airbnb"],
 
@@ -17,7 +21,7 @@
     "requireConfigFile": false
   },
 
-  "ignorePatterns": ["build", "dist", "public"],
+  "ignorePatterns": ["build", "dist", "public", "node_modules/", ".env"],
   "plugins": ["react", "prettier", "react-hooks"],
   "rules": {
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
@@ -56,6 +60,9 @@
     "default-param-last": "off",
     "prefer-arrow-callback": "off",
     "no-console": "off",
-    "func-names": "off"
+    "func-names": "off",
+    "object-shorthand": "off",
+    "dot-notation": "off",
+    "operator-linebreak": "off"
   }
 }
