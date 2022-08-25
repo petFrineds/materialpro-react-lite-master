@@ -39,23 +39,34 @@ const Sidebar = () => {
 
   return (
     <div>
-      <div className="d-flex align-items-center"></div>
-      <div
-        className="profilebg"
-        style={{ background: `url(${probg}) no-repeat` }}
-      >
-        <div className="p-3 d-flex">
-          <img src={user1} alt="user" width="50" className="rounded-circle" />
-          <Button
-            color="white"
-            className="ms-auto text-white d-lg-none"
-            onClick={() => showMobilemenu()}
+      {sessionStorage.getItem('userId') !== null && (
+        <>
+          <div className="d-flex align-items-center"></div>
+          <div
+            className="profilebg"
+            style={{ background: `url(${probg}) no-repeat` }}
           >
-            <i className="bi bi-x"></i>
-          </Button>
-        </div>
-        <div className="bg-dark text-white p-2 opacity-75">Steave Rojer</div>
-      </div>
+            <div className="p-3 d-flex">
+              <img
+                src={user1}
+                alt="user"
+                width="50"
+                className="rounded-circle"
+              />
+              <Button
+                color="white"
+                className="ms-auto text-white d-lg-none"
+                onClick={() => showMobilemenu()}
+              >
+                <i className="bi bi-x"></i>
+              </Button>
+            </div>
+            <div className="bg-dark text-white p-2 opacity-75">
+              Steave Rojer
+            </div>
+          </div>
+        </>
+      )}
       <div className="p-3 mt-2">
         <Nav vertical className="sidebarNav">
           {navigation.map((navi, index) => (

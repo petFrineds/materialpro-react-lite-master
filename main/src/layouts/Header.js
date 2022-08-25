@@ -11,18 +11,29 @@ import {
 } from 'reactstrap';
 import { ReactComponent as LogoWhite } from '../assets/images/logos/materialprowhite.svg';
 import user1 from '../assets/images/users/user4.jpg';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
+  const userInfo = useSelector(state => state.user.get('userInfo'));
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
   const showMobilemenu = () => {
     document.getElementById('sidebarArea').classList.toggle('showSidebar');
+  };
+  const onClickLogOut = () => {
+    axios.defaults.headers.common['Authorization'] = '';
+
+    sessionStorage.clear();
+    navigate('/');
   };
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">
@@ -53,29 +64,44 @@ const Header = () => {
           )}
         </Button>
       </div>
-      <div className="align-items-right">
-        <Collapse navbar isOpen={isOpen}>
-          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle color="transparent">
-              <img
-                src={user1}
-                alt="profile"
-                className="rounded-circle"
-                width="30"
-              ></img>
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Info</DropdownItem>
-              <DropdownItem>My Account</DropdownItem>
-              <DropdownItem>Edit Profile</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>My Balance</DropdownItem>
-              <DropdownItem>Inbox</DropdownItem>
-              <DropdownItem>Logout</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </Collapse>
-      </div>
+      {sessionStorage.getItem('userId') && (
+        <div className="align-items-right">
+          <Collapse navbar isOpen={isOpen}>
+            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+              <DropdownToggle color="transparent">
+                <img
+                  src={user1}
+                  alt="profile"
+                  className="rounded-circle"
+                  width="30"
+                ></img>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Info</DropdownItem>
+                <DropdownItem>My Account</DropdownItem>
+                <DropdownItem>Edit Profile</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>My Balance</DropdownItem>
+                <DropdownItem>Inbox</DropdownItem>
+                <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </Collapse>
+        </div>
+      )}
+      {sessionStorage.getItem('userId') === null && (
+        <div className="align-items-right black">
+          <Link to="/login">
+            <i
+              className="bi bi-box-arrow-in-right"
+              style={{ color: 'black' }}
+            ></i>
+            <span className="ms-3 d-inline-block" style={{ color: 'black' }}>
+              Login
+            </span>
+          </Link>
+        </div>
+      )}
     </Navbar>
   );
 };

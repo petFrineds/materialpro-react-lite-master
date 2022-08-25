@@ -63,6 +63,11 @@
     "func-names": "off",
     "object-shorthand": "off",
     "dot-notation": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "no-confusing-arrow": "off",
+    "react/jsx-curly-newline": "off",
+    "react/no-unstable-nested-components": "off",
+    "react/jsx-no-undef": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

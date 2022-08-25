@@ -1,0 +1,36 @@
+.userContainer {
+  text-align: -webkit-center;
+  align-items: center;
+  width: 100%;
+}
+.userForm {
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+.logBtn {
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+.registerContainer {
+  text-align: -webkit-center;
+  align-items: center;
+  width: 100%;
+}
+
+.registerIdContainer {
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+}
+.registerIdInput {
+  float: left;
+  margin-right: 10px;
+  width: 75%;
+  min-width: none;
+}
+.registerIdBtn {
+  float: right;
+  width: 20%;
+}
