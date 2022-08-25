@@ -14,8 +14,7 @@ const PayHistory = () => {
 
   useEffect(() => {
     console.log(userInfo);
-    /* aws 에러가 해결 되면 이 주석 풀고 밑에 paymentTempList 넣는 코드 지워주세요*/
-    getAllPaymentHistory(userInfo.userId)
+    getAllPaymentHistory(sessionStorage.getItem('userId'))
       .then(result => {
         dispatch(setPaymentList(result.data));
       })
@@ -23,27 +22,7 @@ const PayHistory = () => {
         console.log('getAllPaymentHistory Error >> ' + error);
         dispatch(setPaymentList([]));
       });
-    /*
-    const paymentTempList = [
-      {
-        reservedId: '202206231125321',
-        payDate: '2020-06-18 18:00',
-        paymentMethod: 'Card',
-        amount: '20000',
-      },
-      {
-        reservedId: '202206231125322',
-        payDate: '2020-06-20 18:00',
-        paymentMethod: 'Point',
-        amount: '10000',
-      },
-      {
-        reservedId: '202206231125323',
-        payDate: '2020-06-22 18:00',
-        paymentMethod: 'Point',
-        amount: '25000',
-      },
-    ]; */
+
     dispatch(setPaymentList(paymentList));
   }, []);
   const clicked = () => {

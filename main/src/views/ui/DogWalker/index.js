@@ -1,7 +1,6 @@
 import DogWalkerList from '../../../components/dogWalker/DogWalkerList';
 import DogWalkerRegistModal from '../../../components/dogWalker/DogWalkerRegistModal';
 import React, { useState, useEffect } from 'react';
-import '../../../assets/css/dogWalker/dogWalker.css';
 import { Button, Col } from 'antd';
 import { getAllData } from '../../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
