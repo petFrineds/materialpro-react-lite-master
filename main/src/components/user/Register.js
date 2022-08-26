@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import NumericInput from '../common/NumericInput';
 import {
@@ -15,6 +15,7 @@ import {
   Space,
   notification,
 } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Card, CardBody, CardTitle } from 'reactstrap';
 import { registerUser } from '../../api/AuthApi';
@@ -22,8 +23,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Register = () => {
   const [form] = Form.useForm();
-  const [value, setValue] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
+  const navigate = useNavigate();
 
   const onClickRegisterBtn = () => {
     form.validateFields().then(values => {
@@ -38,8 +39,9 @@ const Register = () => {
         .then(result => {
           notification.open({
             message: '회원가입 성공',
-            description: result.data + ' 회원가입 되었습니다.',
+            description: result.data.userId + ' 회원가입 되었습니다.',
           });
+          navigate('/');
         })
         .catch(error => {
           console.log(error);
@@ -50,6 +52,23 @@ const Register = () => {
         });
     });
   };
+  // passwordCheck 유효성 검사
+  const validatePasswordCheck = useCallback((_, value) => {
+    if (
+      form.getFieldValue('password') &&
+      form.getFieldValue('password') !== value
+    ) {
+      return Promise.reject(new Error('비밀번호가 일치하지 않습니다.'));
+    }
+    return Promise.resolve();
+  }, []);
+  const validatePhoneCheck = useCallback((_, value) => {
+    console.log(!Number.isNaN(value));
+    if (value.length !== 11 || !Number.isNaN(value)) {
+      return Promise.reject(new Error('올바른 전화번호를 입력해주세요.'));
+    }
+    return Promise.resolve();
+  }, []);
   return (
     <div>
       <Card>
@@ -77,7 +96,7 @@ const Register = () => {
               </div>
             </Form.Item>
             <Form.Item
-              label="Password"
+              label="password"
               name="password"
               rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
             >
@@ -87,7 +106,8 @@ const Register = () => {
               label="Password 확인"
               name="PasswordConfirm"
               rules={[
-                { required: true, message: '비밀번호 확인을 입력해주세요.' },
+                { required: true, message: '비밀번호확인을 입력해주세요.' },
+                { validator: validatePasswordCheck },
               ]}
             >
               <Input.Password
@@ -107,7 +127,10 @@ const Register = () => {
             <Form.Item
               label="전화번호"
               name="telNo"
-              rules={[{ required: true, message: '전화번호를 입력해주세요.' }]}
+              rules={[
+                { required: true, message: '전화번호를 입력해주세요.' },
+                { validator: validatePhoneCheck },
+              ]}
             >
               <Input />
               {/*  <NumericInput inputText={phoneNum} onChange={setPhoneNum} />*/}

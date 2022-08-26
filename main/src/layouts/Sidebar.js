@@ -62,7 +62,7 @@ const Sidebar = () => {
               </Button>
             </div>
             <div className="bg-dark text-white p-2 opacity-75">
-              Steave Rojer
+              {sessionStorage.getItem('userId')}
             </div>
           </div>
         </>
