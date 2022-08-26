@@ -22,7 +22,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfo } from '../../store/User';
 import { loginUser, getMyInfo, registerUser } from '../../api/AuthApi';
 import axios from 'axios';
-const Register = () => {
+const Login = () => {
   const [form] = Form.useForm();
   const [value, setValue] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
@@ -116,4 +116,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
