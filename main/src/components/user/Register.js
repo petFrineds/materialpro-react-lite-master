@@ -47,7 +47,7 @@ const Register = () => {
           console.log(error);
           notification.open({
             message: '회원가입 실패',
-            description: error.response.data.message,
+            description: error,
           });
         });
     });
@@ -63,8 +63,7 @@ const Register = () => {
     return Promise.resolve();
   }, []);
   const validatePhoneCheck = useCallback((_, value) => {
-    console.log(!Number.isNaN(value));
-    if (value.length !== 11 || !Number.isNaN(value)) {
+    if (value.length !== 11 || Number.isNaN(value)) {
       return Promise.reject(new Error('올바른 전화번호를 입력해주세요.'));
     }
     return Promise.resolve();

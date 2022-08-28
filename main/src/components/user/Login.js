@@ -48,9 +48,11 @@ const Login = () => {
           });
           axios.defaults.headers.common['Authorization'] =
             'bearer ' + sessionStorage.getItem('accessToken');
-          //  getMyInfo().then(result2 => {
-          //      console.log(result2);
-          //  });
+          getMyInfo(sessionStorage.setItem('userId', userInfo.userId)).then(
+            result2 => {
+              console.log(result2);
+            }
+          );
           navigate('/');
         })
         .catch(error => {
