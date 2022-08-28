@@ -2,32 +2,32 @@ import { PetFriendsPostService } from '../service/PetFrinedsPostService';
 import { PetFrinedsDeleteService } from '../service/PetFrinedsDeleteService';
 import { PetFrinedsPutService } from '../service/PetFrinedsPutService';
 import { PetFrinedsGetService } from '../service/PetFrinedsGetService';
+import { PetFrinedsPatchService } from '../service/PetFrinedsPatchService';
 
-export const registerUser = async params => {
-  const response = await PetFriendsPostService('/auths/signup', params);
+export const getAllMyReservation = async userId => {
+  const response = await PetFrinedsGetService('/reservations/users/' + userId);
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
   } else {
-    return { status: response.status, resultMsg: response.message };
+    return { status: response.status, resultMsg: response.data };
   }
 };
-
-export const loginUser = async params => {
-  const response = await PetFriendsPostService('/auths/login', params);
+export const getReservationDetail = async reservationId => {
+  const response = await PetFrinedsGetService('/reservations/' + reservationId);
   if (response && response.status === 200) {
-    console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
   } else {
-    return { status: response.status, resultMsg: response.message };
+    return { status: response.status, resultMsg: response.data };
   }
 };
-export const getMyInfo = async params => {
-  const response = await PetFrinedsGetService('/userInfos/' + params);
+export const cancelReservation = async reservationId => {
+  const response = await PetFrinedsPatchService(
+    '/reservations/' + reservationId
+  );
   if (response && response.status === 200) {
-    console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
   } else {
-    return { status: response.status, resultMsg: response.message };
+    return { status: response.status, resultMsg: response.data };
   }
 };

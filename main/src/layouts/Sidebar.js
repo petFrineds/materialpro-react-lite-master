@@ -25,6 +25,11 @@ const navigation = [
     icon: 'bi bi-card-text',
   },
   {
+    title: '예약 조회',
+    href: '/reservation',
+    icon: 'bi bi-calendar-check',
+  },
+  {
     title: '결제내역조회',
     href: '/payhistory',
     icon: 'bi bi-link',
