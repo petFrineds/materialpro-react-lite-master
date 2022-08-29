@@ -50,7 +50,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
   };
   const onPaymentMethodChange = ({ target: { value } }) => {
     setPaymentMethodValue(value);
-    if (value === 'Point') setDisabled(true);
+    if (value === 'POINT') setDisabled(true);
     else setDisabled(false);
   };
   const onCardDetailChange = ({ target: { value } }) => {
