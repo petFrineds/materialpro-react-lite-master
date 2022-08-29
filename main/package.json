@@ -83,5 +83,6 @@
       "eslint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "proxy": "http://k8s-default-petfrien-e22d96b656-549281536.us-west-2.elb.amazonaws.com"
 }

@@ -1,8 +1,40 @@
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
-
+import { Button } from 'antd';
 import user1 from '../../assets/images/users/user1.jpg';
+import { cancelReservation } from '../../api/ReservationApi';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setReservationList,
+  setReservationDetailId,
+} from '../../store/Reservation';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ReservationList = ({ reservationList }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const showReserVationDetail = reservedId => {
+    dispatch(setReservationDetailId(reservedId));
+    navigate('/reservationDetail');
+  };
+  const onClickCancelBtn = (e, reservedId, status) => {
+    e.stopPropagation();
+    const param = {
+      reservedId: reservedId,
+      status: status,
+    };
+    cancelReservation(param)
+      .then(result => {
+        console.log(result);
+        const newRow = reservationList.filter(
+          item => item.reservedId !== reservedId
+        );
+        dispatch(setReservationList(newRow));
+      })
+      .catch(error => {
+        console.log('cancelReservation Error >> ' + error);
+      });
+  };
   return (
     <div>
       <Card>
@@ -21,7 +53,12 @@ const ReservationList = ({ reservationList }) => {
             </thead>
             <tbody>
               {reservationList?.map((item, index) => (
-                <tr key={index} className="border-top">
+                <tr
+                  key={index}
+                  className="border-top"
+                  style={{}}
+                  onClick={() => showReserVationDetail(item.reservedId)}
+                >
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <img
@@ -42,7 +79,27 @@ const ReservationList = ({ reservationList }) => {
                   </td>
                   <td>{item.amount}</td>
                   <td>{item.status}</td>
-                  <td></td>
+                  {item.status === 'REQUEST' ? (
+                    <td>
+                      <Button
+                        onClick={e =>
+                          onClickCancelBtn(e, item.reservedId, item.status)
+                        }
+                      >
+                        예약취소
+                      </Button>
+                    </td>
+                  ) : item.status === 'PAYED' ? (
+                    <td>
+                      <Button>산책시작</Button>
+                    </td>
+                  ) : item.status === 'END' ? (
+                    <td>
+                      <Button>일지작성</Button>
+                    </td>
+                  ) : (
+                    <td></td>
+                  )}
                 </tr>
               ))}
             </tbody>

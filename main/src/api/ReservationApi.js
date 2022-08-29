@@ -21,9 +21,10 @@ export const getReservationDetail = async reservationId => {
     return { status: response.status, resultMsg: response.data };
   }
 };
-export const cancelReservation = async reservationId => {
+export const cancelReservation = async param => {
   const response = await PetFrinedsPatchService(
-    '/reservations/' + reservationId
+    '/reservations/' + param.reservedId,
+    param
   );
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };

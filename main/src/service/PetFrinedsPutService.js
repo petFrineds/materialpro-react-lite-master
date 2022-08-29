@@ -8,7 +8,7 @@ export const PetFrinedsPutService = (url, data) => {
 
   return new Promise((resolve, reject) => {
     axios
-      .put(RequestUrl, data)
+      .put(url, data)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
           notification.open({

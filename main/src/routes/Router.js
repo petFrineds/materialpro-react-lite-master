@@ -14,6 +14,9 @@ const PayHistory = lazy(() => import('../views/ui/PayHistory'));
 const Register = lazy(() => import('../views/ui/User/Register'));
 const Login = lazy(() => import('../views/ui/User/Login'));
 const Reservation = lazy(() => import('../views/ui/Reservation'));
+const ReservationDeatil = lazy(() =>
+  import('../views/ui/Reservation/Detail/ReservationDetail')
+);
 /*
 const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Badges = lazy(() => import("../views/ui/Badges"));
@@ -39,6 +42,11 @@ const ThemeRoutes = [
       { path: '/register', exact: true, element: <Register /> },
       { path: '/login', exact: true, element: <Login /> },
       { path: '/reservation', exact: true, element: <Reservation /> },
+      {
+        path: '/reservationDetail',
+        exact: true,
+        element: <ReservationDeatil />,
+      },
     ],
   },
 ];
