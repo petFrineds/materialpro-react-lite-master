@@ -4,13 +4,13 @@ import { notification } from 'antd';
 export const PetFriendsPostService = (url, data) => {
   let BaseUrl = `${process.env.REACT_APP_PET_FRIENDS_BASE_URL}`;
   const RequestUrl = `${BaseUrl}${url}`;
-  const errIgnoreList = [200, 201];
+  const errIgnoreList = [200, 201, 204];
 
   return new Promise((resolve, reject) => {
     axios
       .post(RequestUrl, data)
       .then(response => {
-        if (response?.data?.successYn === 'N') {
+        if (!errIgnoreList.includes(response.status)) {
           notification.open({
             message: '시스템 내부 에러',
             description: 'PetFrinedsDeleteService 시스템 내부 ERROR >> 500',
