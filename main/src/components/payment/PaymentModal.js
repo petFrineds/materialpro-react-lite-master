@@ -20,9 +20,9 @@ const { Title } = Typography;
 
 const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
   const [loading, setLoading] = useState(false);
-  const paymentMethod = ['Point', 'Card'];
+  const paymentMethod = ['POINT', 'CARD'];
   const cardDetail = ['하나카드', '신한카드', '현대카드', '삼성카드'];
-  const [paymentMethodValue, setPaymentMethodValue] = useState('Point');
+  const [paymentMethodValue, setPaymentMethodValue] = useState('POINT');
   const [cardDetailValue, setCardDetailValue] = useState('하나카드');
   const [cardNum1, setCardNum1] = useState('');
   const [cardNum2, setCardNum2] = useState('');
@@ -50,7 +50,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
   };
   const onPaymentMethodChange = ({ target: { value } }) => {
     setPaymentMethodValue(value);
-    if (value === 'Point') setDisabled(true);
+    if (value === 'POINT') setDisabled(true);
     else setDisabled(false);
   };
   const onCardDetailChange = ({ target: { value } }) => {
@@ -153,7 +153,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
             잔여 포인트 : {userInfo?.pointAmount}
           </Radio>
           <br />
-          <Radio value="Card">
+          <Radio value="CARD">
             <Title level={5}> 카드결제</Title>
             <Space
               direction="vertical"
