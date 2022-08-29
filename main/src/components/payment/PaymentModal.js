@@ -148,7 +148,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
     >
       <Radio.Group onChange={onPaymentMethodChange} value={paymentMethodValue}>
         <Space direction="vertical">
-          <Radio value="Point">
+          <Radio value="POINT">
             <Title level={5}>포인트 결제</Title>
             잔여 포인트 : {userInfo?.pointAmount}
           </Radio>
