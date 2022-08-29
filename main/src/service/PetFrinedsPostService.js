@@ -8,7 +8,7 @@ export const PetFriendsPostService = (url, data) => {
 
   return new Promise((resolve, reject) => {
     axios
-      .post(RequestUrl, data)
+      .post(url, data)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
           notification.open({

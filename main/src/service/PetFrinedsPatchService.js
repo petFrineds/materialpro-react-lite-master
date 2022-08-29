@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { notification } from 'antd';
 
-export const PetFrinedsPatchService = url => {
+export const PetFrinedsPatchService = (url, param) => {
   let BaseUrl = `${process.env.REACT_APP_PET_FRIENDS_BASE_URL}`;
   const RequestUrl = `${BaseUrl}${url}`;
   const errIgnoreList = [200, 201, 204];
 
   return new Promise((resolve, reject) => {
     axios
-      .patch(RequestUrl)
+      .patch(url, param)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
           notification.open({

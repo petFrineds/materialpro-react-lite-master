@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 
 import user1 from '../../assets/images/users/user1.jpg';
 
 const DogWalkerList = ({ dogWalkerList }) => {
+  useEffect(() => {
+    console.log(dogWalkerList);
+  }, []);
   return (
     <div>
       <Card>

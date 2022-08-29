@@ -14,7 +14,6 @@ const DogWalker = () => {
   useEffect(() => {
     getAllData()
       .then(result => {
-        console.log(result);
         dispatch(setDogWalkerList(result.data));
       })
       .catch(error => {

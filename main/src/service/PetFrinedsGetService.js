@@ -8,7 +8,7 @@ export const PetFrinedsGetService = url => {
 
   return new Promise((resolve, reject) => {
     axios
-      .get(RequestUrl)
+      .get(url)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
           notification.open({

@@ -14,6 +14,7 @@ const App = () => {
 
   const [isLogin, setIsLogin] = useState(false);
   axios.defaults.headers.common['Accept'] = '*/*';
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.headers.common['Content-Type'] = 'text/html;charset=utf-8';
   useEffect(() => {
     if (sessionStorage.getItem('userId') === null) {

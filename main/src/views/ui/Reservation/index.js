@@ -3,14 +3,17 @@ import { Button, Col } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import ReservationList from '../../../components/reservation/ReservationList';
 import { getAllMyReservation } from '../../../api/ReservationApi';
+import { setReservationList } from '../../../store/Reservation';
 const Reservation = () => {
+  const dispatch = useDispatch();
+
   const reservationList = useSelector(state =>
-    state.dogWalker.get('reservationList')
+    state.reservation.get('reservationList')
   );
   useEffect(() => {
     getAllMyReservation(sessionStorage.getItem('userId'))
       .then(result => {
-        console.log(result);
+        dispatch(setReservationList(result.data));
       })
       .catch(error => {
         console.log('getAllMyReservation Error >> ' + error);
