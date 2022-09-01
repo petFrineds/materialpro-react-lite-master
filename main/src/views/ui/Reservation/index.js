@@ -21,7 +21,7 @@ const Reservation = () => {
   }, []);
   return (
     <Col lg="12">
-      <ReservationList reservationList={reservationList} />
+      {reservationList && <ReservationList reservationList={reservationList} />}
     </Col>
   );
 };

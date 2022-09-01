@@ -1,12 +1,33 @@
+import { Button } from 'antd';
 import { useEffect } from 'react';
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 
 import user1 from '../../assets/images/users/user1.jpg';
-
+import { setReservationDetailId } from '../../store/Reservation';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createReservation } from '../../api/ReservationApi';
 const DogWalkerList = ({ dogWalkerList }) => {
-  useEffect(() => {
-    console.log(dogWalkerList);
-  }, []);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userInfo = useSelector(state => state.user.get('userInfo'));
+  const onClickReserveBtn = dogwalkerschedule => {
+    console.log(userInfo);
+    console.log(dogwalkerschedule);
+    const param = {
+      dogwalkerScheduleId: dogwalkerschedule.id,
+      userId: userInfo.userId,
+      status: dogwalkerschedule.reservedYn,
+    };
+    createReservation(param)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log('DogWalkerList DogWalkerList Error >> ' + error);
+      });
+    // navigate('/reservationDetail');
+  };
   return (
     <div>
       <Card>
@@ -22,6 +43,9 @@ const DogWalkerList = ({ dogWalkerList }) => {
                 <th>경력(년)</th>
                 <th>가격(₩)</th>
                 <th>산책 가능 시간</th>
+                <th>산책 지역</th>
+                <th>등록일</th>
+                <th> </th>
               </tr>
             </thead>
             <tbody>
@@ -37,8 +61,8 @@ const DogWalkerList = ({ dogWalkerList }) => {
                         height="45"
                       />
                       <div className="ms-3">
-                        <h6 className="mb-0">{item.userName}</h6>
-                        <span className="text-muted">{item.email}</span>
+                        <h6 className="mb-0">{item.dogwalkerId}</h6>
+                        <span className="text-muted">{item.dogwalkerName}</span>
                       </div>
                     </div>
                   </td>
@@ -51,9 +75,18 @@ const DogWalkerList = ({ dogWalkerList }) => {
                     )}
                   </td>
                   <td>{item.career}</td>
-                  <td>{item.price}</td>
+                  <td>{item.amount}</td>
                   <td>
                     {item.reservedStartTime} ~ {item.reservedEndTime}
+                  </td>
+                  <td>{item.walkingPlace}</td>
+                  <td>{item.regDate.substring(0, 10)}</td>
+                  <td>
+                    {item.reservedYn !== 'Y' && (
+                      <Button onClick={() => onClickReserveBtn(item)}>
+                        예약하기
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}

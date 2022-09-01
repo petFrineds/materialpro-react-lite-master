@@ -33,7 +33,7 @@ const PayHistory = () => {
       <Button onClick={clicked}>결제하기</Button>
       {visible && <PaymentModal setVisible={setVisible} visible={visible} />}
       <Col lg="12">
-        <PayhistoryTable paymentList={paymentList} />
+        {paymentList && <PayhistoryTable paymentList={paymentList} />}
       </Col>
     </Row>
   );

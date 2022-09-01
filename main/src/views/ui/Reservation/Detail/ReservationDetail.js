@@ -3,16 +3,21 @@ import { Button, Col } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { getReservationDetail } from '../../../../api/ReservationApi';
+import {
+  getReservationDetail,
+  cancelReservation,
+} from '../../../../api/ReservationApi';
+import { getUserInfo } from '../../../../api/AuthApi';
 import ReservationDetailComponent from '../../../../components/reservation/ReservationDetailComponent';
 const ReservationDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [reservationDetail, setReservationDetail] = useState();
+  const [reservationinfo, setReservationinfo] = useState();
   const reservationDetailId = useSelector(state =>
     state.reservation.get('reservationDetailId')
   );
+  const [dogWalkerInfo, setDogWalkerInfo] = useState({});
   useEffect(() => {
     if (reservationDetailId === undefined || reservationDetailId === '') {
       navigate('/reservation');
@@ -20,17 +25,41 @@ const ReservationDetail = () => {
     }
     getReservationDetail(reservationDetailId)
       .then(result => {
-        setReservationDetail(result.data);
+        setReservationinfo(result.data);
+        getUserInfo(result.data.dogwalkerId)
+          .then(result2 => {
+            setDogWalkerInfo(result2.data);
+          })
+          .catch(error2 => {
+            console.log('ReservationDetail getUserInfo Error >> ' + error2);
+          });
       })
       .catch(error => {
-        console.log('getReservationDetail Error >> ' + error);
+        console.log('ReservationDetail getReservationDetail Error >> ' + error);
       });
   }, []);
-
+  const onClickCancelBtn = () => {
+    const param = {
+      reservedId: reservationinfo.reservedId,
+      status: reservationinfo.status,
+    };
+    cancelReservation(param)
+      .then(result => {
+        console.log(result);
+        navigate('/reservation');
+      })
+      .catch(error => {
+        console.log('ReservationDetail cancelReservation Error >> ' + error);
+      });
+  };
   return (
     <Col lg="12">
-      {reservationDetail && (
-        <ReservationDetailComponent reservationDetail={reservationDetail} />
+      {reservationinfo && (
+        <ReservationDetailComponent
+          reservationinfo={reservationinfo}
+          dogWalkerInfo={dogWalkerInfo}
+          onClickCancelBtn={onClickCancelBtn}
+        />
       )}
     </Col>
   );
