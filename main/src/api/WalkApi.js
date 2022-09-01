@@ -3,8 +3,8 @@ import { PetFrinedsDeleteService } from '../service/PetFrinedsDeleteService';
 import { PetFrinedsPutService } from '../service/PetFrinedsPutService';
 import { PetFrinedsGetService } from '../service/PetFrinedsGetService';
 
-export const registerUser = async params => {
-  const response = await PetFriendsPostService('/auths/signup', params);
+export const startWalk = async params => {
+  const response = await PetFriendsPostService('/walks/start', params);
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
@@ -13,8 +13,8 @@ export const registerUser = async params => {
   }
 };
 
-export const loginUser = async params => {
-  const response = await PetFriendsPostService('/auths/login', params);
+export const endWalk = async params => {
+  const response = await PetFrinedsPutService('/walks/end', params);
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
@@ -22,8 +22,8 @@ export const loginUser = async params => {
     return { status: response.status, resultMsg: response.message };
   }
 };
-export const getUserInfo = async params => {
-  const response = await PetFrinedsGetService('/userInfos/' + params);
+export const getWalkDetail = async reservedId => {
+  const response = await PetFrinedsGetService('/walks/' + reservedId);
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };

@@ -4,7 +4,7 @@ import Themeroutes from './routes/Router';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfo } from './store/User';
 import axios from 'axios';
-import { getMyInfo } from './api/AuthApi';
+import { getUserInfo } from './api/AuthApi';
 import './assets/css/dogWalker/dogWalker.css';
 import './assets/css/user/user.css';
 
@@ -17,6 +17,7 @@ const App = () => {
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.headers.common['Content-Type'] = 'text/html;charset=utf-8';
   useEffect(() => {
+    console.log('KKK');
     if (sessionStorage.getItem('userId') === null) {
       setIsLogin(false);
       sessionStorage.removeItem('userId');
@@ -24,9 +25,17 @@ const App = () => {
     } else {
       setIsLogin(true);
       axios.defaults.headers.common['Authorization'] =
-        'bearer ' + sessionStorage.getItem('accessToken');
+        'Bearer ' + sessionStorage.getItem('accessToken');
+
+      getUserInfo(sessionStorage.getItem('userId'))
+        .then(result2 => {
+          dispatch(setUserInfo(result2.data));
+        })
+        .catch(error => {
+          console.log('getUserInfo Error');
+        });
     }
-  });
+  }, [sessionStorage.getItem('userId')]);
   return <div className="dark">{routing}</div>;
 };
 export default App;

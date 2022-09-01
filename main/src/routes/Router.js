@@ -17,6 +17,7 @@ const Reservation = lazy(() => import('../views/ui/Reservation'));
 const ReservationDeatil = lazy(() =>
   import('../views/ui/Reservation/Detail/ReservationDetail')
 );
+const Daily = lazy(() => import('../views/ui/Daily'));
 /*
 const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Badges = lazy(() => import("../views/ui/Badges"));
@@ -47,6 +48,7 @@ const ThemeRoutes = [
         exact: true,
         element: <ReservationDeatil />,
       },
+      { path: '/daily', exact: true, element: <Daily /> },
     ],
   },
 ];

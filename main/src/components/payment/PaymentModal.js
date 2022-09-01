@@ -32,19 +32,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.user.get('userInfo'));
   const [disabled, setDisabled] = useState(true);
-  useEffect(() => {
-    console.log(userInfo);
-    if (userInfo === undefined) {
-      const user = {
-        userId: 'soya95',
-        userName: 'SOMINA',
-        telNo: '010-9749-9959',
-        pointAmount: 1000,
-        useCount: 4,
-      };
-      dispatch(setUserInfo(user));
-    }
-  }, []);
+
   const handleCancel = () => {
     setVisible(false);
   };
@@ -94,7 +82,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
     }
     const params = {
       userId: userInfo.userId,
-      userName: userInfo.userName,
+      userName: userInfo.userNm,
       reservedId: reservedNum,
       amount: amount,
       payGubun: 'PAY',
@@ -146,6 +134,8 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
         </Button>,
       ]}
     >
+      <Title level={5}> 결제 금액 : </Title>
+
       <Radio.Group onChange={onPaymentMethodChange} value={paymentMethodValue}>
         <Space direction="vertical">
           <Radio value="POINT">

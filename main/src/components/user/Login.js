@@ -20,7 +20,7 @@ import { Card, CardBody, CardTitle } from 'reactstrap';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfo } from '../../store/User';
-import { loginUser, getMyInfo, registerUser } from '../../api/AuthApi';
+import { loginUser, getUserInfo, registerUser } from '../../api/AuthApi';
 import axios from 'axios';
 const Login = () => {
   const [form] = Form.useForm();
@@ -38,7 +38,6 @@ const Login = () => {
       };
       loginUser(userInfo)
         .then(result => {
-          dispatch(setUserInfo(userInfo));
           sessionStorage.setItem('userId', userInfo.userId);
           sessionStorage.setItem('accessToken', result.data.accessToken);
 
@@ -46,15 +45,10 @@ const Login = () => {
             message: '로그인 성공',
             description: '로그인 되었습니다.',
           });
+
           axios.defaults.headers.common['Authorization'] =
-            'bearer ' + sessionStorage.getItem('accessToken');
-          getMyInfo(sessionStorage.getItem('userId'))
-            .then(result2 => {
-              console.log(result2);
-            })
-            .catch(error => {
-              console.log('getMyInfo Error');
-            });
+            'Bearer ' + sessionStorage.getItem('accessToken');
+
           navigate('/');
         })
         .catch(error => {

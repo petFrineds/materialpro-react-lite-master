@@ -20,8 +20,8 @@ const navigation = [
     icon: 'bi bi-bell',
   },
   {
-    title: '게시판',
-    href: '/boards',
+    title: '일지',
+    href: '/daily',
     icon: 'bi bi-card-text',
   },
   {
