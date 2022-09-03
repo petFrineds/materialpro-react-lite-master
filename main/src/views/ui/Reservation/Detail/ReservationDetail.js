@@ -41,7 +41,7 @@ const ReservationDetail = () => {
   const onClickCancelBtn = () => {
     const param = {
       reservedId: reservationinfo.reservedId,
-      status: reservationinfo.status,
+      status: 'CANCEL',
     };
     cancelReservation(param)
       .then(result => {

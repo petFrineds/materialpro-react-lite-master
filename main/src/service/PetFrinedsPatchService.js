@@ -11,19 +11,11 @@ export const PetFrinedsPatchService = (url, param) => {
       .patch(url, param)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
-          notification.open({
-            message: '시스템 내부 에러',
-            description: 'PetFrinedsPatchService 시스템 내부 ERROR >> 500',
-          });
           console.log('PetFrinedsPatchService 시스템 내부 ERROR >> 500');
         }
         resolve(response);
       })
       .catch(error => {
-        notification.open({
-          message: '시스템 내부 에러',
-          description: 'PetFrinedsPatchService 시스템 내부 ERROR >>' + error,
-        });
         console.log('PetFrinedsPatchService 시스템 내부 ERROR >>', error);
         reject(error);
       });

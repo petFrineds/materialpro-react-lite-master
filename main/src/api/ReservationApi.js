@@ -33,7 +33,7 @@ export const cancelReservation = async param => {
   }
 };
 export const createReservation = async param => {
-  const response = await PetFriendsPostService('/reservations/', param);
+  const response = await PetFriendsPostService('/reservations', param);
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };
   } else {

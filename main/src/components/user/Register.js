@@ -18,15 +18,23 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Card, CardBody, CardTitle } from 'reactstrap';
-import { registerUser } from '../../api/AuthApi';
+import { registerUser, checkUserId } from '../../api/AuthApi';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Register = () => {
   const [form] = Form.useForm();
   const [phoneNum, setPhoneNum] = useState('');
   const navigate = useNavigate();
-
+  const [userIdValidation, setUserIdValidation] = useState(false);
+  const [userId, setUserId] = useState('');
   const onClickRegisterBtn = () => {
+    if (!userIdValidation) {
+      notification.warning({
+        message: '아이디 중복체크',
+        description: '아이디 중복 확인을 먼저 해주세요.',
+        duration: 1.0,
+      });
+    }
     form.validateFields().then(values => {
       console.log(values);
       const params = {
@@ -37,17 +45,19 @@ const Register = () => {
       };
       registerUser(params)
         .then(result => {
-          notification.open({
+          notification.success({
             message: '회원가입 성공',
             description: result.data.userId + ' 회원가입 되었습니다.',
+            duration: 1.0,
           });
           navigate('/');
         })
         .catch(error => {
           console.log(error);
-          notification.open({
+          notification.error({
             message: '회원가입 실패',
             description: error,
+            duration: 1.0,
           });
         });
     });
@@ -68,6 +78,31 @@ const Register = () => {
     }
     return Promise.resolve();
   }, []);
+  const onClickCheckBtn = () => {
+    checkUserId(userId)
+      .then(result => {
+        console.log(result);
+        notification.success({
+          message: '아이디 사용 가능',
+          description: result.data.userId + ' 사용가능한 아이디 입니다.',
+          duration: 1.0,
+        });
+        setUserIdValidation(true);
+      })
+      .catch(error => {
+        console.log(error);
+        notification.error({
+          message: '아이디 사용 불가능',
+          description: '중복된 아이디가 존재합니다.',
+          duration: 1.0,
+        });
+      });
+  };
+  const onChangeUserId = e => {
+    setUserId(e.target.value);
+    console.log(e.target.value);
+    setUserIdValidation(false);
+  };
   return (
     <div>
       <Card>
@@ -90,8 +125,10 @@ const Register = () => {
               rules={[{ required: true, message: 'ID를 입력해주세요.' }]}
             >
               <div className="registerId">
-                <Input className="registerIdInput" />
-                <Button className="registerIdBtn">중복확인</Button>
+                <Input className="registerIdInput" onChange={onChangeUserId} />
+                <Button className="registerIdBtn" onClick={onClickCheckBtn}>
+                  중복확인
+                </Button>
               </div>
             </Form.Item>
             <Form.Item

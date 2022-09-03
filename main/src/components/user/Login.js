@@ -40,10 +40,10 @@ const Login = () => {
         .then(result => {
           sessionStorage.setItem('userId', userInfo.userId);
           sessionStorage.setItem('accessToken', result.data.accessToken);
-
-          notification.open({
+          notification.success({
             message: '로그인 성공',
             description: '로그인 되었습니다.',
+            duration: 1.0,
           });
 
           axios.defaults.headers.common['Authorization'] =
@@ -53,9 +53,10 @@ const Login = () => {
         })
         .catch(error => {
           sessionStorage.clear();
-          notification.open({
+          notification.error({
             message: '로그인 실패',
             description: error?.response?.data?.message,
+            duration: 1.0,
           });
         });
     });
@@ -88,7 +89,10 @@ const Login = () => {
               name="password"
               rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
             >
-              <Input.Password placeholder="input password" />
+              <Input.Password
+                placeholder="input password"
+                onPressEnter={onClickRegisterBtn}
+              />
             </Form.Item>
           </Form>
           <div className="logBtn">

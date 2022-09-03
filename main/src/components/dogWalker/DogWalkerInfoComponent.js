@@ -1,12 +1,19 @@
+import { Button } from 'antd';
 import { Table } from 'reactstrap';
 
 import user1 from '../../assets/images/users/user1.jpg';
-const DogWalkerInfoComponent = ({ dogWalkerInfo }) => {
+const DogWalkerInfoComponent = ({
+  dogWalkerInfo,
+  setDogwalkerDetail,
+  dogwalkerDetail,
+}) => {
+  const onClickClose = () => {
+    setDogwalkerDetail(!dogwalkerDetail);
+  };
   return (
     <div>
       <Table className="no-wrap mt-3 align-middle" responsive borderless>
         <thead>
-          도그워커 정보
           <tr>
             <th>이름</th>
             <th>경력</th>
@@ -26,10 +33,8 @@ const DogWalkerInfoComponent = ({ dogWalkerInfo }) => {
                   height="45"
                 />
                 <div className="ms-3">
-                  <h6 className="mb-0">{dogWalkerInfo.dogwalkerId}</h6>
-                  <span className="text-muted">
-                    {dogWalkerInfo.dogwalkerName}
-                  </span>
+                  <h6 className="mb-0">{dogWalkerInfo.userId}</h6>
+                  <span className="text-muted">{dogWalkerInfo.userNm}</span>
                 </div>
               </div>
             </td>
@@ -39,6 +44,7 @@ const DogWalkerInfoComponent = ({ dogWalkerInfo }) => {
           </tr>
         </tbody>
       </Table>
+      {dogwalkerDetail && <Button onClick={onClickClose}>닫기</Button>}
     </div>
   );
 };

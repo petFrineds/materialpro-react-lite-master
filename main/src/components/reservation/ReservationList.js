@@ -8,8 +8,9 @@ import {
   setReservationDetailId,
 } from '../../store/Reservation';
 import { Link, useNavigate } from 'react-router-dom';
+import { startWalk } from '../../api/WalkApi';
 
-const ReservationList = ({ reservationList }) => {
+const ReservationList = ({ reservationList, userInfo }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,11 +18,12 @@ const ReservationList = ({ reservationList }) => {
     dispatch(setReservationDetailId(reservedId));
     navigate('/reservationDetail');
   };
-  const onClickCancelBtn = (e, reservedId, status) => {
+
+  const onClickCancelBtn = (e, reservedId) => {
     e.stopPropagation();
     const param = {
       reservedId: reservedId,
-      status: status,
+      status: 'CANCEL',
     };
     cancelReservation(param)
       .then(result => {
@@ -33,6 +35,20 @@ const ReservationList = ({ reservationList }) => {
       })
       .catch(error => {
         console.log('cancelReservation Error >> ' + error);
+      });
+  };
+  const onClickStartWalk = item => {
+    const param = {
+      reservedId: item.reservedId,
+      userId: userInfo.userId,
+      dogWalkerId: item.dogwalkerId,
+    };
+    startWalk(param)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log('startWalk Error >> ' + error);
       });
   };
   return (
@@ -82,18 +98,20 @@ const ReservationList = ({ reservationList }) => {
                   {item.status === 'REQUEST' ? (
                     <td>
                       <Button
-                        onClick={e =>
-                          onClickCancelBtn(e, item.reservedId, item.status)
-                        }
+                        onClick={e => onClickCancelBtn(e, item.reservedId)}
                       >
                         예약취소
                       </Button>
                     </td>
-                  ) : item.status === 'PAYED' ? (
+                  ) : item.status === 'PAYED' &&
+                    item.dogwalkerId === userInfo.userId ? (
                     <td>
-                      <Button>산책시작</Button>
+                      <Button onClick={() => onClickStartWalk(item)}>
+                        산책시작
+                      </Button>
                     </td>
-                  ) : item.status === 'END' ? (
+                  ) : item.status === 'END' &&
+                    item.dogwalkerId === userInfo.userId ? (
                     <td>
                       <Button>일지작성</Button>
                     </td>

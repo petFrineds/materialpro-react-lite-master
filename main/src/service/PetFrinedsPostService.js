@@ -11,19 +11,11 @@ export const PetFriendsPostService = (url, data) => {
       .post(url, data)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
-          notification.open({
-            message: '시스템 내부 에러',
-            description: 'PetFrinedsDeleteService 시스템 내부 ERROR >> 500',
-          });
           console.log('PetFriendsPostService 시스템 내부 ERROR >> 500');
         }
         resolve(response);
       })
       .catch(error => {
-        notification.open({
-          message: '시스템 내부 에러',
-          description: 'PetFrinedsDeleteService 시스템 내부 ERROR >>' + error,
-        });
         console.log('PetFriendsPostService 시스템 내부 ERROR >>', error);
         reject(error);
       });
