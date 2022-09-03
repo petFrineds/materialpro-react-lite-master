@@ -1,32 +1,41 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import NumericInput from '../common/NumericInput';
 import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Switch,
-  TreeSelect,
-  Space,
-  notification,
-} from 'antd';
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+  LoadingOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import NumericInput from '../common/NumericInput';
+import { Button, Form, Input, notification, message, Upload } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Card, CardBody, CardTitle } from 'reactstrap';
-import { registerUser, checkUserId } from '../../api/AuthApi';
+import { registerUser, checkUserId, postImg } from '../../api/AuthApi';
 import { useSelector, useDispatch } from 'react-redux';
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
 
+const beforeUpload = file => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+
+  return isJpgOrPng;
+};
 const Register = () => {
   const [form] = Form.useForm();
   const [phoneNum, setPhoneNum] = useState('');
   const navigate = useNavigate();
   const [userIdValidation, setUserIdValidation] = useState(false);
   const [userId, setUserId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+
   const onClickRegisterBtn = () => {
     if (!userIdValidation) {
       notification.warning({
@@ -108,6 +117,34 @@ const Register = () => {
     setUserId(e.target.value);
     setUserIdValidation(false);
   };
+  const handleChange = info => {
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, url => {
+        setLoading(false);
+        setImageUrl(url);
+        console.log(url);
+      });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
   return (
     <div>
       <Card>
@@ -124,6 +161,31 @@ const Register = () => {
             layout="horizontal"
             size="middle"
           >
+            <Form.Item>
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="http://k8s-default-petfrien-e22d96b656-56720431.us-west-2.elb.amazonaws.com/userInfos/image/upload/"
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+              >
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{
+                      width: '100%',
+                      textAlign: 'center',
+                      alignItems: 'center',
+                    }}
+                  />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
+            </Form.Item>
             <Form.Item
               label="ID"
               name="userId"

@@ -84,5 +84,5 @@
       "prettier --write"
     ]
   },
-  "proxy": "http://k8s-default-petfrien-e22d96b656-668194513.us-west-2.elb.amazonaws.com"
+  "proxy": "http://k8s-default-petfrien-e22d96b656-324363646.us-west-2.elb.amazonaws.com"
 }

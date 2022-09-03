@@ -7,7 +7,7 @@ import {
   setDogwalkerScheduleInfo,
 } from '../../store/DogWalker';
 import { createReservation } from '../../api/ReservationApi';
-import moment, { min } from 'moment';
+import moment from 'moment';
 
 const { RangePicker } = DatePicker;
 
@@ -55,6 +55,7 @@ const ReservationModal = ({
       }
       setFinalPrice((minDiff / 60) * dogwalkerScheduleInfo.amount);
     }
+    console.log(finalPrice);
   }, [visible]);
   useEffect(() => {
     let minDiff = null;

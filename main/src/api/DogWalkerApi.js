@@ -28,6 +28,16 @@ export const getAllData = async () => {
     return { status: response.status, resultMsg: response.data };
   }
 };
+export const getDogwalkscheuleDetail = async dogwalkerScheduleId => {
+  const response = await PetFrinedsGetService(
+    '/dogwalkerschedules/index/' + dogwalkerScheduleId
+  );
+  if (response && response.status === 200) {
+    return { status: response.status, data: response.data };
+  } else {
+    return { status: response.status, resultMsg: response.data };
+  }
+};
 export const putData = async params => {
   const response = await PetFrinedsPutService('/dogwalkerschedules', params);
   if (response && response.status === 200) {
