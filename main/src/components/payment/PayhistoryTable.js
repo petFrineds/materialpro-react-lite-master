@@ -68,17 +68,7 @@ const PayhistoryTable = ({ paymentList }) => {
                   <td>
                     <div id="amt">{item.amount}</div>
                   </td>
-                  <td>
-                    {item.refundYn === 'N' ? (
-                      <Button
-                        onClick={() => onCancleButtonClick(item.reservedId)}
-                      >
-                        결제 취소
-                      </Button>
-                    ) : (
-                      <>환불 완료</>
-                    )}
-                  </td>
+                  <td>{item.refundYn === 'N' ? <> </> : <>환불 완료</>}</td>
                 </tr>
               ))}
             </tbody>

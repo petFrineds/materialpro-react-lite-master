@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 //Action 정의
-const SET_DAILY_LIST = 'DOGWALKER/SET_DAILY_LIST';
+const SET_DAILY_LIST = 'DAILY/SET_DAILY_LIST';
 
 //초기 상태 정의
 const initialState = fromJS({

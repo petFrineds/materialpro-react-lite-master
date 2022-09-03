@@ -5,17 +5,20 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import {
   getReservationDetail,
-  cancelReservation,
+  deleteReservation,
 } from '../../../../api/ReservationApi';
 import { getUserInfo } from '../../../../api/AuthApi';
 import ReservationDetailComponent from '../../../../components/reservation/ReservationDetailComponent';
+import { setReservationInfo } from '../../../../store/Reservation';
 const ReservationDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [reservationinfo, setReservationinfo] = useState();
   const reservationDetailId = useSelector(state =>
     state.reservation.get('reservationDetailId')
+  );
+  const reservationInfo = useSelector(state =>
+    state.reservation.get('reservationInfo')
   );
   const [dogWalkerInfo, setDogWalkerInfo] = useState({});
   useEffect(() => {
@@ -25,7 +28,7 @@ const ReservationDetail = () => {
     }
     getReservationDetail(reservationDetailId)
       .then(result => {
-        setReservationinfo(result.data);
+        dispatch(setReservationInfo(result.data));
         getUserInfo(result.data.dogwalkerId)
           .then(result2 => {
             setDogWalkerInfo(result2.data);
@@ -40,10 +43,10 @@ const ReservationDetail = () => {
   }, []);
   const onClickCancelBtn = () => {
     const param = {
-      reservedId: reservationinfo.reservedId,
+      reservedId: reservationInfo.reservedId,
       status: 'CANCEL',
     };
-    cancelReservation(param)
+    deleteReservation(param)
       .then(result => {
         console.log(result);
         navigate('/reservation');
@@ -54,9 +57,8 @@ const ReservationDetail = () => {
   };
   return (
     <Col lg="12">
-      {reservationinfo && (
+      {reservationInfo && (
         <ReservationDetailComponent
-          reservationinfo={reservationinfo}
           dogWalkerInfo={dogWalkerInfo}
           onClickCancelBtn={onClickCancelBtn}
         />

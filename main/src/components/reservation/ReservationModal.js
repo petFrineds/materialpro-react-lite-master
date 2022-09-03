@@ -2,7 +2,10 @@ import { Button, Modal, Form, DatePicker, notification } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { registData } from '../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
-import { setDogWalkerList } from '../../store/DogWalker';
+import {
+  setDogWalkerList,
+  setDogwalkerScheduleInfo,
+} from '../../store/DogWalker';
 import { createReservation } from '../../api/ReservationApi';
 import moment, { min } from 'moment';
 
@@ -11,8 +14,8 @@ const { RangePicker } = DatePicker;
 const ReservationModal = ({
   setVisible,
   visible,
-  dogwalkerScheduleInfo,
-  userInfo,
+  payModalVisible,
+  setPayModalVisible,
 }) => {
   const [loading, setLoading] = useState(false);
   const [reservationForm] = Form.useForm();
@@ -24,14 +27,39 @@ const ReservationModal = ({
   const [dateValue, setDateValue] = useState(null);
   const [finalPrice, setFinalPrice] = useState(0);
   const dateFormat = 'YYYY-MM-DD HH:mm';
+  const [defaultValue, setDefaultValue] = useState([]);
+  const dogwalkerScheduleInfo = useSelector(state =>
+    state.dogWalker.get('dogwalkerScheduleInfo')
+  );
+  const userInfo = useSelector(state => state.user.get('userInfo'));
 
   useEffect(() => {
-    console.log('HH');
-    console.log(dogwalkerScheduleInfo);
-  }, []);
+    if (visible && dogwalkerScheduleInfo) {
+      setDates([
+        moment(dogwalkerScheduleInfo.reservedStartTime, dateFormat),
+        moment(dogwalkerScheduleInfo.reservedEndTime, dateFormat),
+      ]);
+      let minDiff = null;
+      if (dates !== undefined && dates !== null) {
+        minDiff = moment.duration(dates[1].diff(dates[0])).asMinutes();
+        console.log(minDiff);
+      } else {
+        minDiff = moment
+          .duration(
+            moment(dogwalkerScheduleInfo.reservedEndTime, dateFormat).diff(
+              moment(dogwalkerScheduleInfo.reservedStartTime, dateFormat)
+            )
+          )
+          .asMinutes();
+        console.log(dogwalkerScheduleInfo.reservedEndTime + ' ' + minDiff);
+      }
+      setFinalPrice((minDiff / 60) * dogwalkerScheduleInfo.amount);
+    }
+  }, [visible]);
   useEffect(() => {
     let minDiff = null;
-    console.log(dogwalkerScheduleInfo);
+    console.log();
+    if (!dogwalkerScheduleInfo) return;
     if (dates !== undefined && dates !== null) {
       minDiff = moment.duration(dates[1].diff(dates[0])).asMinutes();
       console.log(minDiff);
@@ -48,24 +76,48 @@ const ReservationModal = ({
   }, [dates, dogwalkerScheduleInfo]);
 
   const handleCancel = () => {
+    dispatch(setDogwalkerScheduleInfo(undefined));
     setVisible(false);
-    Modal.destroyAll();
   };
 
   const handleOk = () => {
+    const startTime =
+      dates !== null && dates !== undefined
+        ? moment(dates[0], dateFormat).format(dateFormat)
+        : moment(dogwalkerScheduleInfo.reservedStartTime, dateFormat).format(
+            dateFormat
+          );
+    const endTime =
+      dates !== null && dates !== undefined
+        ? moment(dates[1], dateFormat).format(dateFormat)
+        : moment(dogwalkerScheduleInfo.reservedEndTime, dateFormat).format(
+            dateFormat
+          );
+    if (
+      startTime < dogwalkerScheduleInfo.reservedStartTime ||
+      endTime < dogwalkerScheduleInfo.reservedStartTime
+    ) {
+      notification.warning({
+        message: '예약 불가능 시간',
+        description: '예약 불가능한 시간입니다.',
+        duration: 1.0,
+      });
+      return;
+    }
+    if (
+      startTime > dogwalkerScheduleInfo.reservedEndTime ||
+      endTime > dogwalkerScheduleInfo.reservedEndTime
+    ) {
+      notification.warning({
+        message: '예약 불가능 시간',
+        description: '예약 불가능한 시간입니다.',
+        duration: 1.0,
+      });
+      return;
+    }
     const param = {
-      startTime:
-        dates !== null && dates !== undefined
-          ? moment(dates[0], dateFormat).format(dateFormat)
-          : moment(dogwalkerScheduleInfo.reservedStartTime, dateFormat).format(
-              dateFormat
-            ),
-      endTime:
-        dates !== null && dates !== undefined
-          ? moment(dates[1], dateFormat).format(dateFormat)
-          : moment(dogwalkerScheduleInfo.reservedEndTime, dateFormat).format(
-              dateFormat
-            ),
+      startTime: startTime,
+      endTime: endTime,
       amount: finalPrice,
       dogwalkerScheduleId: dogwalkerScheduleInfo.id,
       userId: userInfo.userId,
@@ -73,15 +125,15 @@ const ReservationModal = ({
       dogwalkerId: dogwalkerScheduleInfo.dogwalkerId,
       dogwalkerName: dogwalkerScheduleInfo.dogwalkerName,
     };
-    console.log(param);
     createReservation(param)
       .then(result => {
         console.log(result);
         notification.success({
           message: '예약 성공',
-          description: '예약 되었습니다.',
+          description: '예약 되었습니다. 결제창으로 넘어갑니다.',
           duration: 1.0,
         });
+        setPayModalVisible(true);
       })
       .catch(error => {
         console.log('createReservation Error >> ' + error);
@@ -92,6 +144,7 @@ const ReservationModal = ({
         });
       })
       .finally(function () {
+        dispatch(setDogwalkerScheduleInfo(undefined));
         setVisible(!visible);
       });
   };
@@ -105,10 +158,12 @@ const ReservationModal = ({
   }; // eslint-disable-next-line arrow-body-style
 
   const disabledDate = current => {
-    if (current < moment(dogwalkerScheduleInfo.reservedStartTime, dateFormat)) {
+    if (
+      current < moment(dogwalkerScheduleInfo?.reservedStartTime, dateFormat)
+    ) {
       return true;
     } else if (
-      current > moment(dogwalkerScheduleInfo.reservedEndTime, dateFormat)
+      current > moment(dogwalkerScheduleInfo?.reservedEndTime, dateFormat)
     ) {
       return true;
     } else return false;
@@ -122,25 +177,15 @@ const ReservationModal = ({
       dogwalkerScheduleInfo.reservedEndTime,
       dateFormat
     ).hour();
-    const startMin = moment(
-      dogwalkerScheduleInfo.reservedStartTime,
-      dateFormat
-    ).minute();
-    const endMin = moment(
-      dogwalkerScheduleInfo.reservedEndTime,
-      dateFormat
-    ).minute();
 
     if (type === 'start') {
       return {
         disabledHours: () => range(0, startHour),
-        disabledMinutes: () => range(0, startMin),
       };
     }
 
     return {
       disabledHours: () => range(endHour, 24),
-      disabledMinutes: () => range(endMin, 60),
     };
   };
 
@@ -176,10 +221,7 @@ const ReservationModal = ({
         }}
         format={dateFormat}
         onCalendarChange={val => setDates(val)}
-        defaultValue={[
-          moment(dogwalkerScheduleInfo.reservedStartTime, dateFormat),
-          moment(dogwalkerScheduleInfo.reservedEndTime, dateFormat),
-        ]}
+        value={dates}
         onOk={onOk}
         minuteStep={30}
         onChange={val => setDateValue(val)}
