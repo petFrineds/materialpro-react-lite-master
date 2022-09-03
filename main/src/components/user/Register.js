@@ -34,6 +34,7 @@ const Register = () => {
         description: '아이디 중복 확인을 먼저 해주세요.',
         duration: 1.0,
       });
+      return;
     }
     form.validateFields().then(values => {
       console.log(values);
@@ -82,20 +83,28 @@ const Register = () => {
     checkUserId(userId)
       .then(result => {
         console.log(result);
-        notification.success({
-          message: '아이디 사용 가능',
-          description: result.data.userId + ' 사용가능한 아이디 입니다.',
-          duration: 1.0,
-        });
-        setUserIdValidation(true);
-      })
-      .catch(error => {
-        console.log(error);
         notification.error({
           message: '아이디 사용 불가능',
           description: '중복된 아이디가 존재합니다.',
           duration: 1.0,
         });
+      })
+      .catch(error => {
+        if (error.response?.status === 500) {
+          notification.success({
+            message: '아이디 사용 가능',
+            description: userId + ' 사용가능한 아이디 입니다.',
+            duration: 1.0,
+          });
+          setUserIdValidation(true);
+          return;
+        } else {
+          notification.error({
+            message: '아이디 사용 불가능',
+            description: '중복된 아이디가 존재합니다.',
+            duration: 1.0,
+          });
+        }
       });
   };
   const onChangeUserId = e => {
