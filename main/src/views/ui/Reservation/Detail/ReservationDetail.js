@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import {
   getReservationDetail,
-  cancelReservation,
+  deleteReservation,
 } from '../../../../api/ReservationApi';
 import { getUserInfo } from '../../../../api/AuthApi';
 import ReservationDetailComponent from '../../../../components/reservation/ReservationDetailComponent';
@@ -46,7 +46,7 @@ const ReservationDetail = () => {
       reservedId: reservationInfo.reservedId,
       status: 'CANCEL',
     };
-    cancelReservation(param)
+    deleteReservation(param)
       .then(result => {
         console.log(result);
         navigate('/reservation');

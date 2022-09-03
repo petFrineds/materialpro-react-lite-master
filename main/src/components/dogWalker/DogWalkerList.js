@@ -10,10 +10,13 @@ import ReservationModal from '../reservation/ReservationModal';
 import DogWalkerInfoComponent from './DogWalkerInfoComponent';
 import { getUserInfo } from '../../api/AuthApi';
 import { setDogwalkerScheduleInfo } from '../../store/DogWalker';
+import PaymentModal from '../payment/PaymentModal';
 const DogWalkerList = ({ dogWalkerList }) => {
   const [reservationVisible, setReservationVisible] = useState(false);
   const [dogwalkerDetail, setDogwalkerDetail] = useState(false);
   const [dogWalkerInfo, setDogWalkerInfo] = useState(null);
+  const [payModalVisible, setPayModalVisible] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector(state => state.user.get('userInfo'));
@@ -50,9 +53,7 @@ const DogWalkerList = ({ dogWalkerList }) => {
               <thead>
                 <tr>
                   <th>도그워커</th>
-                  <th>평점</th>
                   <th>Status</th>
-                  <th>경력(년)</th>
                   <th>가격(₩)</th>
                   <th>산책 가능 시간</th>
                   <th>산책 지역</th>
@@ -84,7 +85,6 @@ const DogWalkerList = ({ dogWalkerList }) => {
                         </div>
                       </div>
                     </td>
-                    <td>{item.avgScore}</td>
                     <td>
                       {item.reservedYn === 'Y' ? (
                         <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
@@ -92,7 +92,6 @@ const DogWalkerList = ({ dogWalkerList }) => {
                         <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
                       )}
                     </td>
-                    <td>{item.career}</td>
                     <td>{item.amount}</td>
                     <td>
                       {item.reservedStartTime} ~ {item.reservedEndTime}
@@ -130,7 +129,15 @@ const DogWalkerList = ({ dogWalkerList }) => {
       <ReservationModal
         setVisible={setReservationVisible}
         visible={reservationVisible}
+        payModalVisible={payModalVisible}
+        setPayModalVisible={setPayModalVisible}
       />
+      {payModalVisible && (
+        <PaymentModal
+          setVisible={setPayModalVisible}
+          visible={payModalVisible}
+        />
+      )}
     </div>
   );
 };

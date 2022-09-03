@@ -32,7 +32,12 @@ const ReservationDetailComponent = ({ dogWalkerInfo, onClickCancelBtn }) => {
     state.reservation.get('reservationInfo')
   );
   const onClickRefundClick = reservedId => {
-    refundPayment(reservedId)
+    //patch 호출
+    const param = {
+      reservedId: reservedId,
+      status: 'CANCEL',
+    };
+    cancelReservation(param)
       .then(result => {
         notification.success({
           message: '환불 완료',

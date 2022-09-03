@@ -14,6 +14,8 @@ import React, { useEffect, useState } from 'react';
 import { requestPayment } from '../../api/PaymentApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfo } from '../../store/User';
+import { Link, useNavigate } from 'react-router-dom';
+import { cancelReservation } from '../../api/ReservationApi';
 import moment from 'moment';
 
 const { Title } = Typography;
@@ -32,6 +34,7 @@ const PaymentModal = ({ setVisible, visible }) => {
   const [cardYear, setCardYear] = useState('');
   const [cardCVC, setCardCVC] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userInfo = useSelector(state => state.user.get('userInfo'));
   const reservationInfo = useSelector(state =>
     state.reservation.get('reservationInfo')
@@ -39,7 +42,26 @@ const PaymentModal = ({ setVisible, visible }) => {
   const [disabled, setDisabled] = useState(true);
 
   const handleCancel = () => {
+    // cancelReservationAPICall();
     setVisible(false);
+  };
+  const cancelReservationAPICall = () => {
+    const param = {
+      reservedId: reservationInfo.reservedId,
+      status: 'CANCEL',
+    };
+
+    cancelReservation(param)
+      .then(result => {
+        notification.success({
+          message: '예약/결제 취소',
+          description: '예약/결제 취소 되었습니다.',
+          duration: 1.0,
+        });
+      })
+      .catch(error => {
+        console.log('cancelReservation Error >> ' + error);
+      });
   };
   const onPaymentMethodChange = ({ target: { value } }) => {
     setPaymentMethodValue(value);
@@ -121,6 +143,7 @@ const PaymentModal = ({ setVisible, visible }) => {
           description: '결제가 성공적으로 완료 되었습니다.',
           duration: 1.0,
         });
+        navigate('/reservation');
       })
       .catch(result => {
         console.log(result);

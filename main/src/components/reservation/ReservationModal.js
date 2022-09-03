@@ -11,7 +11,12 @@ import moment, { min } from 'moment';
 
 const { RangePicker } = DatePicker;
 
-const ReservationModal = ({ setVisible, visible }) => {
+const ReservationModal = ({
+  setVisible,
+  visible,
+  payModalVisible,
+  setPayModalVisible,
+}) => {
   const [loading, setLoading] = useState(false);
   const [reservationForm] = Form.useForm();
   const dispatch = useDispatch();
@@ -125,9 +130,10 @@ const ReservationModal = ({ setVisible, visible }) => {
         console.log(result);
         notification.success({
           message: '예약 성공',
-          description: '예약 되었습니다.',
+          description: '예약 되었습니다. 결제창으로 넘어갑니다.',
           duration: 1.0,
         });
+        setPayModalVisible(true);
       })
       .catch(error => {
         console.log('createReservation Error >> ' + error);

@@ -95,16 +95,8 @@ const ReservationList = ({ reservationList, userInfo }) => {
                   </td>
                   <td>{item.amount}</td>
                   <td>{item.status}</td>
-                  {item.status === 'REQUEST' ? (
-                    <td>
-                      <Button
-                        onClick={e => onClickCancelBtn(e, item.reservedId)}
-                      >
-                        예약취소
-                      </Button>
-                    </td>
-                  ) : item.status === 'PAYED' &&
-                    item.dogwalkerId === userInfo.userId ? (
+                  {item.status === 'PAYED' &&
+                  item.dogwalkerId === userInfo.userId ? (
                     <td>
                       <Button onClick={() => onClickStartWalk(item)}>
                         산책시작
