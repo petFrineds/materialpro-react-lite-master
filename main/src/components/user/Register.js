@@ -37,7 +37,6 @@ const Register = () => {
       return;
     }
     form.validateFields().then(values => {
-      console.log(values);
       const params = {
         userId: values.userId,
         password: values.password,
@@ -54,7 +53,6 @@ const Register = () => {
           navigate('/');
         })
         .catch(error => {
-          console.log(error);
           notification.error({
             message: '회원가입 실패',
             description: error,
@@ -82,7 +80,6 @@ const Register = () => {
   const onClickCheckBtn = () => {
     checkUserId(userId)
       .then(result => {
-        console.log(result);
         notification.error({
           message: '아이디 사용 불가능',
           description: '중복된 아이디가 존재합니다.',
@@ -109,7 +106,6 @@ const Register = () => {
   };
   const onChangeUserId = e => {
     setUserId(e.target.value);
-    console.log(e.target.value);
     setUserIdValidation(false);
   };
   return (

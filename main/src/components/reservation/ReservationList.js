@@ -28,8 +28,8 @@ const ReservationList = ({ reservationList, userInfo }) => {
     cancelReservation(param)
       .then(result => {
         console.log(result);
-        const newRow = reservationList.filter(
-          item => item.reservedId !== reservedId
+        const newRow = reservationList.map(item =>
+          item.reservedId === reservedId ? { ...item, status: 'CANCEL' } : item
         );
         dispatch(setReservationList(newRow));
       })

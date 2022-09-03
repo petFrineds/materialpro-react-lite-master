@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { notification } from 'antd';
 
 export const PetFrinedsGetService = url => {
   let BaseUrl = `${process.env.REACT_APP_PET_FRIENDS_BASE_URL}`;

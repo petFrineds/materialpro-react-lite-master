@@ -9,23 +9,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReservationModal from '../reservation/ReservationModal';
 import DogWalkerInfoComponent from './DogWalkerInfoComponent';
 import { getUserInfo } from '../../api/AuthApi';
+import { setDogwalkerScheduleInfo } from '../../store/DogWalker';
 const DogWalkerList = ({ dogWalkerList }) => {
   const [reservationVisible, setReservationVisible] = useState(false);
-  const [dogwalkerScheduleInfo, setDogwalkerScheduleInfo] = useState({});
   const [dogwalkerDetail, setDogwalkerDetail] = useState(false);
   const [dogWalkerInfo, setDogWalkerInfo] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector(state => state.user.get('userInfo'));
+
   const dogWalkerList2 = useSelector(state =>
     state.dogWalker.get('dogWalkerList')
   );
   const onClickReserveBtn = (e, dogwalkerschedule) => {
-    e.stopPropagation();
-
-    setDogwalkerScheduleInfo(dogwalkerschedule);
-    console.log(dogwalkerschedule);
+    dispatch(setDogwalkerScheduleInfo(dogwalkerschedule));
     setReservationVisible(true);
+    e.stopPropagation();
   };
 
   const onClickDetail = dogwalkerId => {
@@ -131,8 +130,6 @@ const DogWalkerList = ({ dogWalkerList }) => {
       <ReservationModal
         setVisible={setReservationVisible}
         visible={reservationVisible}
-        dogwalkerScheduleInfo={dogwalkerScheduleInfo}
-        userInfo={userInfo}
       />
     </div>
   );
