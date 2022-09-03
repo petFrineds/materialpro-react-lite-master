@@ -14,11 +14,11 @@ const navigation = [
     href: '/dogWalker',
     icon: 'bi bi-layout-split',
   },
-  {
-    title: '산책',
-    href: '/walking',
-    icon: 'bi bi-bell',
-  },
+  // {
+  //   title: '산책',
+  //   href: '/walking',
+  //   icon: 'bi bi-bell',
+  // },
   {
     title: '일지',
     href: '/daily',
