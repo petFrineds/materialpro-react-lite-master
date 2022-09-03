@@ -23,9 +23,10 @@ const PayhistoryTable = ({ paymentList }) => {
   const onCancleButtonClick = reservedId => {
     refundPayment(reservedId)
       .then(result => {
-        notification.open({
+        notification.success({
           message: '환불 완료',
           description: '환불이 성공적으로 완료 되었습니다.',
+          duration: 1.0,
         });
         const newData = paymentList.filter(
           item => item.reservedId !== reservedId
@@ -33,9 +34,10 @@ const PayhistoryTable = ({ paymentList }) => {
         dispatch(setPaymentList(newData));
       })
       .catch(result => {
-        notification.open({
+        notification.error({
           message: '환불 실패',
           description: '환불이 실패 되었습니다. >>> ' + result,
+          duration: 1.0,
         });
       })
       .finally(function () {});
@@ -62,16 +64,20 @@ const PayhistoryTable = ({ paymentList }) => {
                 <tr key={index} className="border-top">
                   <td>{item.reservedId}</td>
                   <td>{item.payDate}</td>
-                  <td>{item.paymentMethod}</td>
+                  <td>{item.payType}</td>
                   <td>
                     <div id="amt">{item.amount}</div>
                   </td>
                   <td>
-                    <Button
-                      onClick={() => onCancleButtonClick(item.reservedId)}
-                    >
-                      결제 취소
-                    </Button>
+                    {item.refundYn === 'N' ? (
+                      <Button
+                        onClick={() => onCancleButtonClick(item.reservedId)}
+                      >
+                        결제 취소
+                      </Button>
+                    ) : (
+                      <>환불 완료</>
+                    )}
                   </td>
                 </tr>
               ))}

@@ -18,7 +18,7 @@ import moment from 'moment';
 
 const { Title } = Typography;
 
-const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
+const PaymentModal = ({ setVisible, visible, reservationinfo }) => {
   const [loading, setLoading] = useState(false);
   const paymentMethod = ['POINT', 'CARD'];
   const cardDetail = ['하나카드', '신한카드', '현대카드', '삼성카드'];
@@ -28,7 +28,9 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
   const [cardNum2, setCardNum2] = useState('');
   const [cardNum3, setCardNum3] = useState('');
   const [cardNum4, setCardNum4] = useState('');
-
+  const [cardMonth, setCardMonth] = useState('');
+  const [cardYear, setCardYear] = useState('');
+  const [cardCVC, setCardCVC] = useState('');
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.user.get('userInfo'));
   const [disabled, setDisabled] = useState(true);
@@ -57,6 +59,15 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
   const onChangeCardNum4 = e => {
     setCardNum4(e.target.value);
   };
+  const onChangeCardMonth = e => {
+    setCardMonth(e.target.value);
+  };
+  const onChangeCardYear = e => {
+    setCardYear(e.target.value);
+  };
+  const onChangeCardCVC = e => {
+    setCardCVC(e.target.value);
+  };
   const handleOk = () => {
     setLoading(true);
     const cardNo =
@@ -67,43 +78,53 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
       !disabled &&
       (cardNo.length < 16 || cardNo.match(/^-{0,1}\d+$/) === null)
     ) {
-      notification.open({
+      notification.warning({
         message: '카드 번호 확인',
         description: '카드 번호를 확인해주세요.',
+        duration: 1.0,
       });
       setLoading(false);
       return;
-    } else if (disabled && amount > userInfo.pointAmount) {
-      notification.open({
+    } else if (disabled && reservationinfo.amount > userInfo.pointAmount) {
+      notification.warning({
         message: '포인트 확인',
         description: '포인트 잔액을 확인해주세요.',
+        duration: 1.0,
       });
       setLoading(false);
+      return;
     }
     const params = {
       userId: userInfo.userId,
       userName: userInfo.userNm,
-      reservedId: reservedNum,
-      amount: amount,
+      reservedId: reservationinfo.reservedId,
+      amount: reservationinfo.amount,
       payGubun: 'PAY',
-      cardNo: cardNo,
+      cardNumber: cardNo,
       payDate: moment().format('YYYY-MM-DD HH:mm:ss.ssS'),
+      cardValidMonth: cardMonth,
+      cardValidYear: cardYear,
+      cardCvc: cardCVC,
+      cardCompany: cardDetailValue,
       payType: paymentMethodValue,
       currentPoint: userInfo.pointAmount,
+      refundYn: 'N',
     };
     requestPayment(params)
       .then(result => {
         setVisible(false);
-        notification.open({
+        notification.success({
           message: '결제 완료',
           description: '결제가 성공적으로 완료 되었습니다.',
+          duration: 1.0,
         });
       })
       .catch(result => {
         console.log(result);
-        notification.open({
+        notification.error({
           message: '결제 실패',
           description: '결제가 실패 되었습니다. >>> ' + result,
+          duration: 1.0,
         });
       })
       .finally(function () {
@@ -134,7 +155,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
         </Button>,
       ]}
     >
-      <Title level={5}> 결제 금액 : </Title>
+      <Title level={5}> 결제 금액 : {reservationinfo.amount}</Title>
 
       <Radio.Group onChange={onPaymentMethodChange} value={paymentMethodValue}>
         <Space direction="vertical">
@@ -171,6 +192,7 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
                     style={{ display: 'flex' }}
                   >
                     <Input.Group size="mid">
+                      카드 번호
                       <Row gutter={8}>
                         <Col span={5}>
                           <Input
@@ -198,6 +220,42 @@ const PaymentModal = ({ setVisible, visible, reservedNum, amount }) => {
                             value={cardNum4}
                             onChange={onChangeCardNum4}
                             maxLength="4"
+                          />
+                        </Col>
+                      </Row>
+                    </Input.Group>
+                  </Space>
+                  <Space
+                    direction="vertical"
+                    size="small"
+                    style={{ display: 'flex' }}
+                  >
+                    <Input.Group size="mid">
+                      유효기간
+                      <Row gutter={8}>
+                        <Col span={5}>
+                          <Input
+                            value={cardMonth}
+                            onChange={onChangeCardMonth}
+                            maxLength="2"
+                          />
+                        </Col>
+                        <Col span={2}> 월 /</Col>
+                        <Col span={5}>
+                          <Input
+                            value={cardYear}
+                            onChange={onChangeCardYear}
+                            maxLength="4"
+                          />
+                        </Col>
+                        <Col span={2}> 년</Col>
+                        <Col span={3}> CVC</Col>
+
+                        <Col span={5}>
+                          <Input
+                            value={cardCVC}
+                            onChange={onChangeCardCVC}
+                            maxLength="3"
                           />
                         </Col>
                       </Row>

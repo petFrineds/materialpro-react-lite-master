@@ -10,6 +10,8 @@ const Reservation = () => {
   const reservationList = useSelector(state =>
     state.reservation.get('reservationList')
   );
+  const userInfo = useSelector(state => state.user.get('userInfo'));
+
   useEffect(() => {
     getAllMyReservation(sessionStorage.getItem('userId'))
       .then(result => {
@@ -21,7 +23,12 @@ const Reservation = () => {
   }, []);
   return (
     <Col lg="12">
-      {reservationList && <ReservationList reservationList={reservationList} />}
+      {reservationList && (
+        <ReservationList
+          reservationList={reservationList}
+          userInfo={userInfo}
+        />
+      )}
     </Col>
   );
 };

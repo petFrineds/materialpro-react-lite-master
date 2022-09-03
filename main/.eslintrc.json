@@ -7,7 +7,7 @@
   "globals": {
     "$": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
+  "extends": ["plugin:react/recommended", "airbnb", "prettier"],
 
   "parserOptions": {
     "parser": "@babel/eslint-parser",
@@ -68,6 +68,7 @@
     "react/jsx-curly-newline": "off",
     "react/no-unstable-nested-components": "off",
     "react/jsx-no-undef": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "consistent-return": "off"
   }
 }
