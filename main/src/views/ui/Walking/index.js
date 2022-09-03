@@ -1,45 +1,37 @@
-import { Row, Col, Card, CardBody, CardTitle, Button } from 'reactstrap';
-
+import React, { useState, useEffect } from 'react';
+import { Button, Col } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import ReservationList from '../../../components/reservation/ReservationList';
+import { getAllMyReservation } from '../../../api/ReservationApi';
+import { setReservationList } from '../../../store/Reservation';
 const Walking = () => {
+  const dispatch = useDispatch();
+
+  const reservationList = useSelector(state =>
+    state.reservation.get('reservationList')
+  );
+  const userInfo = useSelector(state => state.user.get('userInfo'));
+
+  useEffect(() => {
+    if (userInfo) {
+      getAllMyReservation(userInfo.userId)
+        .then(result => {
+          dispatch(setReservationList(result.data));
+        })
+        .catch(error => {
+          console.log('getAllMyReservation Error >> ' + error);
+        });
+    }
+  }, []);
   return (
-    <Row>
-      <Col>
-        {/* --------------------------------------------------------------------------------*/}
-        {/* Card-1*/}
-        {/* --------------------------------------------------------------------------------*/}
-        <Card>
-          <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-            <i className="bi bi-bell me-2"> </i>
-            About Material Pro React
-          </CardTitle>
-          <CardBody className="p-4">
-            <Row justify-content>
-              <Col lg="8">
-                <h2 className="mt-4">Material React Admin Pro Version</h2>
-                <h5 className=" mb-4">
-                  5 premium and highly customizable demo variations included in
-                  the package, with React Router 6, Redux Toolkit, Axios nd much
-                  more...
-                </h5>
-                <img
-                  src="https://demos.wrappixel.com/free-admin-templates/angular/landingpage-styles/assets/images/screenshots/materialpro-react-pro-lp-img.jpg"
-                  alt="my"
-                />
-                <br />
-                <Button
-                  className="mt-3"
-                  color="primary"
-                  href="https://wrappixel.com/templates/materialpro-react-admin/?ref=33"
-                  target="_blank"
-                >
-                  Check Pro Version
-                </Button>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
-      </Col>
-    </Row>
+    <Col lg="12">
+      {reservationList && (
+        <ReservationList
+          reservationList={reservationList}
+          userInfo={userInfo}
+        />
+      )}
+    </Col>
   );
 };
 

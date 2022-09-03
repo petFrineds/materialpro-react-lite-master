@@ -57,7 +57,12 @@ const ReservationList = ({ reservationList, userInfo }) => {
         <CardBody>
           <CardTitle tag="h5">예약 전체 조회</CardTitle>
 
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <Table
+            hover
+            className="no-wrap mt-3 align-middle"
+            responsive
+            borderless
+          >
             <thead>
               <tr>
                 <th>이름</th>

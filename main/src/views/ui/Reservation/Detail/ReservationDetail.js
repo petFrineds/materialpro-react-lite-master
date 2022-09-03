@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Col } from 'antd';
+import { Button, Col, notification } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -50,8 +50,18 @@ const ReservationDetail = () => {
       .then(result => {
         console.log(result);
         navigate('/reservation');
+        notification.success({
+          message: '예약 취소 완료',
+          description: '예약 취소가 성공적으로 되었습니다.',
+          duration: 1.0,
+        });
       })
       .catch(error => {
+        notification.error({
+          message: '예약 취소 실패',
+          description: '예약 취소가 실패되었습니다.',
+          duration: 1.0,
+        });
         console.log('ReservationDetail cancelReservation Error >> ' + error);
       });
   };

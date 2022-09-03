@@ -9,13 +9,15 @@ const Daily = () => {
   const dailyList = useSelector(state => state.daily.get('dailyList'));
   const userInfo = useSelector(state => state.user.get('userInfo'));
   useEffect(() => {
-    getUserDailys(userInfo.userId)
-      .then(result => {
-        dispatch(setDailyList(result.data));
-      })
-      .catch(error => {
-        console.log('getUserDailys Error >> ' + error);
-      });
+    if (userInfo) {
+      getUserDailys(userInfo.userId)
+        .then(result => {
+          dispatch(setDailyList(result.data));
+        })
+        .catch(error => {
+          console.log('getUserDailys Error >> ' + error);
+        });
+    }
   }, []);
   return <Col lg="12">{dailyList && <DailyList />}</Col>;
 };

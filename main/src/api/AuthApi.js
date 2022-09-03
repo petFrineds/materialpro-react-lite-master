@@ -40,3 +40,16 @@ export const checkUserId = async userId => {
     return { status: response.status, resultMsg: response.message };
   }
 };
+export const postImg = async params => {
+  const response = await PetFriendsPostService(
+    '/userInfos/image/upload/',
+    params,
+    { 'Content-Type': 'multipart/form-data' }
+  );
+  if (response && response.status === 200) {
+    console.log({ status: response.status, data: response.data });
+    return { status: response.status, data: response.data };
+  } else {
+    return { status: response.status, resultMsg: response.message };
+  }
+};

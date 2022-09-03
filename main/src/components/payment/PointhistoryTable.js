@@ -13,12 +13,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setPaymentList } from '../../store/Payment';
 
 import { refundPayment } from '../../api/PaymentApi';
-
-const PayhistoryTable = ({ paymentList }) => {
+import moment from 'moment';
+const PointhistoryTable = ({ pointList }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(paymentList);
+    console.log(pointList);
   }, []);
   const onCancleButtonClick = reservedId => {
     refundPayment(reservedId)
@@ -28,7 +28,7 @@ const PayhistoryTable = ({ paymentList }) => {
           description: '환불이 성공적으로 완료 되었습니다.',
           duration: 1.0,
         });
-        const newData = paymentList.filter(
+        const newData = pointList.filter(
           item => item.reservedId !== reservedId
         );
         dispatch(setPaymentList(newData));
@@ -46,7 +46,7 @@ const PayhistoryTable = ({ paymentList }) => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">[결제내역]</CardTitle>
+          <CardTitle tag="h5">[포인트 이용 내역]</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6"></CardSubtitle>
 
           <Table
@@ -58,22 +58,23 @@ const PayhistoryTable = ({ paymentList }) => {
             <thead>
               <tr>
                 <th>예약번호</th>
+
                 <th>결제일자</th>
-                <th>결제수단</th>
-                <th>결제금액</th>
-                <th> </th>
+                <th>포인트 구분</th>
+                <th>포인트 사용 내역</th>
+                <th>현재 포인트</th>
               </tr>
             </thead>
             <tbody>
-              {paymentList?.map((item, index) => (
+              {pointList?.map((item, index) => (
                 <tr key={index} className="border-top">
                   <td>{item.reservedId}</td>
-                  <td>{item.payDate}</td>
-                  <td>{item.payType}</td>
+                  <td>{moment(item.createDate).format('YYYY-MM-DD HH:mm')}</td>
+                  <td>{item.pointGubun}</td>
                   <td>
-                    <div id="amt">{item.amount}</div>
+                    <div id="amt">{item.point}</div>
                   </td>
-                  <td>{item.refundYn === 'N' ? <> </> : <>환불 완료</>}</td>
+                  <td>{item.currentPoint}</td>
                 </tr>
               ))}
             </tbody>
@@ -84,4 +85,4 @@ const PayhistoryTable = ({ paymentList }) => {
   );
 };
 
-export default PayhistoryTable;
+export default PointhistoryTable;

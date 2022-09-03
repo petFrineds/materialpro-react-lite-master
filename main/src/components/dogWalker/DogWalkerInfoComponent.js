@@ -10,9 +10,10 @@ const DogWalkerInfoComponent = ({
   const onClickClose = () => {
     setDogwalkerDetail(!dogwalkerDetail);
   };
+
   return (
     <div>
-      <Table className="no-wrap mt-3 align-middle" responsive borderless>
+      <Table hover className="no-wrap mt-3 align-middle" responsive borderless>
         <thead>
           <tr>
             <th>이름</th>
@@ -26,7 +27,12 @@ const DogWalkerInfoComponent = ({
             <td>
               <div className="d-flex align-items-center p-2">
                 <img
-                  src={dogWalkerInfo.avatar ?? user1}
+                  src={
+                    dogWalkerInfo.imageId !== undefined &&
+                    dogWalkerInfo.imageId !== null
+                      ? dogWalkerInfo.imageId
+                      : user1
+                  }
                   className="rounded-circle"
                   alt="avatar"
                   width="45"

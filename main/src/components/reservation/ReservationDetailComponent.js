@@ -63,7 +63,7 @@ const ReservationDetailComponent = ({ dogWalkerInfo, onClickCancelBtn }) => {
         <CardBody>
           <CardTitle tag="h5">예약 상세 조회</CardTitle>
           <DogWalkerInfoComponent dogWalkerInfo={dogWalkerInfo} />
-          <ReservationInfoComponent reservationinfo={reservationInfo} />
+          <ReservationInfoComponent reservationInfo={reservationInfo} />
           <Button onClick={onClickClose}>닫기</Button>
           {reservationInfo.status === 'REQUEST' ? (
             <>
