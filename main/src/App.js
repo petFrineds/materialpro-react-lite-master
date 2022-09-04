@@ -17,7 +17,6 @@ const App = () => {
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.headers.common['Content-Type'] = 'text/html;charset=utf-8';
   useEffect(() => {
-    console.log('KKK');
     if (sessionStorage.getItem('userId') === null) {
       setIsLogin(false);
       sessionStorage.removeItem('userId');

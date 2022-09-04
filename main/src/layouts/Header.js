@@ -13,10 +13,12 @@ import { ReactComponent as LogoWhite } from '../assets/images/logos/materialprow
 import user1 from '../assets/images/users/user4.jpg';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { initReduxAll } from '../components/common/InitRedux';
 import axios from 'axios';
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const dispatch = useDispatch();
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ const Header = () => {
     axios.defaults.headers.common['Authorization'] = '';
 
     sessionStorage.clear();
+    initReduxAll(dispatch);
     navigate('/');
   };
   return (
@@ -77,12 +80,6 @@ const Header = () => {
                 ></img>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>Info</DropdownItem>
-                <DropdownItem>My Account</DropdownItem>
-                <DropdownItem>Edit Profile</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>My Balance</DropdownItem>
-                <DropdownItem>Inbox</DropdownItem>
                 <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
               </DropdownMenu>
             </Dropdown>

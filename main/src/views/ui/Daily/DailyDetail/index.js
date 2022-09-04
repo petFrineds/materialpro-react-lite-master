@@ -4,7 +4,7 @@ import { getAllData } from '../../../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDogWalkerList } from '../../../../store/DogWalker';
 import DailyWriteComponent from '../../../../components/daily/DailyWriteComponent';
-import DailyStarScoreComponent from '../../../../components/daily/DailyStarScoreComponent';
+import DailyStarScoreComponent from '../../../../components/daily/DailyDetailComponent';
 const DailyDetail = () => {
   useEffect(() => {}, []);
   return (
