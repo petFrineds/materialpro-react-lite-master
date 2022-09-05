@@ -73,6 +73,7 @@ const Starter = () => {
         });
       getMyWalk(userId)
         .then(result => {
+          console.log(result);
           dispatch(setMyWalkList(result.data));
         })
         .catch(error => {

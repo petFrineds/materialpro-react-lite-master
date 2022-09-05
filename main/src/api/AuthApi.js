@@ -2,6 +2,7 @@ import { PetFriendsPostService } from '../service/PetFrinedsPostService';
 import { PetFrinedsDeleteService } from '../service/PetFrinedsDeleteService';
 import { PetFrinedsPutService } from '../service/PetFrinedsPutService';
 import { PetFrinedsGetService } from '../service/PetFrinedsGetService';
+import { PetFrinedsPostServiceWithHeader } from '../service/PetFrinedsPostServiceWithHeader';
 
 export const registerUser = async params => {
   const response = await PetFriendsPostService('/userInfos/signup', params);

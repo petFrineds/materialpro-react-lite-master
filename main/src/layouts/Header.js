@@ -14,6 +14,9 @@ import user1 from '../assets/images/users/user4.jpg';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { initReduxAll } from '../components/common/InitRedux';
+
+import { Badge, Avatar } from 'antd';
+
 import axios from 'axios';
 
 const Header = () => {
@@ -24,6 +27,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
+  const myAlarmCount = useSelector(state => state.user.get('alarmCount'));
   const userInfo = useSelector(state => state.user.get('userInfo'));
   const Handletoggle = () => {
     setIsOpen(!isOpen);
@@ -72,12 +76,14 @@ const Header = () => {
           <Collapse navbar isOpen={isOpen}>
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle color="transparent">
-                <img
-                  src={user1}
-                  alt="profile"
-                  className="rounded-circle"
-                  width="30"
-                ></img>
+                <Badge count={myAlarmCount || 0}>
+                  <Avatar
+                    src={user1}
+                    alt="profile"
+                    className="rounded-circle"
+                    width="30"
+                  ></Avatar>
+                </Badge>
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>

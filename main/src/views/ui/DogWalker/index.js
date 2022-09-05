@@ -1,10 +1,12 @@
 import DogWalkerList from '../../../components/dogWalker/DogWalkerList';
+import { Col, Row } from 'reactstrap';
 import DogWalkerRegistModal from '../../../components/dogWalker/DogWalkerRegistModal';
 import React, { useState, useEffect } from 'react';
-import { Button, Col } from 'antd';
+import { Button } from 'antd';
 import { getAllData } from '../../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDogWalkerList } from '../../../store/DogWalker';
+import { CheckCircleOutlined } from '@ant-design/icons';
 const DogWalker = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -27,14 +29,22 @@ const DogWalker = () => {
 
   return (
     <>
-      <Button onClick={clicked}>등록하기</Button>
-      {visible && (
-        <DogWalkerRegistModal setVisible={setVisible} visible={visible} />
-      )}
-
-      <Col lg="12">
-        {dogWalkerList && <DogWalkerList dogWalkerList={dogWalkerList} />}
-      </Col>
+      <Row>
+        <div className="registbtndiv">
+          <Button onClick={clicked} className="registerBtn">
+            <CheckCircleOutlined />
+            등록하기
+          </Button>
+        </div>
+        {visible && (
+          <DogWalkerRegistModal setVisible={setVisible} visible={visible} />
+        )}
+      </Row>
+      <Row>
+        <Col lg="12">
+          {dogWalkerList && <DogWalkerList dogWalkerList={dogWalkerList} />}
+        </Col>
+      </Row>
     </>
   );
 };

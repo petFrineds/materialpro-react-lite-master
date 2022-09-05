@@ -1,5 +1,10 @@
-.registbtn {
-  float: right;
+.registbtndiv {
+  align-items: right;
+  text-align: right;
+  margin: 10px;
+}
+.registerBtn {
+  border-radius: 20px;
 }
 
 .dogWalkerList thead {
