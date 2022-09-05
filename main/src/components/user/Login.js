@@ -36,8 +36,9 @@ const Login = () => {
   const onClickRegisterBtn = () => {
     form.validateFields().then(values => {
       const userInfo = {
-        userId: values.userId,
+        username: values.userId,
         password: values.password,
+        grant_type: 'password',
       };
       loginUser(userInfo)
         .then(result => {

@@ -4,7 +4,7 @@ import { PetFrinedsPutService } from '../service/PetFrinedsPutService';
 import { PetFrinedsGetService } from '../service/PetFrinedsGetService';
 
 export const registerUser = async params => {
-  const response = await PetFriendsPostService('/auths/signup', params);
+  const response = await PetFriendsPostService('/userInfos/signup', params);
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
@@ -14,7 +14,7 @@ export const registerUser = async params => {
 };
 
 export const loginUser = async params => {
-  const response = await PetFriendsPostService('/auths/login', params);
+  const response = await PetFriendsPostService('/oauth/token', params);
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };

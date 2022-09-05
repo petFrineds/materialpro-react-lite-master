@@ -31,3 +31,12 @@ export const getWalkDetail = async reservedId => {
     return { status: response.status, resultMsg: response.message };
   }
 };
+export const getMyWalk = async dogWalkerId => {
+  const response = await PetFrinedsGetService('/walks/user/' + dogWalkerId);
+  if (response && response.status === 200) {
+    console.log({ status: response.status, data: response.data });
+    return { status: response.status, data: response.data };
+  } else {
+    return { status: response.status, resultMsg: response.message };
+  }
+};

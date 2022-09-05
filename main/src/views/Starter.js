@@ -1,6 +1,7 @@
 import { Col, Row } from 'reactstrap';
 import SalesChart from '../components/dashboard/SalesChart';
 import Feeds from '../components/dashboard/Feeds';
+import Feeds2 from '../components/dashboard/Feeds2';
 import ProjectTables from '../components/dashboard/ProjectTable';
 import MyDogwalkerList from '../components/myPage/MyDogwalkerList';
 import MyReserveList from '../components/myPage/MyReserveList';
@@ -13,7 +14,8 @@ import { getMyReserveList, getMyDogwalkerList } from '../api/MypageApi';
 import { setMyDogwalkerList, setMyReserveList } from '../store/Mypage';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { getMyWalk } from '../api/WalkApi';
+import { setMyWalkList } from '../store/Walk';
 const BlogData = [
   {
     image: bg1,
@@ -67,7 +69,14 @@ const Starter = () => {
           dispatch(setMyReserveList(result.data));
         })
         .catch(error => {
-          console.log('getUserInfo Error');
+          console.log('getMyReserveList Error');
+        });
+      getMyWalk(userId)
+        .then(result => {
+          dispatch(setMyWalkList(result.data));
+        })
+        .catch(error => {
+          console.log('getMyWalk Error');
         });
     }
   }, [sessionStorage.getItem('userId')]);
@@ -76,7 +85,19 @@ const Starter = () => {
       {/***Top Cards***/}
 
       {/***Sales & Feed***/}
-
+      <Row>
+        <Col sm="6" lg="6" xl="7" xxl="8">
+          <SalesChart />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm="6" lg="6" xl="5" xxl="4">
+          <Feeds />
+        </Col>
+        <Col sm="6" lg="6" xl="5" xxl="4">
+          <Feeds2 />
+        </Col>
+      </Row>
       <Row>
         <Col lg="12">
           <MyDogwalkerList />
