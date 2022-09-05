@@ -1,32 +1,41 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import NumericInput from '../common/NumericInput';
 import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Switch,
-  TreeSelect,
-  Space,
-  notification,
-} from 'antd';
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+  LoadingOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import NumericInput from '../common/NumericInput';
+import { Button, Form, Input, notification, message, Upload } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Card, CardBody, CardTitle } from 'reactstrap';
-import { registerUser, checkUserId } from '../../api/AuthApi';
+import { registerUser, checkUserId, postImg } from '../../api/AuthApi';
 import { useSelector, useDispatch } from 'react-redux';
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
 
+const beforeUpload = file => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+
+  return isJpgOrPng;
+};
 const Register = () => {
   const [form] = Form.useForm();
   const [phoneNum, setPhoneNum] = useState('');
   const navigate = useNavigate();
   const [userIdValidation, setUserIdValidation] = useState(false);
   const [userId, setUserId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+
   const onClickRegisterBtn = () => {
     if (!userIdValidation) {
       notification.warning({
@@ -37,7 +46,6 @@ const Register = () => {
       return;
     }
     form.validateFields().then(values => {
-      console.log(values);
       const params = {
         userId: values.userId,
         password: values.password,
@@ -54,7 +62,6 @@ const Register = () => {
           navigate('/');
         })
         .catch(error => {
-          console.log(error);
           notification.error({
             message: '회원가입 실패',
             description: error,
@@ -82,7 +89,6 @@ const Register = () => {
   const onClickCheckBtn = () => {
     checkUserId(userId)
       .then(result => {
-        console.log(result);
         notification.error({
           message: '아이디 사용 불가능',
           description: '중복된 아이디가 존재합니다.',
@@ -109,9 +115,36 @@ const Register = () => {
   };
   const onChangeUserId = e => {
     setUserId(e.target.value);
-    console.log(e.target.value);
     setUserIdValidation(false);
   };
+  const handleChange = info => {
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, url => {
+        setLoading(false);
+        setImageUrl(url);
+        console.log(url);
+      });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
   return (
     <div>
       <Card>
@@ -129,6 +162,9 @@ const Register = () => {
             size="middle"
           >
             {/* <Form.Item>
+
+            <Form.Item>
+
               <Upload
                 name="avatar"
                 listType="picture-card"
@@ -152,6 +188,7 @@ const Register = () => {
                   uploadButton
                 )}
               </Upload>
+
             </Form.Item> */}
 
             <Form.Item

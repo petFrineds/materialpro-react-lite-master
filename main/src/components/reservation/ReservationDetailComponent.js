@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setReservationList,
   setReservationDetailId,
+  setReservationInfo,
 } from '../../store/Reservation';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -15,28 +16,37 @@ import DogWalkerInfoComponent from '../dogWalker/DogWalkerInfoComponent';
 import ReservationInfoComponent from './ReservationInfoComponent';
 import PaymentModal from '../payment/PaymentModal';
 import { refundPayment } from '../../api/PaymentApi';
-const ReservationDetailComponent = ({
-  reservationinfo,
-  dogWalkerInfo,
-  onClickCancelBtn,
-}) => {
+const ReservationDetailComponent = ({ dogWalkerInfo, onClickCancelBtn }) => {
   const [payModalVisible, setPayModalVisible] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onClickPayBtn = () => {
     setPayModalVisible(true);
   };
   const onClickClose = () => {
+    dispatch(setReservationInfo(undefined));
     navigate('/reservation');
   };
+  const reservationInfo = useSelector(state =>
+    state.reservation.get('reservationInfo')
+  );
   const onClickRefundClick = reservedId => {
-    refundPayment(reservedId)
+    //patch 호출
+    const param = {
+      reservedId: reservedId,
+      status: 'CANCEL',
+    };
+    cancelReservation(param)
       .then(result => {
         notification.success({
           message: '환불 완료',
           description: '환불이 성공적으로 완료 되었습니다.',
           duration: 1.0,
         });
+        const newReservation = { ...reservationInfo, refundYn: 'Y' };
+        console.log(newReservation);
+        dispatch(setReservationInfo(newReservation));
       })
       .catch(result => {
         notification.error({
@@ -53,16 +63,17 @@ const ReservationDetailComponent = ({
         <CardBody>
           <CardTitle tag="h5">예약 상세 조회</CardTitle>
           <DogWalkerInfoComponent dogWalkerInfo={dogWalkerInfo} />
-          <ReservationInfoComponent reservationinfo={reservationinfo} />
+          <ReservationInfoComponent reservationInfo={reservationInfo} />
           <Button onClick={onClickClose}>닫기</Button>
-          {reservationinfo.status === 'REQUEST' ? (
+          {reservationInfo.status === 'REQUEST' ? (
             <>
               <Button onClick={onClickCancelBtn}>예약 취소</Button>
               <Button onClick={onClickPayBtn}>결제</Button>
             </>
-          ) : reservationinfo.status === 'PAYED' ? (
+          ) : reservationInfo.status === 'PAYED' &&
+            reservationInfo.refundYn !== 'Y' ? (
             <Button
-              onClick={() => onClickRefundClick(reservationinfo.reservedId)}
+              onClick={() => onClickRefundClick(reservationInfo.reservedId)}
             >
               결제 취소
             </Button>
@@ -75,7 +86,6 @@ const ReservationDetailComponent = ({
         <PaymentModal
           setVisible={setPayModalVisible}
           visible={payModalVisible}
-          reservationinfo={reservationinfo}
         />
       )}
     </div>

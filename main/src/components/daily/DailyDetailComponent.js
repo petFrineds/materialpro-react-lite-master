@@ -14,69 +14,22 @@ import DogWalkerInfoComponent from '../dogWalker/DogWalkerInfoComponent';
 import ReservationInfoComponent from '../reservation/ReservationInfoComponent';
 import { saveScore } from '../../api/DailyApi';
 import { setDogwalkerInfo } from '../../store/DogWalker';
-import { setDailyInfo, setDailyList } from '../../store/Daily';
-
+import { setDailyInfo } from '../../store/Daily';
 const { TextArea } = Input;
 
-const DailyStarScoreComponent = ({ setVisible }) => {
-  const [starScore, setStarScore] = useState(0);
-  const [review, setReview] = useState('');
+const DailyDetailComponent = ({ setVisible }) => {
   const dispatch = useDispatch();
-  const dailyList = useSelector(state => state.daily.get('dailyList'));
 
-  const saveDaily = () => {
-    if (review === '' || review === undefined || review.length < 1) {
-      notification.warning({
-        message: '후기 작성',
-        description: '후기를 작성해주세요.',
-        duration: 1.0,
-      });
-      return;
-    }
-    const param = {
-      id: dailyInfo.id,
-      starScore: starScore,
-      review: review,
-      userId: dailyInfo.userId,
-      userName: dailyInfo.userName,
-    };
-    saveScore(param)
-      .then(result => {
-        notification.success({
-          message: '후기 작성 완료',
-          description: '후기가 성공적으로 저장 되었습니다.',
-          duration: 1.0,
-        });
-        const newRow = dailyList.map(item =>
-          item.id === dailyInfo.id
-            ? { ...item, review: review, starScore: starScore }
-            : item
-        );
-        dispatch(setDailyList(newRow));
-      })
-      .catch(result => {
-        notification.error({
-          message: '후기 작성 실패',
-          description: '후기 작성이 실패 되었습니다. >>> ' + result,
-          duration: 1.0,
-        });
-      })
-      .finally(function () {
-        dispatch(setDogwalkerInfo(undefined));
-        dispatch(setDailyInfo(undefined));
-        setVisible(false);
-      });
-
-    console.log(param);
+  const closeDetail = () => {
+    dispatch(setDogwalkerInfo(undefined));
+    dispatch(setDailyInfo(undefined));
+    setVisible(false);
   };
   const dogWalkerInfo = useSelector(state =>
     state.dogWalker.get('dogwalkerInfo')
   );
-  const walkInfo = useSelector(state => state.walk.get('walkInfo'));
   const dailyInfo = useSelector(state => state.daily.get('dailyInfo'));
-  const onChangeReview = e => {
-    setReview(e.target.value);
-  };
+
   return (
     <div>
       <Card>
@@ -136,19 +89,19 @@ const DailyStarScoreComponent = ({ setVisible }) => {
             <tbody>
               <tr className="border-top">
                 <td>
-                  <Rate onChange={setStarScore} value={starScore} />
+                  <Rate disabled defaultValue={dailyInfo.starScore} />
                 </td>
                 <td>
-                  <TextArea rows={4} value={review} onChange={onChangeReview} />
+                  <TextArea disabled rows={4} value={dailyInfo.review} />
                 </td>
               </tr>
             </tbody>
           </Table>
-          <Button onClick={saveDaily}>저장</Button>
+          <Button onClick={closeDetail}>닫기</Button>
         </CardBody>
       </Card>
     </div>
   );
 };
 
-export default DailyStarScoreComponent;
+export default DailyDetailComponent;

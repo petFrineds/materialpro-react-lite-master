@@ -21,6 +21,7 @@ import { Card, CardBody, CardTitle } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfo } from '../../store/User';
 import { loginUser, getUserInfo, registerUser } from '../../api/AuthApi';
+import { initReduxAll } from '../common/InitRedux';
 import axios from 'axios';
 
 import qs from 'qs';
@@ -31,13 +32,15 @@ const Login = () => {
   const [phoneNum, setPhoneNum] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    initReduxAll(dispatch);
+  }, []);
   const onClickRegisterBtn = () => {
     form.validateFields().then(values => {
-      console.log(values);
-
       const userInfo = {
-        userId: values.userId,
+        username: values.userId,
         password: values.password,
+        grant_type: 'password',
       };
       const params = qs.stringify(userInfo);
       loginUser(params)

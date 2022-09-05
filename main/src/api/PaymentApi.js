@@ -30,3 +30,12 @@ export const refundPayment = async paymentId => {
     return { status: response.status, resultMsg: response.data };
   }
 };
+export const getAllPoint = async userId => {
+  const response = await PetFrinedsGetService('/payments/points/' + userId);
+  if (response && response.status === 200) {
+    console.log({ status: response.status, data: response.data });
+    return { status: response.status, data: response.data };
+  } else {
+    return { status: response.status, resultMsg: response.data };
+  }
+};

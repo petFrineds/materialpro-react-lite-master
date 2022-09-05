@@ -1,9 +1,9 @@
 import { Table } from 'reactstrap';
 
-const ReservationInfoComponent = ({ reservationinfo }) => {
+const ReservationInfoComponent = ({ reservationInfo }) => {
   return (
     <div>
-      <Table className="no-wrap mt-3 align-middle" responsive borderless>
+      <Table hover className="no-wrap mt-3 align-middle" responsive borderless>
         <thead>
           예약 정보
           <tr>
@@ -15,10 +15,10 @@ const ReservationInfoComponent = ({ reservationinfo }) => {
         </thead>
         <tbody>
           <tr className="border-top">
-            <td>{reservationinfo.startTime?.substring(0, 11)}</td>
-            <td>{reservationinfo.startTime?.substring(11, 18)}</td>
-            <td>{reservationinfo.endTime?.substring(11, 18)}</td>
-            <td>{reservationinfo.amount}</td>
+            <td>{reservationInfo.startTime?.substring(0, 11)}</td>
+            <td>{reservationInfo.startTime?.substring(11, 18)}</td>
+            <td>{reservationInfo.endTime?.substring(11, 18)}</td>
+            <td>{reservationInfo.amount}</td>
           </tr>
         </tbody>
       </Table>

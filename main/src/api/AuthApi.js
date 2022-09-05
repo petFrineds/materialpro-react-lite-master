@@ -3,6 +3,7 @@ import { PetFrinedsDeleteService } from '../service/PetFrinedsDeleteService';
 import { PetFrinedsPutService } from '../service/PetFrinedsPutService';
 import { PetFrinedsGetService } from '../service/PetFrinedsGetService';
 import { PetFrinedsPostServiceWithHeader } from '../service/PetFrinedsPostServiceWithHeader';
+import qs from 'qs';
 export const registerUser = async params => {
   const response = await PetFriendsPostService('/auths/signup', params);
   if (response && response.status === 200) {

@@ -14,11 +14,11 @@ const navigation = [
     href: '/dogWalker',
     icon: 'bi bi-layout-split',
   },
-  {
-    title: '산책',
-    href: '/walking',
-    icon: 'bi bi-bell',
-  },
+  // {
+  //   title: '산책',
+  //   href: '/walking',
+  //   icon: 'bi bi-bell',
+  // },
   {
     title: '일지',
     href: '/daily',
@@ -77,7 +77,11 @@ const Sidebar = () => {
           {navigation.map((navi, index) => (
             <NavItem key={index} className="sidenav-bg">
               <Link
-                to={navi.href}
+                to={
+                  sessionStorage.getItem('userId') === null
+                    ? '/login'
+                    : navi.href
+                }
                 className={
                   location.pathname === navi.href
                     ? 'active nav-link py-3'

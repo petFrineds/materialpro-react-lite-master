@@ -6,7 +6,7 @@ export const PetFrinedsDeleteService = (url, data) => {
 
   return new Promise((resolve, reject) => {
     axios
-      .delete(RequestUrl, data)
+      .delete(url, data)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
           console.log('PetFrinedsDeleteService 시스템 내부 ERROR >> 500');
