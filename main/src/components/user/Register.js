@@ -56,7 +56,7 @@ const Register = () => {
         .then(result => {
           notification.success({
             message: '회원가입 성공',
-            description: result.data.userId + ' 회원가입 되었습니다.',
+            description: result.data + ' 회원가입 되었습니다.',
             duration: 1.0,
           });
           navigate('/');
@@ -161,7 +161,10 @@ const Register = () => {
             layout="horizontal"
             size="middle"
           >
+            {/* <Form.Item>
+
             <Form.Item>
+
               <Upload
                 name="avatar"
                 listType="picture-card"
@@ -185,7 +188,9 @@ const Register = () => {
                   uploadButton
                 )}
               </Upload>
-            </Form.Item>
+
+            </Form.Item> */}
+
             <Form.Item
               label="ID"
               name="userId"

@@ -7,7 +7,8 @@ import axios from 'axios';
 import { getUserInfo } from './api/AuthApi';
 import './assets/css/dogWalker/dogWalker.css';
 import './assets/css/user/user.css';
-
+import { getMyAlarmCount } from './api/NotificationApi';
+import { setMyAlarmCount } from './store/Alarm';
 const App = () => {
   const routing = useRoutes(Themeroutes);
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const App = () => {
   const [isLogin, setIsLogin] = useState(false);
   axios.defaults.headers.common['Accept'] = '*/*';
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-  axios.defaults.headers.common['Content-Type'] = 'text/html;charset=utf-8';
+  axios.defaults.headers.common['Content-Type'] = 'application/json';
   useEffect(() => {
     if (sessionStorage.getItem('userId') === null) {
       setIsLogin(false);
@@ -32,6 +33,13 @@ const App = () => {
         })
         .catch(error => {
           console.log('getUserInfo Error');
+        });
+      getMyAlarmCount(sessionStorage.getItem('userId'))
+        .then(result => {
+          dispatch(setMyAlarmCount(result.data));
+        })
+        .catch(error => {
+          console.log('getMyAlarmCount Error');
         });
     }
   }, [sessionStorage.getItem('userId')]);

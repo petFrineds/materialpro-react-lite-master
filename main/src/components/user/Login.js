@@ -24,6 +24,8 @@ import { loginUser, getUserInfo, registerUser } from '../../api/AuthApi';
 import { initReduxAll } from '../common/InitRedux';
 import axios from 'axios';
 
+import qs from 'qs';
+
 const Login = () => {
   const [form] = Form.useForm();
   const [value, setValue] = useState('');
@@ -40,10 +42,12 @@ const Login = () => {
         password: values.password,
         grant_type: 'password',
       };
-      loginUser(userInfo)
+      const params = qs.stringify(userInfo);
+      loginUser(params)
         .then(result => {
-          sessionStorage.setItem('userId', userInfo.userId);
-          sessionStorage.setItem('accessToken', result.data.accessToken);
+          console.log(userInfo);
+          sessionStorage.setItem('userId', userInfo.username);
+          sessionStorage.setItem('accessToken', result.data.access_token);
           notification.success({
             message: '로그인 성공',
             description: '로그인 되었습니다.',
