@@ -13,6 +13,11 @@ import { ReactComponent as LogoWhite } from '../assets/images/logos/materialprow
 import user1 from '../assets/images/users/user4.jpg';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+<<<<<<< Updated upstream
+=======
+import { initReduxAll } from '../components/common/InitRedux';
+import { Badge } from 'antd';
+>>>>>>> Stashed changes
 import axios from 'axios';
 
 const Header = () => {
@@ -23,6 +28,7 @@ const Header = () => {
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
   const userInfo = useSelector(state => state.user.get('userInfo'));
+  const myAlarmCount = useSelector(state => state.user.get('alarmCount'));
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
@@ -67,25 +73,21 @@ const Header = () => {
       {sessionStorage.getItem('userId') && (
         <div className="align-items-right">
           <Collapse navbar isOpen={isOpen}>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-              <DropdownToggle color="transparent">
-                <img
-                  src={user1}
-                  alt="profile"
-                  className="rounded-circle"
-                  width="30"
-                ></img>
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Info</DropdownItem>
-                <DropdownItem>My Account</DropdownItem>
-                <DropdownItem>Edit Profile</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>My Balance</DropdownItem>
-                <DropdownItem>Inbox</DropdownItem>
-                <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <Badge count={myAlarmCount || 0}>
+              <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                <DropdownToggle color="transparent">
+                  <img
+                    src={user1}
+                    alt="profile"
+                    className="rounded-circle"
+                    width="30"
+                  ></img>
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </Badge>
           </Collapse>
         </div>
       )}

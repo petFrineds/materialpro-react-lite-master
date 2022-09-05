@@ -2,7 +2,7 @@ import { PetFriendsPostService } from '../service/PetFrinedsPostService';
 import { PetFrinedsDeleteService } from '../service/PetFrinedsDeleteService';
 import { PetFrinedsPutService } from '../service/PetFrinedsPutService';
 import { PetFrinedsGetService } from '../service/PetFrinedsGetService';
-
+import { PetFrinedsPostServiceWithHeader } from '../service/PetFrinedsPostServiceWithHeader';
 export const registerUser = async params => {
   const response = await PetFriendsPostService('/auths/signup', params);
   if (response && response.status === 200) {
@@ -14,7 +14,16 @@ export const registerUser = async params => {
 };
 
 export const loginUser = async params => {
-  const response = await PetFriendsPostService('/auths/login', params);
+  let username = 'petfriends';
+  let password = 'petfriends';
+  const token = `${username}:${password}`;
+  const encodedToken = Buffer.from(token).toString('base64');
+  const header = { Authorization: 'Basic ' + encodedToken };
+  const response = await PetFrinedsPostServiceWithHeader(
+    '/oauth/token',
+    params,
+    header
+  );
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };

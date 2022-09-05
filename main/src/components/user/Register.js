@@ -48,7 +48,7 @@ const Register = () => {
         .then(result => {
           notification.success({
             message: '회원가입 성공',
-            description: result.data.userId + ' 회원가입 되었습니다.',
+            description: result.data + ' 회원가입 되었습니다.',
             duration: 1.0,
           });
           navigate('/');
@@ -128,6 +128,32 @@ const Register = () => {
             layout="horizontal"
             size="middle"
           >
+            {/* <Form.Item>
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="http://k8s-default-petfrien-e22d96b656-56720431.us-west-2.elb.amazonaws.com/userInfos/image/upload/"
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+              >
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{
+                      width: '100%',
+                      textAlign: 'center',
+                      alignItems: 'center',
+                    }}
+                  />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
+            </Form.Item> */}
+
             <Form.Item
               label="ID"
               name="userId"
