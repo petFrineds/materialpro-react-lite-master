@@ -134,7 +134,6 @@ const ReservationModal = ({
           description: '예약 되었습니다. 결제창으로 넘어갑니다.',
           duration: 1.0,
         });
-        setPayModalVisible(true);
       })
       .catch(error => {
         console.log('createReservation Error >> ' + error);

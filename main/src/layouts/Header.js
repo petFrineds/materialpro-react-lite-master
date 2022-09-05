@@ -15,7 +15,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { initReduxAll } from '../components/common/InitRedux';
-import { Badge } from 'antd';
+
+import { Badge, Avatar } from 'antd';
 
 import axios from 'axios';
 
@@ -74,21 +75,21 @@ const Header = () => {
       {sessionStorage.getItem('userId') && (
         <div className="align-items-right">
           <Collapse navbar isOpen={isOpen}>
-            <Badge count={myAlarmCount || 0}>
-              <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                <DropdownToggle color="transparent">
-                  <img
+            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+              <DropdownToggle color="transparent">
+                <Badge count={myAlarmCount || 0}>
+                  <Avatar
                     src={user1}
                     alt="profile"
                     className="rounded-circle"
                     width="30"
-                  ></img>
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </Badge>
+                  ></Avatar>
+                </Badge>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </Collapse>
         </div>
       )}

@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-
+import { getReservationDetail } from '../../api/ReservationApi';
 //Action 정의
 const SET_WALK_INFO = 'WALK/SET_WALK_INFO';
 const SET_MY_WALK_LIST = 'WALK/SET_MY_WALK_LIST';
@@ -25,6 +25,7 @@ const walk = (state = initialState, action) => {
     case SET_WALK_INFO:
       return state.set('walkInfo', action.data);
     case SET_MY_WALK_LIST:
+      console.log('??');
       return state.set('myWalkList', action.data);
     default:
       return state;

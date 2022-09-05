@@ -69,6 +69,7 @@
     "react/no-unstable-nested-components": "off",
     "react/jsx-no-undef": "off",
     "react/jsx-props-no-spreading": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-case-declarations": "off"
   }
 }

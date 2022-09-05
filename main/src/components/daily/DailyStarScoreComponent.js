@@ -85,12 +85,7 @@ const DailyStarScoreComponent = ({ setVisible }) => {
           {dogWalkerInfo && (
             <DogWalkerInfoComponent dogWalkerInfo={dogWalkerInfo} />
           )}
-          <Table
-            hover
-            className="no-wrap mt-3 align-middle"
-            responsive
-            borderless
-          >
+          <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
                 <th>산책 시간</th>
@@ -104,12 +99,7 @@ const DailyStarScoreComponent = ({ setVisible }) => {
               </tr>
             </tbody>
           </Table>
-          <Table
-            hover
-            className="no-wrap mt-3 align-middle"
-            responsive
-            borderless
-          >
+          <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
                 <th>산책 내용</th>
@@ -121,12 +111,7 @@ const DailyStarScoreComponent = ({ setVisible }) => {
               </tr>
             </tbody>
           </Table>
-          <Table
-            hover
-            className="no-wrap mt-3 align-middle"
-            responsive
-            borderless
-          >
+          <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
                 <th>별점</th>

@@ -1,23 +1,59 @@
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import { useEffect } from 'react';
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 
 import user1 from '../../assets/images/users/user1.jpg';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-
+import { endWalk } from '../../api/WalkApi';
+import { setMyWalkList } from '../../store/Walk';
 const MyWalkList = () => {
-  const myWalkList = useSelector(state => state.mypage.get('myWalkList'));
+  const dispatch = useDispatch();
+  const myWalkList = useSelector(state => state.walk.get('myWalkList'));
+  useEffect(() => {
+    if (myWalkList) {
+      console.log(myWalkList);
+    }
+  }, [myWalkList]);
+  const onClickEndWalk = item => {
+    const param = {
+      reservedId: item.reservedId,
+      userId: item.userId,
+      dogWalkerId: item.dogwalkerId,
+    };
+    console.log(param);
+
+    endWalk(param)
+      .then(result => {
+        console.log(result);
+        notification.success({
+          message: '산책 종료',
+          description: '산책이 성공적으로 종료 되었습니다.',
+          duration: 1.0,
+        });
+        const newRow = myWalkList.filter(
+          item2 => item2.reservedId !== item.reservedId
+        );
+        dispatch(setMyWalkList(newRow));
+      })
+      .catch(error => {
+        notification.error({
+          message: '산책 종료',
+          description: '산책 종료가 실패 되었습니다.',
+          duration: 1.0,
+        });
+        console.log('startWalk Error >> ' + error);
+      });
+  };
   return (
     <div>
       <Table hover className="no-wrap mt-3 align-middle" responsive borderless>
         <thead>
           <tr>
-            <th>도그워커</th>
+            <th>유저</th>
             <th>Status</th>
-            <th>가격(₩)</th>
-            <th>산책 요청 시간</th>
-            <th>산책 시간</th>
+            <th>산책 시작 시간</th>
+            <th> </th>
           </tr>
         </thead>
         <tbody>
@@ -33,24 +69,23 @@ const MyWalkList = () => {
                     height="45"
                   />
                   <div className="ms-3">
-                    <h6 className="mb-0">{item.dogwalkerId}</h6>
-                    <span className="text-muted">{item.dogwalkerName}</span>
+                    <h6 className="mb-0">{item.userId}</h6>
+                    <span className="text-muted">{item.userId}</span>
                   </div>
                 </div>
               </td>
-              <td>{item.status}</td>
-              <td>{item.amount}</td>
-              <td>
-                {item.startTime &&
-                  moment(item.startTime).format('YYYY-MM-DD HH:mm') +
-                    ' ~ ' +
-                    moment(item.endTime).format('YYYY-MM-DD HH:mm')}
-              </td>
+              <td>{item.smsStatus}</td>
+
               <td>
                 {item.walkStartDate &&
-                  moment(item.walkStartDate).format('YYYY-MM-DD HH:mm') +
-                    ' ~ ' +
-                    moment(item.walkEndDate).format('YYYY-MM-DD HH:mm')}
+                  moment(item.walkStartDate).format('YYYY-MM-DD HH:mm')}
+              </td>
+              <td>
+                {item.smsStatus === 'START' && (
+                  <Button onClick={() => onClickEndWalk(item)}>
+                    산책 종료
+                  </Button>
+                )}
               </td>
             </tr>
           ))}
