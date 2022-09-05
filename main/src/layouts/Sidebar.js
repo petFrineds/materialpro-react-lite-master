@@ -77,7 +77,11 @@ const Sidebar = () => {
           {navigation.map((navi, index) => (
             <NavItem key={index} className="sidenav-bg">
               <Link
-                to={navi.href}
+                to={
+                  sessionStorage.getItem('userId') === null
+                    ? '/login'
+                    : navi.href
+                }
                 className={
                   location.pathname === navi.href
                     ? 'active nav-link py-3'
