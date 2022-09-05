@@ -1,6 +1,6 @@
 import { Card, CardBody, CardSubtitle, CardTitle } from 'reactstrap';
 import Chart from 'react-apexcharts';
-
+import MyWalkList from '../myPage/MyWalkList';
 const SalesChart = () => {
   const options = {
     chart: {
@@ -73,6 +73,7 @@ const SalesChart = () => {
         <CardSubtitle className="text-muted" tag="h6">
           나의 산책 현황
         </CardSubtitle>
+        <MyWalkList />
       </CardBody>
     </Card>
   );
