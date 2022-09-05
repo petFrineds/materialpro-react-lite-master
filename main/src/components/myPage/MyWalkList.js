@@ -6,7 +6,7 @@ import user1 from '../../assets/images/users/user1.jpg';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-const MyReserveList = () => {
+const MyWalkList = () => {
   const myWalkList = useSelector(state => state.mypage.get('myWalkList'));
   return (
     <div>
@@ -60,4 +60,4 @@ const MyReserveList = () => {
   );
 };
 
-export default MyReserveList;
+export default MyWalkList;
