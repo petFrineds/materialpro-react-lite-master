@@ -13,6 +13,7 @@ import { ReactComponent as LogoWhite } from '../assets/images/logos/materialprow
 import user1 from '../assets/images/users/user4.jpg';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { initReduxAll } from '../components/common/InitRedux';
 
 import { Badge, Avatar } from 'antd';
@@ -27,8 +28,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
-  const myAlarmCount = useSelector(state => state.user.get('alarmCount'));
   const userInfo = useSelector(state => state.user.get('userInfo'));
+  const myAlarmCount = useSelector(state => state.user.get('alarmCount'));
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
