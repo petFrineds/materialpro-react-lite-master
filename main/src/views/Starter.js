@@ -1,7 +1,6 @@
 import { Col, Row } from 'reactstrap';
 import SalesChart from '../components/dashboard/SalesChart';
-import Feeds from '../components/dashboard/Feeds';
-import Feeds2 from '../components/dashboard/Feeds2';
+
 import ProjectTables from '../components/dashboard/ProjectTable';
 import MyDogwalkerList from '../components/myPage/MyDogwalkerList';
 import MyReserveList from '../components/myPage/MyReserveList';
@@ -16,40 +15,8 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMyWalk } from '../api/WalkApi';
 import { setMyWalkList } from '../store/Walk';
-const BlogData = [
-  {
-    image: bg1,
-    title: 'This is simple blog',
-    subtitle: '2 comments, 1 Like',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    btnbg: 'primary',
-  },
-  {
-    image: bg2,
-    title: 'Lets be simple blog',
-    subtitle: '2 comments, 1 Like',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    btnbg: 'primary',
-  },
-  {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: '2 comments, 1 Like',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    btnbg: 'primary',
-  },
-  {
-    image: bg4,
-    title: 'Simple is beautiful',
-    subtitle: '2 comments, 1 Like',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    btnbg: 'primary',
-  },
-];
+import StarRank from '../components/dashboard/StarRank';
+import WalkRank from '../components/dashboard/WalkRank';
 
 const Starter = () => {
   const dispatch = useDispatch();
@@ -93,10 +60,10 @@ const Starter = () => {
       </Row>
       <Row>
         <Col sm="6" lg="6" xl="5" xxl="4">
-          <Feeds />
+          <StarRank />
         </Col>
         <Col sm="6" lg="6" xl="5" xxl="4">
-          <Feeds2 />
+          <WalkRank />
         </Col>
       </Row>
       <Row>
