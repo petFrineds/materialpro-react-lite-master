@@ -30,7 +30,7 @@ const navigation = [
     icon: 'bi bi-calendar-check',
   },
   {
-    title: '결제내역조회',
+    title: '결제/포인트내역조회',
     href: '/payhistory',
     icon: 'bi bi-link',
   },

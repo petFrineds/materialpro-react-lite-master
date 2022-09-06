@@ -6,7 +6,10 @@ import {
   setDogWalkerList,
   setDogwalkerScheduleInfo,
 } from '../../store/DogWalker';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { createReservation } from '../../api/ReservationApi';
+import { setReservationDetailId } from '../../store/Reservation';
 import moment from 'moment';
 
 const { RangePicker } = DatePicker;
@@ -20,6 +23,8 @@ const ReservationModal = ({
   const [loading, setLoading] = useState(false);
   const [reservationForm] = Form.useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const dogWalkerList = useSelector(state =>
     state.dogWalker.get('dogWalkerList')
   );
@@ -131,9 +136,17 @@ const ReservationModal = ({
         console.log(result);
         notification.success({
           message: '예약 성공',
-          description: '예약 되었습니다. 결제창으로 넘어갑니다.',
+          description: '예약 되었습니다. ',
           duration: 1.0,
         });
+        const newRow = dogWalkerList.map(item =>
+          item.id === dogwalkerScheduleInfo.id
+            ? { ...item, reservedYn: 'Y' }
+            : item
+        );
+        dispatch(setDogWalkerList(newRow));
+        dispatch(setReservationDetailId(result.data?.reservedId));
+        navigate('/reservationDetail');
       })
       .catch(error => {
         console.log('createReservation Error >> ' + error);

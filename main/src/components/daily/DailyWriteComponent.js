@@ -24,6 +24,7 @@ const DailyWriteComponent = ({ setVisible }) => {
     state.reservation.get('reservationInfo')
   );
   const walkInfo = useSelector(state => state.walk.get('walkInfo'));
+
   const onClickSaveBtn = () => {
     const param = {
       contents: contents,

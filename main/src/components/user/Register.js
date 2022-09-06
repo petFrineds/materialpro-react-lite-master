@@ -233,6 +233,13 @@ const Register = () => {
               <Input />
             </Form.Item>
             <Form.Item
+              label="경력(년)"
+              name="career"
+              rules={[{ required: true, message: '경력을 입력해주세요.' }]}
+            >
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
               label="전화번호"
               name="telNo"
               rules={[

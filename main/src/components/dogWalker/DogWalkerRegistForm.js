@@ -68,13 +68,6 @@ const DogWalkerRegistForm = ({ form }) => {
   return (
     <Form form={form}>
       <Form.Item
-        name="career"
-        label="경력(년)"
-        rules={[{ required: true, message: '경력을 입력해주세요.' }]}
-      >
-        <Input type="number" />
-      </Form.Item>
-      <Form.Item
         name="place"
         label="지역"
         rules={[{ required: true, message: '지역을 선택해주세요.' }]}
