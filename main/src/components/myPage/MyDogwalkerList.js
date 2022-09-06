@@ -41,8 +41,8 @@ const MyDogwalkerList = () => {
         });
         const newRow = myDogwalkerList.map(item2 =>
           item2.reservedId === item.reservedId
-            ? { ...item, status: 'START' }
-            : item
+            ? { ...item2, status: 'START' }
+            : item2
         );
         dispatch(setMyDogwalkerList(newRow));
       })

@@ -45,7 +45,7 @@ const StarRankUser = () => {
                     />
                     <div className="ms-3">
                       <h6 className="mb-0">{item.userId}</h6>
-                      <span className="text-muted">{item.userId}</span>
+                      <span className="text-muted">{item.userNm}</span>
                     </div>
                   </div>
                 </td>

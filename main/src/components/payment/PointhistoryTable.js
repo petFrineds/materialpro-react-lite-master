@@ -57,8 +57,6 @@ const PointhistoryTable = ({ pointList }) => {
           >
             <thead>
               <tr>
-                <th>예약번호</th>
-
                 <th>결제일자</th>
                 <th>포인트 구분</th>
                 <th>포인트 사용 내역</th>
@@ -68,7 +66,6 @@ const PointhistoryTable = ({ pointList }) => {
             <tbody>
               {pointList?.map((item, index) => (
                 <tr key={index} className="border-top">
-                  <td>{item.reservedId}</td>
                   <td>{moment(item.createDate).format('YYYY-MM-DD HH:mm')}</td>
                   <td>{item.pointGubun}</td>
                   <td>
