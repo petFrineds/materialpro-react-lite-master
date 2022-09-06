@@ -15,7 +15,16 @@ export const registerUser = async params => {
 };
 
 export const loginUser = async params => {
-  const response = await PetFriendsPostService('/oauth/token', params);
+  let username = 'petfriends';
+  let password = 'petfriends';
+  const token = `${username}:${password}`;
+  const encodedToken = Buffer.from(token).toString('base64');
+  const header = { Authorization: 'Basic ' + encodedToken };
+  const response = await PetFrinedsPostServiceWithHeader(
+    '/oauth/token',
+    params,
+    header
+  );
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
@@ -47,6 +56,24 @@ export const postImg = async params => {
     params,
     { 'Content-Type': 'multipart/form-data' }
   );
+  if (response && response.status === 200) {
+    console.log({ status: response.status, data: response.data });
+    return { status: response.status, data: response.data };
+  } else {
+    return { status: response.status, resultMsg: response.message };
+  }
+};
+export const getStarRankUser = async userId => {
+  const response = await PetFrinedsGetService('/userInfos/selectStarRnk');
+  if (response && response.status === 200) {
+    console.log({ status: response.status, data: response.data });
+    return { status: response.status, data: response.data };
+  } else {
+    return { status: response.status, resultMsg: response.message };
+  }
+};
+export const getWalkRankUser = async userId => {
+  const response = await PetFrinedsGetService('/userInfos/selectWalkRnk');
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
     return { status: response.status, data: response.data };
