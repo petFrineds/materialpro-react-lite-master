@@ -40,3 +40,15 @@ export const getDaily = async dailyId => {
     return { status: response.status, resultMsg: response.message };
   }
 };
+
+export const getDogwalkerDailys = async dogWalkerId => {
+  const response = await PetFrinedsGetService(
+    '/dailys/dogwalker/' + dogWalkerId
+  );
+  if (response && response.status === 200) {
+    console.log({ status: response.status, data: response.data });
+    return { status: response.status, data: response.data };
+  } else {
+    return { status: response.status, resultMsg: response.message };
+  }
+};
