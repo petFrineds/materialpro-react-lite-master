@@ -9,10 +9,7 @@ export const PetFrinedsPostServiceWithHeader = (url, data, header) => {
   return new Promise((resolve, reject) => {
     axios
       .post(url, data, {
-        headers: {
-          Authorization: header.Authorization,
-          'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        },
+        headers: header,
       })
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {
