@@ -17,24 +17,23 @@ import { setDogwalkerInfo } from '../../store/DogWalker';
 import { setDailyInfo } from '../../store/Daily';
 const { TextArea } = Input;
 
-const DailyDetailComponent = ({ setVisible }) => {
+const DailyDetailComponent = ({ setVisible, dailyInfo, dailyInfoInit }) => {
   const dispatch = useDispatch();
 
   const closeDetail = () => {
     dispatch(setDogwalkerInfo(undefined));
-    dispatch(setDailyInfo(undefined));
+    dailyInfoInit();
     setVisible(false);
   };
   const dogWalkerInfo = useSelector(state =>
     state.dogWalker.get('dogwalkerInfo')
   );
-  const dailyInfo = useSelector(state => state.daily.get('dailyInfo'));
 
   return (
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">산책 일지 작성</CardTitle>
+          <CardTitle tag="h5">산책 일지</CardTitle>
           {dogWalkerInfo && (
             <DogWalkerInfoComponent dogWalkerInfo={dogWalkerInfo} />
           )}

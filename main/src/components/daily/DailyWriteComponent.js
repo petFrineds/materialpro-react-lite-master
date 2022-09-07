@@ -13,9 +13,11 @@ import { getUserInfo } from '../../api/AuthApi';
 import DogWalkerInfoComponent from '../dogWalker/DogWalkerInfoComponent';
 import ReservationInfoComponent from '../reservation/ReservationInfoComponent';
 import { saveDaily } from '../../api/DailyApi';
+import { setMyDogwalkerList } from '../../store/Mypage';
 const { TextArea } = Input;
 
 const DailyWriteComponent = ({ setVisible }) => {
+  const dispatch = useDispatch();
   const [contents, setContents] = useState('');
   const dogWalkerInfo = useSelector(state =>
     state.dogWalker.get('dogwalkerInfo')
@@ -24,8 +26,22 @@ const DailyWriteComponent = ({ setVisible }) => {
     state.reservation.get('reservationInfo')
   );
   const walkInfo = useSelector(state => state.walk.get('walkInfo'));
+  const myDogwalkerList = useSelector(state =>
+    state.mypage.get('myDogwalkerList')
+  );
 
   const onClickSaveBtn = () => {
+    if (contents === null || contents === '') {
+      notification.warning({
+        message: '저장 실패',
+        description: '일지를 입력해주세요.',
+        duration: 1.0,
+      });
+      return;
+    }
+    console.log(walkInfo);
+    console.log(reservationInfo);
+    console.log(dogWalkerInfo);
     const param = {
       contents: contents,
       walkId: walkInfo.id,
@@ -43,6 +59,12 @@ const DailyWriteComponent = ({ setVisible }) => {
           description: '일지가 저장 되었습니다.',
           duration: 1.0,
         });
+        const newRow = myDogwalkerList.map(item2 =>
+          item2.reservedId === reservationInfo.reservedId
+            ? { ...item2, status: 'DAILY_WRITED' }
+            : item2
+        );
+        dispatch(setMyDogwalkerList(newRow));
         console.log(result);
       })
       .catch(result => {
