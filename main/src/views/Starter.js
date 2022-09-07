@@ -1,10 +1,7 @@
 import { Col, Row } from 'reactstrap';
-import SalesChart from '../components/dashboard/SalesChart';
 
-import ProjectTables from '../components/dashboard/ProjectTable';
 import MyDogwalkerList from '../components/myPage/MyDogwalkerList';
 import MyReserveList from '../components/myPage/MyReserveList';
-import Blog from '../components/dashboard/Blog';
 import bg1 from '../assets/images/bg/bg1.jpg';
 import bg2 from '../assets/images/bg/bg2.jpg';
 import bg3 from '../assets/images/bg/bg3.jpg';

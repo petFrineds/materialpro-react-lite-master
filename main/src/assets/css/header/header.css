@@ -1,3 +1,6 @@
 .alarmDate {
   font-size: 5pt;
 }
+.alarmDateDiv {
+  text-align: right;
+}

@@ -8,6 +8,7 @@ import { getUserInfo } from './api/AuthApi';
 import './assets/css/dogWalker/dogWalker.css';
 import './assets/css/user/user.css';
 import './assets/css/header/header.css';
+import './assets/css/common/Button.css';
 import { getMyAlarmCount, getMyAlarm } from './api/NotificationApi';
 import { setMyAlarmCount, setMyAlarmList } from './store/Alarm';
 const App = () => {

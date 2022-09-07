@@ -7,6 +7,7 @@ import { getAllData } from '../../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDogWalkerList } from '../../../store/DogWalker';
 import { CheckCircleOutlined } from '@ant-design/icons';
+
 const DogWalker = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -32,8 +33,12 @@ const DogWalker = () => {
       <Row>
         <div className="registbtndiv">
           <Button onClick={clicked} className="registerBtn">
-            <CheckCircleOutlined />
-            등록하기
+            <CheckCircleOutlined
+              style={{
+                verticalAlign: 'middle',
+              }}
+            />
+            도그워커 등록
           </Button>
         </div>
         {visible && (

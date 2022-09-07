@@ -98,7 +98,9 @@ const ReservationList = ({ reservationList, userInfo }) => {
                   <td>
                     {item.startTime} ~ {item.endTime}
                   </td>
-                  <td>{item.amount}</td>
+                  <td>
+                    {item.amount && item.amount.toLocaleString('ko-KR', 3)}
+                  </td>
                   <td>{item.status}</td>
                   {item.status === 'PAYED' &&
                   item.dogwalkerId === userInfo.userId ? (

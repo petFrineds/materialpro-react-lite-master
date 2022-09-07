@@ -14,11 +14,8 @@ export const getMyAlarm = async userId => {
   }
 };
 
-export const setAlarmRead = async params => {
-  const response = await PetFrinedsPatchService(
-    '/alarms/' + params.userId,
-    params
-  );
+export const setAlarmRead = async userId => {
+  const response = await PetFrinedsPatchService('/alarms/' + userId);
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };
   } else {

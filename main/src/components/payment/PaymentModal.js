@@ -181,7 +181,11 @@ const PaymentModal = ({ setVisible, visible }) => {
         </Button>,
       ]}
     >
-      <Title level={5}> 결제 금액 : {reservationInfo.amount}</Title>
+      <Title level={5}>
+        결제 금액 :
+        {reservationInfo.amount &&
+          reservationInfo.amount.toLocaleString('ko-KR', 3)}
+      </Title>
 
       <Radio.Group onChange={onPaymentMethodChange} value={paymentMethodValue}>
         <Space direction="vertical">

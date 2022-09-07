@@ -15,6 +15,7 @@ import ReservationInfoComponent from '../reservation/ReservationInfoComponent';
 import { saveScore } from '../../api/DailyApi';
 import { setDogwalkerInfo } from '../../store/DogWalker';
 import { setDailyInfo } from '../../store/Daily';
+import ExitButton from '../common/ExitButton';
 const { TextArea } = Input;
 
 const DailyDetailComponent = ({ setVisible, dailyInfo, dailyInfoInit }) => {
@@ -96,7 +97,7 @@ const DailyDetailComponent = ({ setVisible, dailyInfo, dailyInfoInit }) => {
               </tr>
             </tbody>
           </Table>
-          <Button onClick={closeDetail}>닫기</Button>
+          <ExitButton onClick={closeDetail} />
         </CardBody>
       </Card>
     </div>

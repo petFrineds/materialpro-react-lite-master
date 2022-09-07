@@ -15,14 +15,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { initReduxAll } from '../components/common/InitRedux';
-
-import { Badge, Avatar, Tag } from 'antd';
+import { setAlarmRead } from '../api/NotificationApi';
+import { setMyAlarmList, setMyAlarmCount } from '../store/Alarm';
+import { Badge, Avatar, Tag, Card } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [alarmList, setAlarmList] = useState('');
   const dispatch = useDispatch();
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -33,11 +33,22 @@ const Header = () => {
   const myAlarmCount = useSelector(state => state.alarm.get('alarmCount'));
   const myAlarmList = useSelector(state => state.alarm.get('myAlarmList'));
   const Handletoggle = () => {
-    if (isOpen === true) {
-      console.log('CLICK');
-    }
     setIsOpen(!isOpen);
   };
+  useEffect(() => {
+    if (dropdownOpen && myAlarmList) {
+      if (myAlarmList.find(item => item.readYn === 'N') === undefined) return;
+      setAlarmRead(sessionStorage.getItem('userId'))
+        .then(result => {
+          console.log(result);
+
+          dispatch(setMyAlarmCount(0));
+        })
+        .catch(error => {
+          console.log('setAlarmRead >>>' + error);
+        });
+    }
+  }, [dropdownOpen]);
   const showMobilemenu = () => {
     document.getElementById('sidebarArea').classList.toggle('showSidebar');
   };
@@ -48,9 +59,7 @@ const Header = () => {
     initReduxAll(dispatch);
     navigate('/');
   };
-  const onClickDropDown = () => {
-    console.log('CLICK');
-  };
+
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">
       <div className="d-flex align-items-center">
@@ -99,18 +108,44 @@ const Header = () => {
                   <>
                     {myAlarmList?.map((item, index) => (
                       <DropdownItem>
-                        {item.message}
-                        {item.readYn === 'Y' && <Tag color="red">New</Tag>}
-                        <span className="alarmDate">
-                          {moment(item.regDate).format('YYYY-MM-DD HH:mm')}
-                        </span>
+                        {item.readYn === 'N' && (
+                          <Badge.Ribbon text="New" color="red">
+                            <Card title="알림" size="small">
+                              {item.message}
+                              <div className="alarmDateDiv">
+                                <span className="alarmDate">
+                                  {moment(item.regDate).format(
+                                    'YYYY-MM-DD HH:mm'
+                                  )}
+                                </span>
+                              </div>
+                            </Card>
+                          </Badge.Ribbon>
+                        )}
+                        {item.readYn === 'Y' && (
+                          <Card title="알림" size="small">
+                            {item.message}
+                            <div className="alarmDateDiv">
+                              <span className="alarmDate">
+                                {moment(item.regDate).format(
+                                  'YYYY-MM-DD HH:mm'
+                                )}
+                              </span>
+                            </div>
+                          </Card>
+                        )}
                       </DropdownItem>
                     ))}
                     <DropdownItem divider />
                   </>
                 )}
 
-                <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
+                <DropdownItem
+                  onClick={onClickLogOut}
+                  style={{ textAlign: 'right' }}
+                >
+                  Logout
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </Collapse>

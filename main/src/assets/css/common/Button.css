@@ -1,0 +1,9 @@
+.saveBtn {
+  border-color: green;
+  color: green;
+  float: right;
+}
+
+.exitBtn {
+  float: right;
+}
