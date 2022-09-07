@@ -107,7 +107,7 @@ const Header = () => {
                 {myAlarmList && (
                   <>
                     {myAlarmList?.map((item, index) => (
-                      <DropdownItem>
+                      <DropdownItem key={index}>
                         {item.readYn === 'N' && (
                           <Badge.Ribbon text="New" color="red">
                             <Card title="알림" size="small">

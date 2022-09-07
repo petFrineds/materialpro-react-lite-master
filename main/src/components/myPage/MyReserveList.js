@@ -4,9 +4,18 @@ import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 
 import user1 from '../../assets/images/users/user1.jpg';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setReservationDetailId } from '../../store/Reservation';
 import moment from 'moment';
 
 const MyReserveList = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const showReserVationDetail = reservedId => {
+    dispatch(setReservationDetailId(reservedId));
+    navigate('/reservationDetail');
+  };
   const myReserveList = useSelector(state => state.mypage.get('myReserveList'));
   return (
     <div>
@@ -31,7 +40,11 @@ const MyReserveList = () => {
             </thead>
             <tbody>
               {myReserveList?.map((item, index) => (
-                <tr key={index} className="border-top">
+                <tr
+                  key={index}
+                  className="border-top"
+                  onClick={() => showReserVationDetail(item.reservedId)}
+                >
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <img

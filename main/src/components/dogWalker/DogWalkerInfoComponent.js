@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import { Table } from 'reactstrap';
 
 import user1 from '../../assets/images/users/user1.jpg';
+import ExitButton from '../common/ExitButton';
 const DogWalkerInfoComponent = ({
   dogWalkerInfo,
   setDogwalkerDetail,
@@ -50,7 +51,7 @@ const DogWalkerInfoComponent = ({
           </tr>
         </tbody>
       </Table>
-      {dogwalkerDetail && <Button onClick={onClickClose}>닫기</Button>}
+      {dogwalkerDetail && <ExitButton onClick={onClickClose} />}
     </div>
   );
 };
