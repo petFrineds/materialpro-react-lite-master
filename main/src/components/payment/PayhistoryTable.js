@@ -73,7 +73,13 @@ const PayhistoryTable = ({ paymentList }) => {
                   <td>
                     <div id="amt">{item.amount}</div>
                   </td>
-                  <td>{item.refundYn === 'N' ? <> </> : <>환불 완료</>}</td>
+                  <td>
+                    {item.refundYn === 'N' ? (
+                      <> </>
+                    ) : (
+                      <>({item.refundAmount})₩ 환불 완료 </>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
