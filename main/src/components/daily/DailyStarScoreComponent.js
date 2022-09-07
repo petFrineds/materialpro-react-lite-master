@@ -124,7 +124,11 @@ const DailyStarScoreComponent = ({ setVisible }) => {
                   <Rate onChange={setStarScore} value={starScore} />
                 </td>
                 <td>
-                  <TextArea rows={4} value={review} onChange={onChangeReview} />
+                  <TextArea
+                    rows={4}
+                    value={review ?? ''}
+                    onChange={onChangeReview}
+                  />
                 </td>
               </tr>
             </tbody>

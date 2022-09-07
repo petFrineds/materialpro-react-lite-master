@@ -5,14 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import DailyStarScoreComponent from './DailyStarScoreComponent';
 import DailyDetailComponent from './DailyDetailComponent';
 import user1 from '../../assets/images/users/user1.jpg';
-import { setDailyInfo } from '../../store/Daily';
+import { setMyDailyInfo } from '../../store/Daily';
 import { getUserInfo } from '../../api/AuthApi';
 import { setDogwalkerInfo } from '../../store/DogWalker';
-const DailyList = () => {
-  const dispatch = useDispatch();
-  const dailyList = useSelector(state => state.daily.get('dailyList'));
-  const dailyInfo = useSelector(state => state.daily.get('dailyInfo'));
 
+const MyDailyList = () => {
+  const dispatch = useDispatch();
+  const myDailyList = useSelector(state => state.daily.get('myDailyList'));
+  const myDailyInfo = useSelector(state => state.daily.get('myDailyInfo'));
   const [visibleDaily, setVisibleDaily] = useState(false);
   const [visibleDailyDetail, setVisibleDailyDetail] = useState(false);
   useEffect(() => {}, []);
@@ -24,23 +24,11 @@ const DailyList = () => {
       .catch(error => {
         console.log('getDogwalkscheuleDetail Error >> ' + error);
       });
-    dispatch(setDailyInfo(item));
+    dispatch(setMyDailyInfo(item));
     setVisibleDailyDetail(true);
   };
-  const onClickStartScoreBtn = (e, item) => {
-    getUserInfo(item.dogWalkerId)
-      .then(result => {
-        dispatch(setDogwalkerInfo(result.data));
-      })
-      .catch(error => {
-        console.log('getDogwalkscheuleDetail Error >> ' + error);
-      });
-    dispatch(setDailyInfo(item));
-    setVisibleDaily(true);
-    e.stopPropagation();
-  };
-  const setDailyInfoInit = () => {
-    dispatch(setDailyInfo(undefined));
+  const setMyDailyInfoInit = () => {
+    dispatch(setMyDailyInfo(undefined));
   };
   return (
     <div>
@@ -57,15 +45,14 @@ const DailyList = () => {
             >
               <thead>
                 <tr>
-                  <th>도그워커</th>
+                  <th>유저</th>
                   <th>산책시간</th>
                   <th>산책내용</th>
                   <th>별점</th>
-                  <th> </th>
                 </tr>
               </thead>
               <tbody>
-                {dailyList?.map((item, index) => (
+                {myDailyList?.map((item, index) => (
                   <tr
                     key={index}
                     className="border-top"
@@ -81,10 +68,8 @@ const DailyList = () => {
                           height="45"
                         />
                         <div className="ms-3">
-                          <h6 className="mb-0">{item.dogWalkerId}</h6>
-                          <span className="text-muted">
-                            {item.dogWalkerName}
-                          </span>
+                          <h6 className="mb-0">{item.userId}</h6>
+                          <span className="text-muted">{item.userName}</span>
                         </div>
                       </div>
                     </td>
@@ -99,27 +84,17 @@ const DailyList = () => {
                         value={item.starScore}
                       />
                     </td>
-                    <td>
-                      {(item.review === undefined || item.review === null) && (
-                        <Button onClick={e => onClickStartScoreBtn(e, item)}>
-                          별점 등록
-                        </Button>
-                      )}
-                    </td>
                   </tr>
                 ))}
               </tbody>
             </Table>
           </CardBody>
         )}
-        {visibleDaily && dailyInfo && (
-          <DailyStarScoreComponent setVisible={setVisibleDaily} />
-        )}
         {visibleDailyDetail && (
           <DailyDetailComponent
             setVisible={setVisibleDailyDetail}
-            dailyInfo={dailyInfo}
-            dailyInfoInit={setDailyInfoInit}
+            dailyInfo={myDailyInfo}
+            dailyInfoInit={setMyDailyInfoInit}
           />
         )}
       </Card>
@@ -127,4 +102,4 @@ const DailyList = () => {
   );
 };
 
-export default DailyList;
+export default MyDailyList;
