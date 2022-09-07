@@ -48,7 +48,9 @@ const MyReserveList = () => {
                     </div>
                   </td>
                   <td>{item.status}</td>
-                  <td>{item.amount}</td>
+                  <td>
+                    {item.amount && item.amount.toLocaleString('ko-KR', 3)}
+                  </td>
                   <td>
                     {item.startTime &&
                       moment(item.startTime).format('YYYY-MM-DD HH:mm') +

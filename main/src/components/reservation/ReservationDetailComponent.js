@@ -16,6 +16,7 @@ import DogWalkerInfoComponent from '../dogWalker/DogWalkerInfoComponent';
 import ReservationInfoComponent from './ReservationInfoComponent';
 import PaymentModal from '../payment/PaymentModal';
 import { refundPayment } from '../../api/PaymentApi';
+import ExitButton from '../common/ExitButton';
 const ReservationDetailComponent = ({ dogWalkerInfo, onClickCancelBtn }) => {
   const [payModalVisible, setPayModalVisible] = useState(false);
   const navigate = useNavigate();
@@ -64,10 +65,16 @@ const ReservationDetailComponent = ({ dogWalkerInfo, onClickCancelBtn }) => {
           <CardTitle tag="h5">예약 상세 조회</CardTitle>
           <DogWalkerInfoComponent dogWalkerInfo={dogWalkerInfo} />
           <ReservationInfoComponent reservationInfo={reservationInfo} />
-          <Button onClick={onClickClose}>닫기</Button>
+          <ExitButton onClick={onClickClose} />
+
           {reservationInfo.status === 'REQUEST' ? (
             <>
-              <Button onClick={onClickCancelBtn}>예약 취소</Button>
+              <Button
+                onClick={e => onClickCancelBtn(reservationInfo.startTime)}
+              >
+                예약 취소
+              </Button>
+              &nbsp; &nbsp;
               <Button onClick={onClickPayBtn}>결제</Button>
             </>
           ) : reservationInfo.status === 'PAYED' &&

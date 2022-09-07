@@ -17,6 +17,8 @@ const DailyList = () => {
   const [visibleDailyDetail, setVisibleDailyDetail] = useState(false);
   useEffect(() => {}, []);
   const onClickReviewDetail = item => {
+    if (item.review === undefined || item.review === null || item.review === '')
+      return;
     getUserInfo(item.dogWalkerId)
       .then(result => {
         dispatch(setDogwalkerInfo(result.data));
@@ -47,7 +49,7 @@ const DailyList = () => {
       <Card>
         {!visibleDaily && !visibleDailyDetail && (
           <CardBody>
-            <CardTitle tag="h5">일지 조회</CardTitle>
+            <CardTitle tag="h5">도그워커 일지 조회</CardTitle>
 
             <Table
               hover

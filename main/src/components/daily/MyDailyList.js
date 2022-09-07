@@ -35,7 +35,7 @@ const MyDailyList = () => {
       <Card>
         {!visibleDaily && !visibleDailyDetail && (
           <CardBody>
-            <CardTitle tag="h5">일지 조회</CardTitle>
+            <CardTitle tag="h5">내 일지 조회</CardTitle>
 
             <Table
               hover

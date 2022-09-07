@@ -15,7 +15,7 @@ import ReservationInfoComponent from '../reservation/ReservationInfoComponent';
 import { saveScore } from '../../api/DailyApi';
 import { setDogwalkerInfo } from '../../store/DogWalker';
 import { setDailyInfo, setDailyList } from '../../store/Daily';
-
+import SaveButton from '../common/SaveButton';
 const { TextArea } = Input;
 
 const DailyStarScoreComponent = ({ setVisible }) => {
@@ -133,7 +133,7 @@ const DailyStarScoreComponent = ({ setVisible }) => {
               </tr>
             </tbody>
           </Table>
-          <Button onClick={saveDaily}>저장</Button>
+          <SaveButton onClick={saveDaily} />
         </CardBody>
       </Card>
     </div>

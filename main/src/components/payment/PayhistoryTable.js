@@ -60,7 +60,8 @@ const PayhistoryTable = ({ paymentList }) => {
                 <th>예약번호</th>
                 <th>결제일자</th>
                 <th>결제수단</th>
-                <th>결제금액</th>
+                <th>결제금액(₩)</th>
+                <th>환불금액</th>
                 <th> </th>
               </tr>
             </thead>
@@ -71,15 +72,19 @@ const PayhistoryTable = ({ paymentList }) => {
                   <td>{item.payDate}</td>
                   <td>{item.payType}</td>
                   <td>
-                    <div id="amt">{item.amount}</div>
+                    <div id="amt">
+                      {item.amount && item.amount.toLocaleString('ko-KR', 3)}
+                    </div>
                   </td>
                   <td>
                     {item.refundYn === 'N' ? (
                       <> </>
                     ) : (
-                      <>({item.refundAmount})₩ 환불 완료 </>
+                      item.refundAmount &&
+                      item.refundAmount.toLocaleString('ko-KR', 3)
                     )}
                   </td>
+                  <td>{item.refundYn === 'N' ? <> </> : <> 환불 완료 </>}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Navbar,
   Collapse,
@@ -15,9 +15,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { initReduxAll } from '../components/common/InitRedux';
-
-import { Badge, Avatar } from 'antd';
-
+import { setAlarmRead } from '../api/NotificationApi';
+import { setMyAlarmList, setMyAlarmCount } from '../store/Alarm';
+import { Badge, Avatar, Tag, Card } from 'antd';
+import moment from 'moment';
 import axios from 'axios';
 
 const Header = () => {
@@ -29,10 +30,25 @@ const Header = () => {
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
   const userInfo = useSelector(state => state.user.get('userInfo'));
-  const myAlarmCount = useSelector(state => state.user.get('alarmCount'));
+  const myAlarmCount = useSelector(state => state.alarm.get('alarmCount'));
+  const myAlarmList = useSelector(state => state.alarm.get('myAlarmList'));
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
+  useEffect(() => {
+    if (dropdownOpen && myAlarmList) {
+      if (myAlarmList.find(item => item.readYn === 'N') === undefined) return;
+      setAlarmRead(sessionStorage.getItem('userId'))
+        .then(result => {
+          console.log(result);
+
+          dispatch(setMyAlarmCount(0));
+        })
+        .catch(error => {
+          console.log('setAlarmRead >>>' + error);
+        });
+    }
+  }, [dropdownOpen]);
   const showMobilemenu = () => {
     document.getElementById('sidebarArea').classList.toggle('showSidebar');
   };
@@ -43,6 +59,7 @@ const Header = () => {
     initReduxAll(dispatch);
     navigate('/');
   };
+
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">
       <div className="d-flex align-items-center">
@@ -87,7 +104,48 @@ const Header = () => {
                 </Badge>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
+                {myAlarmList && (
+                  <>
+                    {myAlarmList?.map((item, index) => (
+                      <DropdownItem>
+                        {item.readYn === 'N' && (
+                          <Badge.Ribbon text="New" color="red">
+                            <Card title="알림" size="small">
+                              {item.message}
+                              <div className="alarmDateDiv">
+                                <span className="alarmDate">
+                                  {moment(item.regDate).format(
+                                    'YYYY-MM-DD HH:mm'
+                                  )}
+                                </span>
+                              </div>
+                            </Card>
+                          </Badge.Ribbon>
+                        )}
+                        {item.readYn === 'Y' && (
+                          <Card title="알림" size="small">
+                            {item.message}
+                            <div className="alarmDateDiv">
+                              <span className="alarmDate">
+                                {moment(item.regDate).format(
+                                  'YYYY-MM-DD HH:mm'
+                                )}
+                              </span>
+                            </div>
+                          </Card>
+                        )}
+                      </DropdownItem>
+                    ))}
+                    <DropdownItem divider />
+                  </>
+                )}
+
+                <DropdownItem
+                  onClick={onClickLogOut}
+                  style={{ textAlign: 'right' }}
+                >
+                  Logout
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </Collapse>

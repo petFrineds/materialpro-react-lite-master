@@ -14,6 +14,7 @@ import DogWalkerInfoComponent from '../dogWalker/DogWalkerInfoComponent';
 import ReservationInfoComponent from '../reservation/ReservationInfoComponent';
 import { saveDaily } from '../../api/DailyApi';
 import { setMyDogwalkerList } from '../../store/Mypage';
+import SaveButton from '../common/SaveButton';
 const { TextArea } = Input;
 
 const DailyWriteComponent = ({ setVisible }) => {
@@ -114,7 +115,7 @@ const DailyWriteComponent = ({ setVisible }) => {
               </tr>
             </tbody>
           </Table>
-          <Button onClick={onClickSaveBtn}>저장</Button>
+          <SaveButton onClick={onClickSaveBtn} />
         </CardBody>
       </Card>
     </div>

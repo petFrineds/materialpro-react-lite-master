@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 
@@ -11,6 +11,7 @@ import DogWalkerInfoComponent from './DogWalkerInfoComponent';
 import { getUserInfo } from '../../api/AuthApi';
 import { setDogwalkerScheduleInfo } from '../../store/DogWalker';
 import PaymentModal from '../payment/PaymentModal';
+import { CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
 const DogWalkerList = ({ dogWalkerList }) => {
   const [reservationVisible, setReservationVisible] = useState(false);
   const [dogwalkerDetail, setDogwalkerDetail] = useState(false);
@@ -87,12 +88,36 @@ const DogWalkerList = ({ dogWalkerList }) => {
                     </td>
                     <td>
                       {item.reservedYn === 'Y' ? (
-                        <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
+                        <Tag
+                          icon={
+                            <InfoCircleOutlined
+                              style={{
+                                verticalAlign: 'middle',
+                              }}
+                            />
+                          }
+                          color="red"
+                        >
+                          예약 중
+                        </Tag>
                       ) : (
-                        <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
+                        <Tag
+                          icon={
+                            <CheckCircleOutlined
+                              style={{
+                                verticalAlign: 'middle',
+                              }}
+                            />
+                          }
+                          color="success"
+                        >
+                          예약 가능
+                        </Tag>
                       )}
                     </td>
-                    <td>{item.amount}</td>
+                    <td>
+                      {item.amount && item.amount.toLocaleString('ko-KR', 3)}
+                    </td>
                     <td>
                       {item.reservedStartTime} ~ {item.reservedEndTime}
                     </td>

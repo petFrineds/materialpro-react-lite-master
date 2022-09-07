@@ -1,10 +1,7 @@
 import { Col, Row } from 'reactstrap';
-import SalesChart from '../components/dashboard/SalesChart';
 
-import ProjectTables from '../components/dashboard/ProjectTable';
 import MyDogwalkerList from '../components/myPage/MyDogwalkerList';
 import MyReserveList from '../components/myPage/MyReserveList';
-import Blog from '../components/dashboard/Blog';
 import bg1 from '../assets/images/bg/bg1.jpg';
 import bg2 from '../assets/images/bg/bg2.jpg';
 import bg3 from '../assets/images/bg/bg3.jpg';
@@ -12,7 +9,7 @@ import bg4 from '../assets/images/bg/bg4.jpg';
 import { getMyReserveList, getMyDogwalkerList } from '../api/MypageApi';
 import { setMyDogwalkerList, setMyReserveList } from '../store/Mypage';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getMyWalk } from '../api/WalkApi';
 import { setMyWalkList } from '../store/Walk';
 import StarRank from '../components/dashboard/StarRank';

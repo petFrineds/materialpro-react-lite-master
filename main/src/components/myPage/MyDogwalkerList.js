@@ -165,7 +165,9 @@ const MyDogwalkerList = () => {
                       </div>
                     </td>
                     <td>{item.status}</td>
-                    <td>{item.amount}</td>
+                    <td>
+                      {item.amount && item.amount.toLocaleString('ko-KR', 3)}
+                    </td>
                     <td>
                       {moment(item.startTime).format('YYYY-MM-DD HH:mm')} ~
                       {moment(item.endTime).format('YYYY-MM-DD HH:mm')}

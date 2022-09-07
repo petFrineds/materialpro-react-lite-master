@@ -7,8 +7,10 @@ import axios from 'axios';
 import { getUserInfo } from './api/AuthApi';
 import './assets/css/dogWalker/dogWalker.css';
 import './assets/css/user/user.css';
-import { getMyAlarmCount } from './api/NotificationApi';
-import { setMyAlarmCount } from './store/Alarm';
+import './assets/css/header/header.css';
+import './assets/css/common/Button.css';
+import { getMyAlarmCount, getMyAlarm } from './api/NotificationApi';
+import { setMyAlarmCount, setMyAlarmList } from './store/Alarm';
 const App = () => {
   const routing = useRoutes(Themeroutes);
   const dispatch = useDispatch();
@@ -40,6 +42,14 @@ const App = () => {
         })
         .catch(error => {
           console.log('getMyAlarmCount Error');
+        });
+      getMyAlarm(sessionStorage.getItem('userId'))
+        .then(result => {
+          console.log('????');
+          dispatch(setMyAlarmList(result.data));
+        })
+        .catch(error => {
+          console.log('getMyAlarm Error');
         });
     }
   }, [sessionStorage.getItem('userId')]);

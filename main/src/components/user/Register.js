@@ -37,6 +37,7 @@ const Register = () => {
         password: values.password,
         userNm: values.userNm,
         telNo: values.telNo,
+        career: values.career,
       };
       const bodyFormData = new FormData();
       bodyFormData.append('multipartFile', imageUrl);
@@ -156,8 +157,8 @@ const Register = () => {
     }
 
     const bodyFormData = new FormData();
-    bodyFormData.append('multipartFile', imageUrl);
-    bodyFormData.append('userId', userId);
+    bodyFormData.append('file', imageUrl);
+    bodyFormData.append('user_id', userId);
     postImg(bodyFormData)
       .then(result => {
         notification.success({
