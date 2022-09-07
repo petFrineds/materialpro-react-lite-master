@@ -19,7 +19,10 @@ export const loginUser = async params => {
   let password = 'petfriends';
   const token = `${username}:${password}`;
   const encodedToken = Buffer.from(token).toString('base64');
-  const header = { Authorization: 'Basic ' + encodedToken };
+  const header = {
+    Authorization: 'Basic ' + encodedToken,
+    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+  };
   const response = await PetFrinedsPostServiceWithHeader(
     '/oauth/token',
     params,
@@ -51,10 +54,10 @@ export const checkUserId = async userId => {
   }
 };
 export const postImg = async params => {
-  const response = await PetFriendsPostService(
-    '/userInfos/image/upload/',
+  const response = await PetFrinedsPostServiceWithHeader(
+    '/userInfos/image/upload',
     params,
-    { 'Content-Type': 'multipart/form-data' }
+    { 'content-type': 'multipart/form-data' }
   );
   if (response && response.status === 200) {
     console.log({ status: response.status, data: response.data });
