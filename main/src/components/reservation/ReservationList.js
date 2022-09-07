@@ -7,7 +7,7 @@ import {
   setReservationList,
   setReservationDetailId,
 } from '../../store/Reservation';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { startWalk } from '../../api/WalkApi';
 
 const ReservationList = ({ reservationList, userInfo }) => {
