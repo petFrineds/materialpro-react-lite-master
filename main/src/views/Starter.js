@@ -12,7 +12,7 @@ import bg4 from '../assets/images/bg/bg4.jpg';
 import { getMyReserveList, getMyDogwalkerList } from '../api/MypageApi';
 import { setMyDogwalkerList, setMyReserveList } from '../store/Mypage';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getMyWalk } from '../api/WalkApi';
 import { setMyWalkList } from '../store/Walk';
 import StarRank from '../components/dashboard/StarRank';

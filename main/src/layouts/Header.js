@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Navbar,
   Collapse,
@@ -16,12 +16,13 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { initReduxAll } from '../components/common/InitRedux';
 
-import { Badge, Avatar } from 'antd';
-
+import { Badge, Avatar, Tag } from 'antd';
+import moment from 'moment';
 import axios from 'axios';
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [alarmList, setAlarmList] = useState('');
   const dispatch = useDispatch();
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -29,8 +30,12 @@ const Header = () => {
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
   const userInfo = useSelector(state => state.user.get('userInfo'));
-  const myAlarmCount = useSelector(state => state.user.get('alarmCount'));
+  const myAlarmCount = useSelector(state => state.alarm.get('alarmCount'));
+  const myAlarmList = useSelector(state => state.alarm.get('myAlarmList'));
   const Handletoggle = () => {
+    if (isOpen === true) {
+      console.log('CLICK');
+    }
     setIsOpen(!isOpen);
   };
   const showMobilemenu = () => {
@@ -42,6 +47,9 @@ const Header = () => {
     sessionStorage.clear();
     initReduxAll(dispatch);
     navigate('/');
+  };
+  const onClickDropDown = () => {
+    console.log('CLICK');
   };
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">
@@ -87,6 +95,21 @@ const Header = () => {
                 </Badge>
               </DropdownToggle>
               <DropdownMenu>
+                {myAlarmList && (
+                  <>
+                    {myAlarmList?.map((item, index) => (
+                      <DropdownItem>
+                        {item.message}
+                        {item.readYn === 'Y' && <Tag color="red">New</Tag>}
+                        <span className="alarmDate">
+                          {moment(item.regDate).format('YYYY-MM-DD HH:mm')}
+                        </span>
+                      </DropdownItem>
+                    ))}
+                    <DropdownItem divider />
+                  </>
+                )}
+
                 <DropdownItem onClick={onClickLogOut}>Logout</DropdownItem>
               </DropdownMenu>
             </Dropdown>
