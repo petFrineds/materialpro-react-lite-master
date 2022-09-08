@@ -20,8 +20,7 @@ const Register = () => {
   const [userIdValidation, setUserIdValidation] = useState(false);
   const [userId, setUserId] = useState('');
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
-  const [register, setRegister] = useState(false);
+
   const onClickRegisterBtn = () => {
     if (!userIdValidation) {
       notification.warning({
@@ -39,8 +38,7 @@ const Register = () => {
         telNo: values.telNo,
         career: values.career,
       };
-      const bodyFormData = new FormData();
-      bodyFormData.append('multipartFile', imageUrl);
+
       registerUser(params)
         .then(result => {
           notification.success({
@@ -50,8 +48,8 @@ const Register = () => {
               ' 회원가입 되었습니다. 프로필 사진을 업로드해주세요.',
             duration: 1.0,
           });
-          setRegister(true);
-          // navigate('/');
+
+          navigate('/');
         })
         .catch(error => {
           notification.error({
@@ -109,196 +107,100 @@ const Register = () => {
     setUserId(e.target.value);
     setUserIdValidation(false);
   };
-  const handleImage = async e => {
-    const file = e.target.files[0];
-    const err = checkImage(file);
-
-    if (err) {
-      notification.warning({
-        message: '사진 업로드 에러',
-        description: err,
-        duration: 1.0,
-      });
-      return;
-    }
-    if (file) {
-      let preview = document.getElementById('preview');
-      preview.src = URL.createObjectURL(file);
-    }
-    setImageUrl(file);
-  };
-  const checkImage = file => {
-    let err = '';
-
-    if (!file) {
-      err = 'File does not exist.';
-      return err;
-    }
-
-    if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
-      err = 'Image format is incorrect.';
-    }
-
-    return err;
-  };
-  const handleImageDelete = () => {
-    setImageUrl('');
-    let preview = document.getElementById('preview');
-    preview.src = '';
-  };
-  const onClickImgUploadBtn = () => {
-    if (imageUrl === null || imageUrl === '') {
-      notification.warning({
-        message: '이미지 없음',
-        description: '이미지를 업로드 해주세요.',
-        duration: 1.0,
-      });
-      return;
-    }
-
-    const bodyFormData = new FormData();
-    bodyFormData.append('file', imageUrl);
-    bodyFormData.append('user_id', userId);
-    postImg(bodyFormData)
-      .then(result => {
-        notification.success({
-          message: '프로필 업로드 성공',
-          description: result.data + '프로필 사진을 성공적으로 업로드했습니다.',
-          duration: 1.0,
-        });
-        navigate('/');
-      })
-      .catch(error => {
-        notification.error({
-          message: '프로필 업로드 실패',
-          description: error,
-          duration: 1.0,
-        });
-      });
-  };
 
   return (
     <div>
       <Card>
         <CardBody>
-          {!register && (
-            <>
-              <CardTitle tag="h5">회원 가입</CardTitle>
-              <Form
-                form={form}
-                labelCol={{
-                  span: 6,
-                }}
-                wrapperCol={{
-                  span: 12,
-                }}
-                layout="horizontal"
-                size="middle"
+          <>
+            <CardTitle tag="h5">회원 가입</CardTitle>
+            <Form
+              form={form}
+              labelCol={{
+                span: 6,
+              }}
+              wrapperCol={{
+                span: 12,
+              }}
+              layout="horizontal"
+              size="middle"
+            >
+              <Form.Item
+                label="ID"
+                name="userId"
+                rules={[{ required: true, message: 'ID를 입력해주세요.' }]}
               >
-                <Form.Item
-                  label="ID"
-                  name="userId"
-                  rules={[{ required: true, message: 'ID를 입력해주세요.' }]}
-                >
-                  <div className="registerId">
-                    <Input
-                      className="registerIdInput"
-                      onChange={onChangeUserId}
-                    />
-                    <Button className="registerIdBtn" onClick={onClickCheckBtn}>
-                      중복확인
-                    </Button>
-                  </div>
-                </Form.Item>
-                <Form.Item
-                  label="password"
-                  name="password"
-                  rules={[
-                    { required: true, message: '비밀번호를 입력해주세요.' },
-                  ]}
-                >
-                  <Input.Password placeholder="input password" />
-                </Form.Item>
-                <Form.Item
-                  label="Password 확인"
-                  name="PasswordConfirm"
-                  rules={[
-                    { required: true, message: '비밀번호확인을 입력해주세요.' },
-                    { validator: validatePasswordCheck },
-                  ]}
-                >
-                  <Input.Password
-                    placeholder="input password"
-                    iconRender={visible =>
-                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                    }
+                <div className="registerId">
+                  <Input
+                    className="registerIdInput"
+                    onChange={onChangeUserId}
                   />
-                </Form.Item>
-                <Form.Item
-                  label="이름"
-                  name="userNm"
-                  rules={[{ required: true, message: '이름을 입력해주세요.' }]}
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  label="경력(년)"
-                  name="career"
-                  rules={[{ required: true, message: '경력을 입력해주세요.' }]}
-                >
-                  <Input type="number" />
-                </Form.Item>
-                <Form.Item
-                  label="전화번호"
-                  name="telNo"
-                  rules={[
-                    { required: true, message: '전화번호를 입력해주세요.' },
-                    { validator: validatePhoneCheck },
-                  ]}
-                >
-                  <Input />
-                  {/*  <NumericInput inputText={phoneNum} onChange={setPhoneNum} />*/}
-                </Form.Item>
-                <div className="logBtn">
-                  <Button
-                    key="submit"
-                    type="primary"
-                    htmlType="submit"
-                    onClick={onClickRegisterBtn}
-                  >
-                    등록
+                  <Button className="registerIdBtn" onClick={onClickCheckBtn}>
+                    중복확인
                   </Button>
                 </div>
-              </Form>
-            </>
-          )}
-          {register && (
-            <>
-              <div>{userId}의 프로필 사진을 업로드 해주세요.</div>
-              <div
-                className="show_media"
-                style={{ display: imageUrl ? 'grid' : 'none' }}
+              </Form.Item>
+              <Form.Item
+                label="password"
+                name="password"
+                rules={[
+                  { required: true, message: '비밀번호를 입력해주세요.' },
+                ]}
               >
-                dd
-                <div id="file_media">
-                  <img id="preview" src="" alt="imageURL" />
-                  <Button onClick={handleImageDelete}>취소</Button>
-                </div>
-              </div>
-              <div className="file_upload">
-                <i className="fas fa-image text-danger"></i>
-                <input
-                  type="file"
-                  name="file"
-                  id="file"
-                  accept="image/*"
-                  onChange={handleImage}
+                <Input.Password placeholder="input password" />
+              </Form.Item>
+              <Form.Item
+                label="Password 확인"
+                name="PasswordConfirm"
+                rules={[
+                  { required: true, message: '비밀번호확인을 입력해주세요.' },
+                  { validator: validatePasswordCheck },
+                ]}
+              >
+                <Input.Password
+                  placeholder="input password"
+                  iconRender={visible =>
+                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                  }
                 />
+              </Form.Item>
+              <Form.Item
+                label="이름"
+                name="userNm"
+                rules={[{ required: true, message: '이름을 입력해주세요.' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="경력(년)"
+                name="career"
+                rules={[{ required: true, message: '경력을 입력해주세요.' }]}
+              >
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item
+                label="전화번호"
+                name="telNo"
+                rules={[
+                  { required: true, message: '전화번호를 입력해주세요.' },
+                  { validator: validatePhoneCheck },
+                ]}
+              >
+                <Input />
+                {/*  <NumericInput inputText={phoneNum} onChange={setPhoneNum} />*/}
+              </Form.Item>
+              <div className="logBtn">
+                <Button
+                  key="submit"
+                  type="primary"
+                  htmlType="submit"
+                  onClick={onClickRegisterBtn}
+                >
+                  등록
+                </Button>
               </div>
-              dd
-              <Button onClick={onClickImgUploadBtn}>업로드</Button>
-            </>
-          )}
+            </Form>
+          </>
         </CardBody>
       </Card>
     </div>

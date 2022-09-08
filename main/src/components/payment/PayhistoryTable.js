@@ -17,9 +17,6 @@ import { refundPayment } from '../../api/PaymentApi';
 const PayhistoryTable = ({ paymentList }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(paymentList);
-  }, []);
   const onCancleButtonClick = reservedId => {
     refundPayment(reservedId)
       .then(result => {

@@ -47,7 +47,6 @@ const ReservationModal = ({
       let minDiff = null;
       if (dates !== undefined && dates !== null) {
         minDiff = moment.duration(dates[1].diff(dates[0])).asMinutes();
-        console.log(minDiff);
       } else {
         minDiff = moment
           .duration(
@@ -56,19 +55,15 @@ const ReservationModal = ({
             )
           )
           .asMinutes();
-        console.log(dogwalkerScheduleInfo.reservedEndTime + ' ' + minDiff);
       }
       setFinalPrice((minDiff / 60) * dogwalkerScheduleInfo.amount);
     }
-    console.log(finalPrice);
   }, [visible]);
   useEffect(() => {
     let minDiff = null;
-    console.log();
     if (!dogwalkerScheduleInfo) return;
     if (dates !== undefined && dates !== null) {
       minDiff = moment.duration(dates[1].diff(dates[0])).asMinutes();
-      console.log(minDiff);
     } else {
       minDiff = moment
         .duration(
@@ -133,7 +128,6 @@ const ReservationModal = ({
     };
     createReservation(param)
       .then(result => {
-        console.log(result);
         notification.success({
           message: '예약 성공',
           description: '예약 되었습니다. ',
@@ -202,9 +196,7 @@ const ReservationModal = ({
     };
   };
 
-  const onOk = value => {
-    console.log('onOk: ', value);
-  };
+  const onOk = value => {};
   return (
     <Modal
       visible={visible}

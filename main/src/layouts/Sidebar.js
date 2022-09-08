@@ -2,6 +2,7 @@ import { Button, Nav, NavItem } from 'reactstrap';
 import { Link, useLocation } from 'react-router-dom';
 import user1 from '../assets/images/users/user4.jpg';
 import probg from '../assets/images/bg/download.jpg';
+import { useSelector } from 'react-redux';
 
 const navigation = [
   {
@@ -37,6 +38,8 @@ const navigation = [
 ];
 
 const Sidebar = () => {
+  const userInfo = useSelector(state => state.user.get('userInfo'));
+
   const showMobilemenu = () => {
     document.getElementById('sidebarArea').classList.toggle('showSidebar');
   };
@@ -53,7 +56,11 @@ const Sidebar = () => {
           >
             <div className="p-3 d-flex">
               <img
-                src={user1}
+                src={
+                  userInfo?.userImage
+                    ? `data:image/jpeg;base64,${userInfo.userImage}`
+                    : user1
+                }
                 alt="user"
                 width="50"
                 className="rounded-circle"

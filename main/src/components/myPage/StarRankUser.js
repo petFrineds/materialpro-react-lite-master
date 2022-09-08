@@ -14,7 +14,6 @@ const StarRankUser = () => {
   useEffect(() => {
     getStarRankUser()
       .then(result => {
-        console.log(result);
         setStarRankUser(result.data);
       })
       .catch(error => {
@@ -24,7 +23,6 @@ const StarRankUser = () => {
   const onClickDetail = dogwalkerId => {
     getUserInfo(dogwalkerId)
       .then(result => {
-        console.log(result.data);
         setDogWalkerInfo(result.data);
         setDogwalkerDetail(true);
       })
@@ -62,7 +60,11 @@ const StarRankUser = () => {
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <img
-                        src={item.avatar ?? user1}
+                        src={
+                          item?.userImage
+                            ? `data:image/jpeg;base64,${item.userImage}`
+                            : user1
+                        }
                         className="rounded-circle"
                         alt="avatar"
                         width="45"
@@ -74,7 +76,7 @@ const StarRankUser = () => {
                       </div>
                     </div>
                   </td>
-                  <td>{item.avgScore}</td>
+                  <td>{item.avgScore && item.avgScore.toFixed(1)}</td>
                   <td>{item.career}</td>
                 </tr>
               ))}

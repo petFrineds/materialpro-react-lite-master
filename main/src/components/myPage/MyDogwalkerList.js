@@ -29,11 +29,9 @@ const MyDogwalkerList = () => {
       userId: item.userId,
       dogWalkerId: item.dogwalkerId,
     };
-    console.log(param);
 
     startWalk(param)
       .then(result => {
-        console.log(result);
         notification.success({
           message: '산책 시작',
           description: '산책이 성공적으로 시작 되었습니다.',
@@ -61,11 +59,9 @@ const MyDogwalkerList = () => {
       userId: item.userId,
       dogWalkerId: item.dogwalkerId,
     };
-    console.log(param);
 
     endWalk(param)
       .then(result => {
-        console.log(result);
         notification.success({
           message: '산책 종료',
           description: '산책이 성공적으로 종료 되었습니다.',
@@ -90,8 +86,6 @@ const MyDogwalkerList = () => {
   const onClickWriteDaily = item => {
     getReservationDetail(item.reservedId)
       .then(result => {
-        console.log(result);
-
         dispatch(setReservationInfo(result.data));
       })
       .catch(error => {
@@ -99,8 +93,6 @@ const MyDogwalkerList = () => {
       });
     getUserInfo(item.dogwalkerId)
       .then(result => {
-        console.log('DOGWALKER');
-        console.log(result);
         dispatch(setDogwalkerInfo(result.data));
       })
       .catch(error => {
@@ -108,17 +100,13 @@ const MyDogwalkerList = () => {
       });
     getWalkDetail(item.reservedId)
       .then(result => {
-        console.log(result);
-
         dispatch(setWalkInfo(result.data));
       })
       .catch(error => {
         console.log('getWalkDetail Error >> ' + error);
       });
     getDogwalkscheuleDetail(item.dogwalkerScheduleId)
-      .then(result => {
-        console.log(result);
-      })
+      .then(result => {})
       .catch(error => {
         console.log('getWalkDetail Error >> ' + error);
       });

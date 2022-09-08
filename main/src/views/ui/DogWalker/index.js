@@ -46,9 +46,7 @@ const DogWalker = () => {
         )}
       </Row>
       <Row>
-        <Col lg="12">
-          {dogWalkerList && <DogWalkerList dogWalkerList={dogWalkerList} />}
-        </Col>
+        <Col lg="12">{dogWalkerList && <DogWalkerList />}</Col>
       </Row>
     </>
   );

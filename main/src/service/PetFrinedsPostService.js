@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { notification } from 'antd';
+import interceptor from './AxiosInterCeptor';
 
 export const PetFriendsPostService = (url, data) => {
   let BaseUrl = `${process.env.REACT_APP_PET_FRIENDS_BASE_URL}`;
@@ -7,7 +8,7 @@ export const PetFriendsPostService = (url, data) => {
   const errIgnoreList = [200, 201, 204];
 
   return new Promise((resolve, reject) => {
-    axios
+    interceptor
       .post(url, data)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {

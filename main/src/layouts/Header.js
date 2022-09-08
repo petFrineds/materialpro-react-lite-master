@@ -40,8 +40,6 @@ const Header = () => {
       if (myAlarmList.find(item => item.readYn === 'N') === undefined) return;
       setAlarmRead(sessionStorage.getItem('userId'))
         .then(result => {
-          console.log(result);
-
           dispatch(setMyAlarmCount(0));
         })
         .catch(error => {
@@ -95,12 +93,16 @@ const Header = () => {
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle color="transparent">
                 <Badge count={myAlarmCount || 0}>
-                  <Avatar
-                    src={user1}
+                  <img
+                    src={
+                      userInfo?.userImage
+                        ? `data:image/jpeg;base64,${userInfo.userImage}`
+                        : user1
+                    }
                     alt="profile"
                     className="rounded-circle"
                     width="30"
-                  ></Avatar>
+                  ></img>
                 </Badge>
               </DropdownToggle>
               <DropdownMenu>
@@ -139,7 +141,16 @@ const Header = () => {
                     <DropdownItem divider />
                   </>
                 )}
-
+                <DropdownItem style={{ textAlign: 'right' }}>
+                  <Link to="/profile">
+                    <span
+                      className="ms-3 d-inline-block"
+                      style={{ color: 'black' }}
+                    >
+                      Profile 사진 등록
+                    </span>
+                  </Link>
+                </DropdownItem>
                 <DropdownItem
                   onClick={onClickLogOut}
                   style={{ textAlign: 'right' }}

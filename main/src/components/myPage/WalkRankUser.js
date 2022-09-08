@@ -19,7 +19,6 @@ const WalkRankUser = () => {
   useEffect(() => {
     getWalkRankUser()
       .then(result => {
-        console.log(result);
         setWalkRankUser(result.data);
       })
       .catch(error => {
@@ -30,7 +29,6 @@ const WalkRankUser = () => {
   const onClickDetail = dogwalkerId => {
     getUserInfo(dogwalkerId)
       .then(result => {
-        console.log(result.data);
         setDogWalkerInfo(result.data);
         setDogwalkerDetail(true);
       })
@@ -68,7 +66,11 @@ const WalkRankUser = () => {
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <img
-                        src={item.avatar ?? user1}
+                        src={
+                          item?.userImage
+                            ? `data:image/jpeg;base64,${item.userImage}`
+                            : user1
+                        }
                         className="rounded-circle"
                         alt="avatar"
                         width="45"

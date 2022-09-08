@@ -25,7 +25,6 @@ const walk = (state = initialState, action) => {
     case SET_WALK_INFO:
       return state.set('walkInfo', action.data);
     case SET_MY_WALK_LIST:
-      console.log('??');
       return state.set('myWalkList', action.data);
     default:
       return state;
