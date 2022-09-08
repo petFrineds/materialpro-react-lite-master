@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-
+import { getUserImg } from '../../api/AuthApi';
 //Action 정의
 const SET_DOGWALKER_LIST = 'DOGWALKER/SET_DOGWALKER_LIST';
 const SET_DOGWALKER_SCHEDULE_INFO = 'DOGWALKER/SET_DOGWALKER_SCHEDULE_INFO ';

@@ -1,11 +1,13 @@
 import axios from 'axios';
+import interceptor from './AxiosInterCeptor';
+
 export const PetFrinedsPutService = (url, data) => {
   let BaseUrl = `${process.env.REACT_APP_PET_FRIENDS_BASE_URL}`;
   const RequestUrl = `${BaseUrl}${url}`;
   const errIgnoreList = [200, 201, 204];
 
   return new Promise((resolve, reject) => {
-    axios
+    interceptor
       .put(url, data)
       .then(response => {
         if (!errIgnoreList.includes(response.status)) {

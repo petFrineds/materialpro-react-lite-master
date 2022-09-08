@@ -1,7 +1,7 @@
 import { Button, Modal, Form, notification } from 'antd';
 import React, { useState } from 'react';
 import DogWalkerRegistForm from './DogWalkerRegistForm';
-import { registData } from '../../api/DogWalkerApi';
+import { registData, getAllData } from '../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDogWalkerList } from '../../store/DogWalker';
 
@@ -19,7 +19,6 @@ const DogWalkerRegistModal = ({ setVisible, visible }) => {
   };
   const handleOk = () => {
     setLoading(true);
-    console.log(userInfo);
     if (userInfo === undefined) {
       console.log('유저정보없음');
 
@@ -28,7 +27,6 @@ const DogWalkerRegistModal = ({ setVisible, visible }) => {
     form
       .validateFields()
       .then(values => {
-        console.log(values);
         const starttime = values.walkingtime[0].format('YYYY-MM-DD HH:mm');
         const endtime = values.walkingtime[1].format('YYYY-MM-DD HH:mm');
         const params = {
@@ -49,12 +47,16 @@ const DogWalkerRegistModal = ({ setVisible, visible }) => {
               description: '스케줄이 성공적으로 등록 되었습니다.',
               duration: 1.0,
             });
-            console.log(result.data);
-            const newRow = [...dogWalkerList, result.data];
-            dispatch(setDogWalkerList(newRow));
+            getAllData()
+              .then(result2 => {
+                dispatch(setDogWalkerList(result2.data));
+              })
+              .catch(error => {
+                console.log('getAllData Error >> ' + error);
+                dispatch(setDogWalkerList([]));
+              });
           })
           .catch(result => {
-            console.log(result);
             notification.error({
               message: '등록 실패',
               description: '스케줄 등록을 실패했습니다.',

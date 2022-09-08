@@ -29,9 +29,8 @@ const DogWalkerInfoComponent = ({
               <div className="d-flex align-items-center p-2">
                 <img
                   src={
-                    dogWalkerInfo.imageId !== undefined &&
-                    dogWalkerInfo.imageId !== null
-                      ? dogWalkerInfo.imageId
+                    dogWalkerInfo?.userImage
+                      ? `data:image/jpeg;base64,${dogWalkerInfo.userImage}`
                       : user1
                   }
                   className="rounded-circle"
@@ -46,7 +45,9 @@ const DogWalkerInfoComponent = ({
               </div>
             </td>
             <td>{dogWalkerInfo.career}</td>
-            <td>{dogWalkerInfo.avgScore}</td>
+            <td>
+              {dogWalkerInfo.avgScore && dogWalkerInfo.avgScore.toFixed(1)}
+            </td>
             <td>{dogWalkerInfo.walkCount}</td>
           </tr>
         </tbody>

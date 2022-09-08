@@ -69,7 +69,6 @@ const PaymentModal = ({ setVisible, visible }) => {
     else setDisabled(false);
   };
   const onCardDetailChange = ({ target: { value } }) => {
-    console.log(value);
     setCardDetailValue(value);
   };
   const onChangeCardNum1 = e => {
@@ -146,7 +145,6 @@ const PaymentModal = ({ setVisible, visible }) => {
         navigate('/reservation');
       })
       .catch(result => {
-        console.log(result);
         notification.error({
           message: '결제 실패',
           description: '결제가 실패 되었습니다. >>> ' + result,

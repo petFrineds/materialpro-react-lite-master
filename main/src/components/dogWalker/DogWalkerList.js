@@ -8,11 +8,15 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ReservationModal from '../reservation/ReservationModal';
 import DogWalkerInfoComponent from './DogWalkerInfoComponent';
-import { getUserInfo } from '../../api/AuthApi';
-import { setDogwalkerScheduleInfo } from '../../store/DogWalker';
+import { getUserInfo, getUserImg } from '../../api/AuthApi';
+import {
+  setDogwalkerScheduleInfo,
+  setDogWalkerList,
+} from '../../store/DogWalker';
 import PaymentModal from '../payment/PaymentModal';
 import { CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
-const DogWalkerList = ({ dogWalkerList }) => {
+
+const DogWalkerList = () => {
   const [reservationVisible, setReservationVisible] = useState(false);
   const [dogwalkerDetail, setDogwalkerDetail] = useState(false);
   const [dogWalkerInfo, setDogWalkerInfo] = useState(null);
@@ -22,9 +26,24 @@ const DogWalkerList = ({ dogWalkerList }) => {
   const navigate = useNavigate();
   const userInfo = useSelector(state => state.user.get('userInfo'));
 
-  const dogWalkerList2 = useSelector(state =>
+  const dogWalkerList = useSelector(state =>
     state.dogWalker.get('dogWalkerList')
   );
+
+  const userImg = dogwalkerId => {
+    let imgUrl = '';
+    getUserImg(dogwalkerId)
+      .then(result => {
+        console.log(result);
+        imgUrl = result.data;
+        return imgUrl;
+      })
+      .catch(error => {
+        imgUrl = '';
+        return imgUrl;
+      });
+  };
+
   const onClickReserveBtn = (e, dogwalkerschedule) => {
     dispatch(setDogwalkerScheduleInfo(dogwalkerschedule));
     setReservationVisible(true);
@@ -34,7 +53,6 @@ const DogWalkerList = ({ dogWalkerList }) => {
   const onClickDetail = dogwalkerId => {
     getUserInfo(dogwalkerId)
       .then(result => {
-        console.log(result.data);
         setDogWalkerInfo(result.data);
         setDogwalkerDetail(true);
       })
@@ -63,7 +81,7 @@ const DogWalkerList = ({ dogWalkerList }) => {
                 </tr>
               </thead>
               <tbody>
-                {dogWalkerList2?.map((item, index) => (
+                {dogWalkerList.map((item, index) => (
                   <tr
                     key={index}
                     className="border-top"
@@ -72,7 +90,11 @@ const DogWalkerList = ({ dogWalkerList }) => {
                     <td>
                       <div className="d-flex align-items-center p-2">
                         <img
-                          src={item.avatar ?? user1}
+                          src={
+                            item?.userImage
+                              ? `data:image/jpeg;base64,${item.userImage}`
+                              : user1
+                          }
                           className="rounded-circle"
                           alt="avatar"
                           width="45"

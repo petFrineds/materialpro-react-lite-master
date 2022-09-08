@@ -66,8 +66,6 @@ const DailyStarScoreComponent = ({ setVisible }) => {
         dispatch(setDailyInfo(undefined));
         setVisible(false);
       });
-
-    console.log(param);
   };
   const dogWalkerInfo = useSelector(state =>
     state.dogWalker.get('dogwalkerInfo')

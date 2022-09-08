@@ -45,9 +45,9 @@ const Login = () => {
       const params = qs.stringify(userInfo);
       loginUser(params)
         .then(result => {
-          console.log(userInfo);
           sessionStorage.setItem('userId', userInfo.username);
           sessionStorage.setItem('accessToken', result.data.access_token);
+          sessionStorage.setItem('refreshToken', result.data.refresh_token);
           notification.success({
             message: '로그인 성공',
             description: '로그인 되었습니다.',

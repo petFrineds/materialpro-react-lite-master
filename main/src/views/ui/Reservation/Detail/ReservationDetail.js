@@ -58,13 +58,12 @@ const ReservationDetail = () => {
     };
     deleteReservation(param)
       .then(result => {
-        console.log(result);
-        navigate('/reservation');
         notification.success({
           message: '예약 취소 완료',
           description: '예약 취소가 성공적으로 되었습니다.',
           duration: 1.0,
         });
+        navigate('/reservation');
       })
       .catch(error => {
         notification.error({

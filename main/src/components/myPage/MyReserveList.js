@@ -72,8 +72,10 @@ const MyReserveList = () => {
                   </td>
                   <td>
                     {item.walkStartDate &&
-                      moment(item.walkStartDate).format('YYYY-MM-DD HH:mm') +
-                        ' ~ ' +
+                      moment(item.walkStartDate).format('YYYY-MM-DD HH:mm')}
+
+                    {item.walkEndDate &&
+                      ' ~ ' +
                         moment(item.walkEndDate).format('YYYY-MM-DD HH:mm')}
                   </td>
                 </tr>

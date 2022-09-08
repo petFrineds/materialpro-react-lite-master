@@ -17,9 +17,6 @@ import moment from 'moment';
 const PointhistoryTable = ({ pointList }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(pointList);
-  }, []);
   const onCancleButtonClick = reservedId => {
     refundPayment(reservedId)
       .then(result => {
@@ -46,7 +43,7 @@ const PointhistoryTable = ({ pointList }) => {
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">[포인트 이용 내역]</CardTitle>
+          <CardTitle tag="h5">[포인트 사용/적립 내역]</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6"></CardSubtitle>
 
           <Table
@@ -57,9 +54,9 @@ const PointhistoryTable = ({ pointList }) => {
           >
             <thead>
               <tr>
-                <th>결제일자</th>
+                <th>사용/적립 일자</th>
                 <th>포인트 구분</th>
-                <th>포인트 사용 내역</th>
+                <th>사용/적립 포인트</th>
                 <th>현재 포인트</th>
               </tr>
             </thead>
@@ -69,9 +66,14 @@ const PointhistoryTable = ({ pointList }) => {
                   <td>{moment(item.createDate).format('YYYY-MM-DD HH:mm')}</td>
                   <td>{item.pointGubun}</td>
                   <td>
-                    <div id="amt">{item.point}</div>
+                    <div id="amt">
+                      {item.point && item.point.toLocaleString('ko-KR', 3)}
+                    </div>
                   </td>
-                  <td>{item.currentPoint}</td>
+                  <td>
+                    {item.currentPoint &&
+                      item.currentPoint.toLocaleString('ko-KR', 3)}
+                  </td>
                 </tr>
               ))}
             </tbody>

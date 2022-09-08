@@ -1,5 +1,5 @@
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import user1 from '../../assets/images/users/user1.jpg';
 import { cancelReservation } from '../../api/ReservationApi';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,7 +27,6 @@ const ReservationList = ({ reservationList, userInfo }) => {
     };
     cancelReservation(param)
       .then(result => {
-        console.log(result);
         const newRow = reservationList.map(item =>
           item.reservedId === reservedId ? { ...item, status: 'CANCEL' } : item
         );
@@ -45,7 +44,11 @@ const ReservationList = ({ reservationList, userInfo }) => {
     };
     startWalk(param)
       .then(result => {
-        console.log(result);
+        notification.success({
+          message: '산책 시작',
+          description: '산책이 성공적으로 시작 되었습니다.',
+          duration: 1.0,
+        });
       })
       .catch(error => {
         console.log('startWalk Error >> ' + error);

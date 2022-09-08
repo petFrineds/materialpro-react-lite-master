@@ -10,22 +10,16 @@ import { setMyWalkList } from '../../store/Walk';
 const MyWalkList = () => {
   const dispatch = useDispatch();
   const myWalkList = useSelector(state => state.walk.get('myWalkList'));
-  useEffect(() => {
-    if (myWalkList) {
-      console.log(myWalkList);
-    }
-  }, [myWalkList]);
+
   const onClickEndWalk = item => {
     const param = {
       reservedId: item.reservedId,
       userId: item.userId,
       dogWalkerId: item.dogwalkerId,
     };
-    console.log(param);
 
     endWalk(param)
       .then(result => {
-        console.log(result);
         notification.success({
           message: '산책 종료',
           description: '산책이 성공적으로 종료 되었습니다.',

@@ -45,7 +45,6 @@ const App = () => {
         });
       getMyAlarm(sessionStorage.getItem('userId'))
         .then(result => {
-          console.log('????');
           dispatch(setMyAlarmList(result.data));
         })
         .catch(error => {

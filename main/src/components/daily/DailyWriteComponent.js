@@ -40,9 +40,7 @@ const DailyWriteComponent = ({ setVisible }) => {
       });
       return;
     }
-    console.log(walkInfo);
-    console.log(reservationInfo);
-    console.log(dogWalkerInfo);
+
     const param = {
       contents: contents,
       walkId: walkInfo.id,
@@ -66,7 +64,6 @@ const DailyWriteComponent = ({ setVisible }) => {
             : item2
         );
         dispatch(setMyDogwalkerList(newRow));
-        console.log(result);
       })
       .catch(result => {
         notification.error({
@@ -74,7 +71,6 @@ const DailyWriteComponent = ({ setVisible }) => {
           description: '일지가 저장이 실패 되었습니다. >>> ' + result,
           duration: 1.0,
         });
-        console.log(result);
       });
     setVisible(false);
   };
