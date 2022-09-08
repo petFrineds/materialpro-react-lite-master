@@ -21,7 +21,7 @@ const DogWalkerList = () => {
   const [dogwalkerDetail, setDogwalkerDetail] = useState(false);
   const [dogWalkerInfo, setDogWalkerInfo] = useState(null);
   const [payModalVisible, setPayModalVisible] = useState(false);
-
+  const [dogWalkerList2, setDogWalkerList2] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector(state => state.user.get('userInfo'));
@@ -43,7 +43,13 @@ const DogWalkerList = () => {
         return imgUrl;
       });
   };
-
+  useEffect(() => {
+    const newRow = dogWalkerList.map((item, index) => {
+      const userImage = userImg(item.dogwalkerId);
+      return { ...item, userImage: userImage };
+    });
+    console.log(newRow);
+  }, [dogWalkerList]);
   const onClickReserveBtn = (e, dogwalkerschedule) => {
     dispatch(setDogwalkerScheduleInfo(dogwalkerschedule));
     setReservationVisible(true);
