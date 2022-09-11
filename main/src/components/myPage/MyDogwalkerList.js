@@ -140,7 +140,11 @@ const MyDogwalkerList = () => {
                     <td>
                       <div className="d-flex align-items-center p-2">
                         <img
-                          src={item.avatar ?? user1}
+                          src={
+                            item?.userImage
+                              ? `data:image/jpeg;base64,${item.userImage}`
+                              : user1
+                          }
                           className="rounded-circle"
                           alt="avatar"
                           width="45"

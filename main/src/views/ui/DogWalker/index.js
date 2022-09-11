@@ -5,8 +5,13 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import { getAllData } from '../../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
-import { setDogWalkerList } from '../../../store/DogWalker';
+import {
+  setDogWalkerList,
+  SET_DOGWALKER_LIST_SAGA,
+} from '../../../store/DogWalker';
+
 import { CheckCircleOutlined } from '@ant-design/icons';
+import { getUserImg } from '../../../api/AuthApi';
 
 const DogWalker = () => {
   const [visible, setVisible] = useState(false);
@@ -14,10 +19,16 @@ const DogWalker = () => {
   const dogWalkerList = useSelector(state =>
     state.dogWalker.get('dogWalkerList')
   );
+
   useEffect(() => {
     getAllData()
       .then(result => {
-        dispatch(setDogWalkerList(result.data));
+        dispatch({ type: SET_DOGWALKER_LIST_SAGA, data: result.data });
+        result.data.map(async item => {
+          setTimeout(() => console.log('after'), 1000);
+          await userImg(item.dogwalkerId, item.id);
+          return item;
+        });
       })
       .catch(error => {
         console.log('getAllData Error >> ' + error);
@@ -27,7 +38,22 @@ const DogWalker = () => {
   const clicked = () => {
     setVisible(true);
   };
-
+  async function userImg(dogwalkerId, id) {
+    let imgUrl = '';
+    await getUserImg(dogwalkerId)
+      .then(result => {
+        console.log(result);
+        imgUrl = result.data.userimage;
+        if (imgUrl === null || imgUrl === '') return;
+        const newRow = dogWalkerList.map(item =>
+          item.id === id ? { ...item, userImage: imgUrl } : item
+        );
+        dispatch({ type: SET_DOGWALKER_LIST_SAGA, data: newRow });
+      })
+      .catch(error => {
+        imgUrl = '';
+      });
+  }
   return (
     <>
       <Row>

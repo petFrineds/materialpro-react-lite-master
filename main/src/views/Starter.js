@@ -9,14 +9,18 @@ import bg4 from '../assets/images/bg/bg4.jpg';
 import { getMyReserveList, getMyDogwalkerList } from '../api/MypageApi';
 import { setMyDogwalkerList, setMyReserveList } from '../store/Mypage';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMyWalk } from '../api/WalkApi';
 import { setMyWalkList } from '../store/Walk';
 import StarRank from '../components/dashboard/StarRank';
 import WalkRank from '../components/dashboard/WalkRank';
-
+import { getUserImg } from '../api/AuthApi';
 const Starter = () => {
   const dispatch = useDispatch();
+  const myDogwalkerList = useSelector(state =>
+    state.mypage.get('myDogwalkerList')
+  );
+  const myReserveList = useSelector(state => state.mypage.get('myReserveList'));
 
   useEffect(() => {
     if (sessionStorage.getItem('userId') !== null) {
@@ -24,6 +28,11 @@ const Starter = () => {
       getMyDogwalkerList(userId)
         .then(result => {
           dispatch(setMyDogwalkerList(result.data));
+          result.data.map(async item => {
+            setTimeout(() => {}, 1000);
+            await userImgDogWalker(item.userId, item.reservedId);
+            return item;
+          });
         })
         .catch(error => {
           console.log('getUserInfo Error');
@@ -31,6 +40,11 @@ const Starter = () => {
       getMyReserveList(userId)
         .then(result => {
           dispatch(setMyReserveList(result.data));
+          result.data.map(async item => {
+            setTimeout(() => {}, 1000);
+            await userImgReservation(item.dogwalkerId, item.reservedId);
+            return item;
+          });
         })
         .catch(error => {
           console.log('getMyReserveList Error');
@@ -44,6 +58,36 @@ const Starter = () => {
         });
     }
   }, [sessionStorage.getItem('userId')]);
+  async function userImgDogWalker(dogwalkerId, id) {
+    let imgUrl = '';
+    getUserImg(dogwalkerId)
+      .then(result => {
+        console.log(result);
+        imgUrl = result.data.userimage;
+        const newRow = myDogwalkerList.map(item =>
+          item.reservedId === id ? { ...item, userImage: imgUrl } : item
+        );
+        dispatch(setMyDogwalkerList(newRow));
+      })
+      .catch(error => {
+        imgUrl = '';
+      });
+  }
+  async function userImgReservation(userId, id) {
+    let imgUrl = '';
+    getUserImg(userId)
+      .then(result => {
+        console.log(result);
+        imgUrl = result.data.userimage;
+        const newRow = myReserveList.map(item =>
+          item.reservedId === id ? { ...item, userImage: imgUrl } : item
+        );
+        dispatch(setMyReserveList(newRow));
+      })
+      .catch(error => {
+        imgUrl = '';
+      });
+  }
   return (
     <div>
       <Row>

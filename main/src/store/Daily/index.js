@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 //Action 정의
 const SET_DAILY_LIST = 'DAILY/SET_DAILY_LIST';
 const SET_MY_DAILY_LIST = 'DAILY/SET_MY_DAILY_LIST';
+
 const SET_DAILY_INFO = 'DAILY/SET_DAILY_INFO';
 const SET_MY_DAILY_INFO = 'DAILY/SET_MY_DAILY_INFO';
 

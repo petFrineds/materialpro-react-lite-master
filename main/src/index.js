@@ -6,12 +6,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { HashRouter } from 'react-router-dom';
 import Loader from './layouts/loader/Loader';
-import { createStore } from 'redux';
-import rootReducer from './store';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer, { rootSaga } from './store';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
 
-const store = createStore(rootReducer, composeWithDevTools());
+const sagaMiddleware = createSagaMiddleware(); // 사가 미들웨어를 만듭니다.
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
+);
+sagaMiddleware.run(rootSaga); // 루트 사가를 실행해줍니다.
+
 ReactDOM.render(
   <Provider store={store}>
     <Suspense fallback={<Loader />}>

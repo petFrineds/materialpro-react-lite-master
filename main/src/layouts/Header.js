@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { initReduxAll } from '../components/common/InitRedux';
-import { setAlarmRead } from '../api/NotificationApi';
+import { setAlarmRead } from '../api/AlarmApi';
 import { setMyAlarmList, setMyAlarmCount } from '../store/Alarm';
 import { Badge, Avatar, Tag, Card } from 'antd';
 import moment from 'moment';
