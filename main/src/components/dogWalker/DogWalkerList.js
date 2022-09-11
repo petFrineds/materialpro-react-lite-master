@@ -15,7 +15,6 @@ import {
 } from '../../store/DogWalker';
 import PaymentModal from '../payment/PaymentModal';
 import { CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
-
 const DogWalkerList = () => {
   const [reservationVisible, setReservationVisible] = useState(false);
   const [dogwalkerDetail, setDogwalkerDetail] = useState(false);
@@ -30,26 +29,6 @@ const DogWalkerList = () => {
     state.dogWalker.get('dogWalkerList')
   );
 
-  const userImg = dogwalkerId => {
-    let imgUrl = '';
-    getUserImg(dogwalkerId)
-      .then(result => {
-        console.log(result);
-        imgUrl = result.data;
-        return imgUrl;
-      })
-      .catch(error => {
-        imgUrl = '';
-        return imgUrl;
-      });
-  };
-  useEffect(() => {
-    const newRow = dogWalkerList.map((item, index) => {
-      const userImage = userImg(item.dogwalkerId);
-      return { ...item, userImage: userImage };
-    });
-    console.log(newRow);
-  }, [dogWalkerList]);
   const onClickReserveBtn = (e, dogwalkerschedule) => {
     dispatch(setDogwalkerScheduleInfo(dogwalkerschedule));
     setReservationVisible(true);

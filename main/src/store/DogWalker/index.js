@@ -1,7 +1,10 @@
 import { fromJS } from 'immutable';
+import { delay, put, takeEvery } from 'redux-saga/effects';
+
 import { getUserImg } from '../../api/AuthApi';
 //Action 정의
 const SET_DOGWALKER_LIST = 'DOGWALKER/SET_DOGWALKER_LIST';
+export const SET_DOGWALKER_LIST_SAGA = 'DOGWALKER/SET_DOGWALKER_LIST_SAGA';
 const SET_DOGWALKER_SCHEDULE_INFO = 'DOGWALKER/SET_DOGWALKER_SCHEDULE_INFO ';
 const SET_DOGWALKER_INFO = 'DOGWALKER/SET_DOGWALKER_INFO ';
 
@@ -17,6 +20,17 @@ export const setDogWalkerList = dogWalkerList => ({
   type: SET_DOGWALKER_LIST,
   data: dogWalkerList,
 });
+export const setDogWalkerListAsync = dogWalkerList => ({
+  type: SET_DOGWALKER_LIST_SAGA,
+  data: dogWalkerList,
+});
+function* setDogWalkerListSaga(action) {
+  try {
+    yield put({ type: SET_DOGWALKER_LIST, data: action.data });
+  } catch (err) {
+    console.log(err);
+  }
+}
 export const setDogwalkerScheduleInfo = dogwalkerScheduleInfo => ({
   type: SET_DOGWALKER_SCHEDULE_INFO,
   data: dogwalkerScheduleInfo,
@@ -25,6 +39,10 @@ export const setDogwalkerInfo = dogwalkerInfo => ({
   type: SET_DOGWALKER_INFO,
   data: dogwalkerInfo,
 });
+
+export function* dogwalkerSaga() {
+  yield takeEvery(SET_DOGWALKER_LIST_SAGA, setDogWalkerListSaga);
+}
 
 //리듀서 함수 만들기
 const dogWalker = (state = initialState, action) => {
