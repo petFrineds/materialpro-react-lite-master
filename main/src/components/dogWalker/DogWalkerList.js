@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReservationModal from '../reservation/ReservationModal';
 import DogWalkerInfoComponent from './DogWalkerInfoComponent';
 import { getUserInfo, getUserImg } from '../../api/AuthApi';
+import { deleteData } from '../../api/DogWalkerApi';
 import {
   setDogwalkerScheduleInfo,
   setDogWalkerList,
@@ -44,6 +45,18 @@ const DogWalkerList = () => {
       .catch(error => {
         console.log('ReservationDetail getUserInfo Error >> ' + error);
         setDogwalkerDetail(false);
+      });
+  };
+  const onClickDelBtn = (e, dogwalkerId) => {
+    e.stopPropagation();
+
+    deleteData(dogwalkerId)
+      .then(result => {
+        const newRow = dogWalkerList.filter(item => item.id !== dogwalkerId);
+        dispatch(setDogWalkerList(newRow));
+      })
+      .catch(error => {
+        console.log('ReservationDetail getUserInfo Error >> ' + error);
       });
   };
   return (
@@ -135,6 +148,12 @@ const DogWalkerList = () => {
                         item.dogwalkerId !== userInfo.userId && (
                           <Button onClick={e => onClickReserveBtn(e, item)}>
                             예약하기
+                          </Button>
+                        )}
+                      {item.reservedYn !== 'Y' &&
+                        item.dogwalkerId === userInfo.userId && (
+                          <Button onClick={e => onClickDelBtn(e, item.id)}>
+                            삭제하기
                           </Button>
                         )}
                     </td>
