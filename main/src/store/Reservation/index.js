@@ -2,6 +2,10 @@ import { fromJS } from 'immutable';
 
 //Action 정의
 const SET_RESERVATION_LIST = 'RESERVATION/SET_RESERVATION_LIST';
+export const SET_RESERVATION_LIST_SAGA =
+  'RESERVATION/SET_RESERVATION_LIST_SAGA';
+export const SET_RESERVATION_LIST_SUCESS =
+  'RESERVATION/SET_RESERVATION_LIST_SUCESS';
 const SET_RESERVATION_DETAILID = 'RESERVATION/SET_RESERVATION_DETAILID';
 const SET_RESERVATION_INFO = 'RESERVATION/SET_RESERVATION_INFO';
 
@@ -31,6 +35,15 @@ const reservation = (state = initialState, action) => {
   switch (action.type) {
     case SET_RESERVATION_LIST:
       return state.set('reservationList', action.data);
+    case SET_RESERVATION_LIST_SUCESS:
+      const newRow = state
+        .get('reservationList')
+        .map(item =>
+          item.reservedId === action.data.id
+            ? { ...item, userImage: action.data.userImg }
+            : item
+        );
+      return state.set('reservationList', newRow);
     case SET_RESERVATION_DETAILID:
       return state.set('reservationDetailId', action.data);
     case SET_RESERVATION_INFO:

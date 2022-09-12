@@ -1,9 +1,9 @@
 import { fromJS } from 'immutable';
-import { delay, put, takeEvery } from 'redux-saga/effects';
 
-import { getUserImg } from '../../api/AuthApi';
 //Action 정의
 const SET_DOGWALKER_LIST = 'DOGWALKER/SET_DOGWALKER_LIST';
+export const SET_DOGWALKER_LIST_SUCCESS =
+  'DOGWALKER/SET_DOGWALKER_LIST_SUCCESS';
 export const SET_DOGWALKER_LIST_SAGA = 'DOGWALKER/SET_DOGWALKER_LIST_SAGA';
 const SET_DOGWALKER_SCHEDULE_INFO = 'DOGWALKER/SET_DOGWALKER_SCHEDULE_INFO ';
 const SET_DOGWALKER_INFO = 'DOGWALKER/SET_DOGWALKER_INFO ';
@@ -20,17 +20,7 @@ export const setDogWalkerList = dogWalkerList => ({
   type: SET_DOGWALKER_LIST,
   data: dogWalkerList,
 });
-export const setDogWalkerListAsync = dogWalkerList => ({
-  type: SET_DOGWALKER_LIST_SAGA,
-  data: dogWalkerList,
-});
-function* setDogWalkerListSaga(action) {
-  try {
-    yield put({ type: SET_DOGWALKER_LIST, data: action.data });
-  } catch (err) {
-    console.log(err);
-  }
-}
+
 export const setDogwalkerScheduleInfo = dogwalkerScheduleInfo => ({
   type: SET_DOGWALKER_SCHEDULE_INFO,
   data: dogwalkerScheduleInfo,
@@ -40,15 +30,20 @@ export const setDogwalkerInfo = dogwalkerInfo => ({
   data: dogwalkerInfo,
 });
 
-export function* dogwalkerSaga() {
-  yield takeEvery(SET_DOGWALKER_LIST_SAGA, setDogWalkerListSaga);
-}
-
 //리듀서 함수 만들기
 const dogWalker = (state = initialState, action) => {
   switch (action.type) {
     case SET_DOGWALKER_LIST:
       return state.set('dogWalkerList', action.data);
+    case SET_DOGWALKER_LIST_SUCCESS:
+      const newRow = state
+        .get('dogWalkerList')
+        .map(item =>
+          item.id === action.data.id
+            ? { ...item, userImage: action.data.userImg }
+            : item
+        );
+      return state.set('dogWalkerList', newRow);
     case SET_DOGWALKER_SCHEDULE_INFO:
       return state.set('dogwalkerScheduleInfo', action.data);
     case SET_DOGWALKER_INFO:

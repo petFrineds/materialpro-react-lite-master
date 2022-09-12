@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import DogWalkerRegistForm from './DogWalkerRegistForm';
 import { registData, getAllData } from '../../api/DogWalkerApi';
 import { useSelector, useDispatch } from 'react-redux';
-import { setDogWalkerList } from '../../store/DogWalker';
+import {
+  setDogWalkerList,
+  SET_DOGWALKER_LIST_SAGA,
+} from '../../store/DogWalker';
 
 const DogWalkerRegistModal = ({ setVisible, visible }) => {
   const [loading, setLoading] = useState(false);
@@ -50,6 +53,9 @@ const DogWalkerRegistModal = ({ setVisible, visible }) => {
             getAllData()
               .then(result2 => {
                 dispatch(setDogWalkerList(result2.data));
+                result2.data.map(item => {
+                  return userImg(item.dogwalkerId, item.id);
+                });
               })
               .catch(error => {
                 console.log('getAllData Error >> ' + error);
@@ -72,7 +78,12 @@ const DogWalkerRegistModal = ({ setVisible, visible }) => {
         setLoading(false);
       });
   };
-
+  const userImg = (dogwalkerId, id) => {
+    dispatch({
+      type: SET_DOGWALKER_LIST_SAGA,
+      data: { id: id, userId: dogwalkerId },
+    });
+  };
   return (
     <Modal
       visible={visible}

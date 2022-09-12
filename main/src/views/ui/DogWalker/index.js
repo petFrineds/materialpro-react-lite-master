@@ -19,15 +19,15 @@ const DogWalker = () => {
   const dogWalkerList = useSelector(state =>
     state.dogWalker.get('dogWalkerList')
   );
-
+  function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+  }
   useEffect(() => {
     getAllData()
       .then(result => {
-        dispatch({ type: SET_DOGWALKER_LIST_SAGA, data: result.data });
-        result.data.map(async item => {
-          setTimeout(() => console.log('after'), 1000);
-          await userImg(item.dogwalkerId, item.id);
-          return item;
+        dispatch(setDogWalkerList(result.data));
+        result.data.map(item => {
+          return userImg(item.dogwalkerId, item.id);
         });
       })
       .catch(error => {
@@ -35,25 +35,16 @@ const DogWalker = () => {
         dispatch(setDogWalkerList([]));
       });
   }, []);
+
   const clicked = () => {
     setVisible(true);
   };
-  async function userImg(dogwalkerId, id) {
-    let imgUrl = '';
-    await getUserImg(dogwalkerId)
-      .then(result => {
-        console.log(result);
-        imgUrl = result.data.userimage;
-        if (imgUrl === null || imgUrl === '') return;
-        const newRow = dogWalkerList.map(item =>
-          item.id === id ? { ...item, userImage: imgUrl } : item
-        );
-        dispatch({ type: SET_DOGWALKER_LIST_SAGA, data: newRow });
-      })
-      .catch(error => {
-        imgUrl = '';
-      });
-  }
+  const userImg = (dogwalkerId, id) => {
+    dispatch({
+      type: SET_DOGWALKER_LIST_SAGA,
+      data: { id: id, userId: dogwalkerId },
+    });
+  };
   return (
     <>
       <Row>
