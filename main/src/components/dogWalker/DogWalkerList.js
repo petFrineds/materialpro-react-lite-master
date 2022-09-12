@@ -105,7 +105,7 @@ const DogWalkerList = () => {
                           }
                           color="red"
                         >
-                          예약 중
+                          예약 완료
                         </Tag>
                       ) : (
                         <Tag
