@@ -7,7 +7,12 @@ import bg2 from '../assets/images/bg/bg2.jpg';
 import bg3 from '../assets/images/bg/bg3.jpg';
 import bg4 from '../assets/images/bg/bg4.jpg';
 import { getMyReserveList, getMyDogwalkerList } from '../api/MypageApi';
-import { setMyDogwalkerList, setMyReserveList } from '../store/Mypage';
+import {
+  setMyDogwalkerList,
+  setMyReserveList,
+  SET_MY_DOGWALKER_LIST_SAGA,
+  SET_MY_RESERVE_LIST_SAGA,
+} from '../store/Mypage';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMyWalk } from '../api/WalkApi';
@@ -28,10 +33,8 @@ const Starter = () => {
       getMyDogwalkerList(userId)
         .then(result => {
           dispatch(setMyDogwalkerList(result.data));
-          result.data.map(async item => {
-            setTimeout(() => {}, 1000);
-            await userImgDogWalker(item.userId, item.reservedId);
-            return item;
+          result.data.map(item => {
+            return userImgDogWalker(item.userId, item.reservedId);
           });
         })
         .catch(error => {
@@ -40,10 +43,8 @@ const Starter = () => {
       getMyReserveList(userId)
         .then(result => {
           dispatch(setMyReserveList(result.data));
-          result.data.map(async item => {
-            setTimeout(() => {}, 1000);
-            await userImgReservation(item.dogwalkerId, item.reservedId);
-            return item;
+          result.data.map(item => {
+            return userImgReservation(item.dogwalkerId, item.reservedId);
           });
         })
         .catch(error => {
@@ -58,36 +59,18 @@ const Starter = () => {
         });
     }
   }, [sessionStorage.getItem('userId')]);
-  async function userImgDogWalker(dogwalkerId, id) {
-    let imgUrl = '';
-    getUserImg(dogwalkerId)
-      .then(result => {
-        console.log(result);
-        imgUrl = result.data.userimage;
-        const newRow = myDogwalkerList.map(item =>
-          item.reservedId === id ? { ...item, userImage: imgUrl } : item
-        );
-        dispatch(setMyDogwalkerList(newRow));
-      })
-      .catch(error => {
-        imgUrl = '';
-      });
-  }
-  async function userImgReservation(userId, id) {
-    let imgUrl = '';
-    getUserImg(userId)
-      .then(result => {
-        console.log(result);
-        imgUrl = result.data.userimage;
-        const newRow = myReserveList.map(item =>
-          item.reservedId === id ? { ...item, userImage: imgUrl } : item
-        );
-        dispatch(setMyReserveList(newRow));
-      })
-      .catch(error => {
-        imgUrl = '';
-      });
-  }
+  const userImgDogWalker = (dogwalkerId, id) => {
+    dispatch({
+      type: SET_MY_DOGWALKER_LIST_SAGA,
+      data: { id: id, userId: dogwalkerId },
+    });
+  };
+  const userImgReservation = (userId, id) => {
+    dispatch({
+      type: SET_MY_RESERVE_LIST_SAGA,
+      data: { id: id, userId: userId },
+    });
+  };
   return (
     <div>
       <Row>

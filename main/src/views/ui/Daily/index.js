@@ -3,10 +3,16 @@ import { Button } from 'antd';
 import { Col, Row } from 'reactstrap';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setDailyList, setMyDailyList } from '../../../store/Daily';
+import {
+  setDailyList,
+  setMyDailyList,
+  SET_DAILY_LIST_SAGA,
+  SET_MY_DAILY_LIST_SAGA,
+} from '../../../store/Daily';
 import DailyList from '../../../components/daily/DailyList';
 import MyDailyList from '../../../components/daily/MyDailyList';
 import { getUserDailys, getDogwalkerDailys } from '../../../api/DailyApi';
+
 import { getUserImg } from '../../../api/AuthApi';
 const Daily = () => {
   const dispatch = useDispatch();
@@ -18,9 +24,8 @@ const Daily = () => {
       getUserDailys(userInfo.userId)
         .then(result => {
           dispatch(setDailyList(result.data));
-          result.data.map(async item => {
-            setTimeout(() => {}, 1000);
-            await userImgDogWalkerDaily(item.userId, item.id);
+          result.data?.map(item => {
+            userImgDogWalkerDaily(item.dogWalkerId, item.id);
             return item;
           });
         })
@@ -30,9 +35,8 @@ const Daily = () => {
       getDogwalkerDailys(userInfo.userId)
         .then(result => {
           dispatch(setMyDailyList(result.data));
-          result.data.map(async item => {
-            setTimeout(() => {}, 1000);
-            await userImgMyDaily(item.userId, item.id);
+          result.data?.map(item => {
+            userImgMyDaily(item.userId, item.id);
             return item;
           });
         })
@@ -41,36 +45,19 @@ const Daily = () => {
         });
     }
   }, []);
-  async function userImgMyDaily(userId, id) {
-    let imgUrl = '';
-    await getUserImg(userId)
-      .then(result => {
-        console.log(result);
-        imgUrl = result.data.userimage;
-        const newRow = myDailyList.map(item =>
-          item.id === id ? { ...item, userImage: imgUrl } : item
-        );
-        dispatch(setMyDailyList(newRow));
-      })
-      .catch(error => {
-        imgUrl = '';
-      });
-  }
-  async function userImgDogWalkerDaily(dogWalkerId, id) {
-    let imgUrl = '';
-    await getUserImg(dogWalkerId)
-      .then(result => {
-        console.log(result);
-        imgUrl = result.data.userimage;
-        const newRow = dailyList.map(item =>
-          item.id === id ? { ...item, userImage: imgUrl } : item
-        );
-        dispatch(setDailyList(newRow));
-      })
-      .catch(error => {
-        imgUrl = '';
-      });
-  }
+  const userImgMyDaily = (userId, id) => {
+    dispatch({
+      type: SET_MY_DAILY_LIST_SAGA,
+      data: { id: id, userId: userId },
+    });
+  };
+
+  const userImgDogWalkerDaily = (dogWalkerId, id) => {
+    dispatch({
+      type: SET_DAILY_LIST_SAGA,
+      data: { id: id, userId: dogWalkerId },
+    });
+  };
   return (
     <>
       <Row>

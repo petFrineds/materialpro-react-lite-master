@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
-import dogWalker, { dogwalkerSaga } from './DogWalker/index';
+import dogWalker from './DogWalker/index';
+import { dogwalkerSaga } from './DogWalker/saga';
 import user from './User/index';
 import payment from './Payment/index';
 import reservation from './Reservation/index';
+import { reservationSaga } from './Reservation/saga';
 import daily from './Daily/index';
+import { dailySaga } from './Daily/saga';
 import mypage from './Mypage/index';
+import { myPageSaga } from './Mypage/sags';
 import walk from './Walk/index';
 import alarm from './Alarm';
 import { all } from 'redux-saga/effects';
@@ -22,7 +26,7 @@ const rootReducer = combineReducers({
   alarm,
 });
 export function* rootSaga() {
-  yield all([dogwalkerSaga()]); // all 은 배열 안의 여러 사가를 동시에 실행시켜줍니다.
+  yield all([dogwalkerSaga(), dailySaga(), myPageSaga(), reservationSaga()]); // all 은 배열 안의 여러 사가를 동시에 실행시켜줍니다.
 }
 
 export default rootReducer;
