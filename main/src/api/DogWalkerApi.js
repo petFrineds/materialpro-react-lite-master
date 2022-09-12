@@ -11,8 +11,10 @@ export const registData = async params => {
     return { status: response.status, resultMsg: response.data };
   }
 };
-export const deleteData = async params => {
-  const response = await PetFrinedsDeleteService('/dogwalkerschedules', params);
+export const deleteData = async dogwalkerschedulesId => {
+  const response = await PetFrinedsDeleteService(
+    '/dogwalkerschedules/' + dogwalkerschedulesId
+  );
   if (response && response.status === 200) {
     return { status: response.status, data: response.data };
   } else {
